@@ -15,7 +15,7 @@ chrome://extensions
 ```
 
 3. 우측 상단의 개발자 모드를 켜고, 압축해제된 확장 프로그램을 로드합니다 클릭.
-   <!-- ![extension setting example](./asset/example1.png) -->
+   ![extension setting example](./asset/example1.png)
 
 4. contentScripts 폴더 전체를 선택(manifest.json 파일이 들어있는 폴더를 선택해야함.)
    ![extension directory example](./asset/example2.png)
