@@ -22,3 +22,14 @@ chrome://extensions
 
 5. 개발 후 새로고침과 서비스 워커를 활용해서 디버깅
    ![extension debug example](./asset/example3.png)
+
+## 디렉토리 구조
+
+```shell
+contentScripts
+ㄴ manifest.json  # extension base options
+ㄴ background.js  # service worker logic
+ㄴ popup.js       # extension process
+ㄴ popup.html     # popup html doc
+ㄴ style.css      # popup style sheet
+```
