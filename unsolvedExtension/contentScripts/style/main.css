@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
+.unsolved-float-button * {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.unsolved-float-button {
+  padding: 0px;
+  background-color: red;
+  position: fixed;
+  top: 50%;
+  right: -6px;
+  z-index: 9999999;
+
+  border: 0px !important;
+  cursor: pointer;
+  transform: translateY(-50%);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 48px;
+  height: 48px;
+  border-radius: 50% !important;
+  transition: all 0.3s ease-in-out;
+}
+
+.unsolved-float-button:hover {
+  transform-origin: 50% 50%;
+  transform: translateY(-50%) scale(1.5);
+}
+
+.unsolved-float-button:hover::before {
+  content: '';
+  display: block;
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  top: 50%;
+
+  transform: translateY(-50%);
+  /* transform: translate(-2px, -50%); */
+  animation: border-pulse 1s ease-in-out infinite 0.3s;
+}
+
+@keyframes border-pulse {
+  0% {
+    border: 1px solid red;
+    border-radius: 50%;
+    opacity: 1;
+  }
+  100% {
+    border: 1px solid red;
+    border-radius: 50%;
+    width: 68px;
+    height: 68px;
+    /* transform: translate(-14px, -50%); */
+    opacity: 0;
+  }
+}
+
+.clicked {
+  background-color: #fffffffb;
+  right: 12px;
+
+  width: 350px;
+  height: 500px;
+  border-radius: 15px !important;
+  animation: scaling 0.3s ease-in-out 0.25s forwards;
+}
+
+.clicked:hover {
+  transform: translateY(-50%) scale(1);
+}
+
+.clicked:hover::before {
+  display: none;
+}
+
+@keyframes scaling {
+  0% {
+    transform: translateY(-50%) scale(1);
+  }
+  50% {
+    transform: translateY(-50%) scale(1.05);
+  }
+  100% {
+    transform: translateY(-50%) scale(1);
+  }
+}
+
+.unsolved-logo {
+  border-radius: 5px !important;
+  background: #ffffff;
+  position: relative;
+
+  color: #ff0000;
+  font-size: 10px;
+  font-weight: 900;
+  padding: 3px 7.5px;
+}

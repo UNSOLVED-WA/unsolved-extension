@@ -1,0 +1,29 @@
+{
+  "name": "Unsolved WA",
+  "manifest_version": 3,
+  "version": "1.0",
+  "content_scripts": [
+    {
+      "run_at": "document_idle",
+      "matches": ["<all_urls>"],
+      "css": ["contentScripts/style/main.css", "contentScripts/style/container.css"],
+      "js": ["contentScripts/script.js"],
+      "all_frames": false
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["contentScripts/module/*"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "permissions": ["tabs", "activeTab", "scripting", "cookies", "declarativeContent", "storage"],
+  "host_permissions": ["<all_urls>"],
+  "action": {
+    "default_title": "...",
+    "default_popup": "popup/popup.html"
+  },
+  "background": {
+    "service_worker": "background/background.js"
+  }
+}
