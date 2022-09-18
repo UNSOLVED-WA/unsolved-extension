@@ -34,6 +34,15 @@ export const main = () => {
     button.append(unsolvedLogo);
     button.append(panel);
 
+    window.addEventListener('click', function (e) {
+      if (button.contains(e.target)) {
+        return;
+      } else {
+        button.classList.remove(css['clicked']);
+        panel.style.display = 'none';
+        unsolvedLogo.style.display = '';
+      }
+    });
     document.body.append(button);
   }
 
@@ -48,9 +57,7 @@ export const main = () => {
 /* Element event handler */
 function handleUnsolvedFloatButton(e, panel, unsolvedLogo) {
   if (e.currentTarget.classList.contains(css['clicked'])) {
-    e.currentTarget.classList.remove(css['clicked']);
-    panel.style.display = 'none';
-    unsolvedLogo.style.display = '';
+    return;
   } else {
     e.currentTarget.classList.add(css['clicked']);
     panel.style.display = 'flex';

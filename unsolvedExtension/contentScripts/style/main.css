@@ -68,6 +68,7 @@
   height: 500px;
   border-radius: 15px !important;
   animation: scaling 0.3s ease-in-out 0.25s forwards;
+  cursor: default;
 }
 
 .clicked:hover {
