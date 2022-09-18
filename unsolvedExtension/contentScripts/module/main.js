@@ -10,9 +10,9 @@ function PanelElement() {
 
   chrome.storage.local.get('solvedUser', (result) => {
     if (result.solvedUser) {
-      panel.append(LoginContainer);
-    } else {
       panel.append(ContentContainer);
+    } else {
+      panel.append(LoginContainer);
     }
   });
 
