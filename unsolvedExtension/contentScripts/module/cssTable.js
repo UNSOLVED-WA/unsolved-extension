@@ -16,4 +16,12 @@ export const css = {
   contentNavigatorSetting: 'content-navigator-setting',
   contentNavigatorLogos: 'content-navigator-logos',
   contentNavigatorTexts: 'content-navigator-texts',
+  contentNavigatorUnsolvedText: 'content-navigator-unsolved-text',
+  itemLogo: 'item-logo',
+  itemText: 'item-text',
+  rankView: 'rank-view',
+  rankCell: 'rank-cell',
+  rankCellIndex: 'rank-cell-index',
+  rankCellName: 'rank-cell-name',
+  rankCellScore: 'rank-cell-score',
 };

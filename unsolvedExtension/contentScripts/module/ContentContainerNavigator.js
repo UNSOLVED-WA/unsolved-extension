@@ -1,20 +1,16 @@
 import { useElement } from './useElement.js';
 import { css } from './cssTable.js';
 
-const contentLogoAndTexts = [
-  { unsolved: { logo: '', text: 'unsolved' } },
-  { profile: { logo: '', text: '내 정보' } },
-  { rank: { logo: '', text: '랭킹보기' } },
-  { recommand: { logo: '', text: '문제추천' } },
-];
-
-export const ContentContainerNavigator = (function () {
+export const ContentContainerNavigator = function (menuItem, handler) {
   const [contentNavigator, setContentNavigator] = useElement('div');
   const [contentNavigatorLogos, setContentNavigatorLogos] = useElement('div');
-  const [contentNavigatorTexts, setContentNavigatorTexts] = useElement('div');
   const [contentNavigatorUnsolvedLogo, setContentNavigatorUnsolvedLogo] = useElement('span');
   const [contentNavigatorHr, setContentNavigatorHr] = useElement('span');
-  const [contentNavigatorSettingLogo, setContentNavigatorSettingLogo] = useElement('button');
+  const [contentNavigatorSettingLogo, setContentNavigatorSettingLogo] = useElement('span');
+
+  const [contentNavigatorTexts, setContentNavigatorTexts] = useElement('div');
+  const [contentNavigatorUnsolvedText, setContentNavigatorUnsolvedText] = useElement('span');
+  const [contentNavigatorHr2, setContentNavigatorHr2] = useElement('span');
 
   setContentNavigator(setContentNavigatorAttributes);
   setContentNavigatorLogos(setContentNavigatorLogosAttributes);
@@ -23,6 +19,8 @@ export const ContentContainerNavigator = (function () {
   setContentNavigatorSettingLogo(setContentNavigatorSettingLogoAttributes);
 
   setContentNavigatorTexts(setContentNavigatorTextsAttributes);
+  setContentNavigatorUnsolvedText(setContentNavigatorUnsolvedTextAttributes);
+  setContentNavigatorHr2(setContentNavigatorHrAttributes);
 
   contentNavigator.addEventListener('mouseover', (e) => {
     contentNavigator.style.width = '160px';
@@ -39,11 +37,36 @@ export const ContentContainerNavigator = (function () {
   contentNavigatorLogos.append(contentNavigatorHr);
   contentNavigatorLogos.append(contentNavigatorSettingLogo);
 
+  contentNavigatorTexts.append(contentNavigatorUnsolvedText);
+  contentNavigatorTexts.append(contentNavigatorHr2);
+
   contentNavigator.append(contentNavigatorLogos);
   contentNavigator.append(contentNavigatorTexts);
 
+  menuItem.forEach((contentNavigatorItem) => {
+    const [contentNavigatorItemLogo, setContentNavigatorItemLogo] = useElement('span');
+    const [contentNavigatorItemText, setContentNavigatorItemText] = useElement('span');
+
+    setContentNavigatorItemLogo((e) => {
+      e.innerHTML = contentNavigatorItem.logo;
+      e.classList.add(css['itemLogo']);
+      e.addEventListener('click', () => {
+        console.log('click!');
+        handler(contentNavigatorItem.logo);
+      });
+    });
+    setContentNavigatorItemText((e) => {
+      e.innerHTML = contentNavigatorItem.text;
+      e.classList.add(css['itemText']);
+      e.addEventListener('click', () => handler(contentNavigatorItem.logo));
+    });
+
+    contentNavigatorLogos.append(contentNavigatorItemLogo);
+    contentNavigatorTexts.append(contentNavigatorItemText);
+  });
+
   return contentNavigator;
-})();
+};
 
 function setContentNavigatorAttributes(contentNavigator) {
   contentNavigator.classList.add(css['contentNavigator']);
@@ -55,7 +78,6 @@ function setContentNavigatorLogosAttributes(contentNavigatorLogos) {
 
 function setContentNavigatorTextsAttributes(contentNavigatorTexts) {
   contentNavigatorTexts.classList.add(css['contentNavigatorTexts']);
-  contentNavigatorTexts.innerHTML = 'texts';
 }
 
 function setContentNavigatorLogoAttributes(contentNavigatorUnsolvedLogo) {
@@ -69,5 +91,12 @@ function setContentNavigatorHrAttributes(contentNavigatorHr) {
 
 function setContentNavigatorSettingLogoAttributes(contentNavigatorSettingLogo) {
   contentNavigatorSettingLogo.classList.add(css['contentNavigatorSetting']);
-  contentNavigatorSettingLogo.innerHTML = 'sett';
+  contentNavigatorSettingLogo.innerHTML = '설정';
+  // let imgPath = chrome.runtime.getURL('assets/setting.svg');
+  // contentNavigatorSettingLogo.src = imgPath;
+}
+
+function setContentNavigatorUnsolvedTextAttributes(contentNavigatorUnsolvedText) {
+  contentNavigatorUnsolvedText.innerHTML = 'unsolved';
+  contentNavigatorUnsolvedText.classList.add(css['contentNavigatorUnsolvedText']);
 }

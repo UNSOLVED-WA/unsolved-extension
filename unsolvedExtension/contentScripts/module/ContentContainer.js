@@ -2,18 +2,68 @@ import { useElement } from './useElement.js';
 import { css } from './cssTable.js';
 import { ContentContainerNavigator } from './ContentContainerNavigator.js';
 
+const menuItem = [
+  { logo: 'pl', text: '내 정보' },
+  { logo: 'rl', text: '랭킹보기' },
+  { logo: 'sl', text: '문제추천' },
+];
+
 export const ContentContainer = (function () {
   const [contentContainer, setContentContainer] = useElement('div');
   const [contentHeader, setContentHeader] = useElement('div');
   const [contentBody, setContentBody] = useElement('div');
 
+  const [profileView, setProfileView] = useElement('div');
+  const [rankView, setRankView] = useElement('div');
+  const [recommandView, setRecommandView] = useElement('div');
+
+  const ContainerNavigator = ContentContainerNavigator(menuItem, handler);
+
+  function handler(str) {
+    switch (str) {
+      case 'pl':
+        profileView.style.display = 'flex';
+        rankView.style.display = 'none';
+        recommandView.style.display = 'none';
+        break;
+      case 'rl':
+        profileView.style.display = 'none';
+        rankView.style.display = 'flex';
+        recommandView.style.display = 'none';
+        break;
+      case 'sl':
+        profileView.style.display = 'none';
+        rankView.style.display = 'none';
+        recommandView.style.display = 'flex';
+        break;
+      default:
+        break;
+    }
+  }
+
   setContentContainer(setContentContainerAttributes);
   setContentHeader(setContentHeaderAttributes);
   setContentBody(setContentBodyAttributes);
 
-  contentContainer.append(contentHeader);
+  setProfileView(setProfileViewAttributes);
+  setRankView(setRankViewAttributes);
+  setRecommandView(setRecommandViewAttributes);
+
+  function appendRankCells() {
+    for (let i = 1; i <= 30; i++) {
+      rankView.append(createRankCell(i, 'test', 100));
+    }
+  }
+  appendRankCells();
+
+  contentBody.append(profileView);
+  contentBody.append(rankView);
+  contentBody.append(recommandView);
+
+  // contentContainer.append(contentHeader);
   contentContainer.append(contentBody);
-  contentContainer.append(ContentContainerNavigator);
+
+  contentContainer.append(ContainerNavigator);
 
   return contentContainer;
 })();
@@ -22,10 +72,50 @@ function setContentContainerAttributes(contentContainer) {
   contentContainer.classList.add(css['contentContainer']);
 }
 
-function setContentHeaderAttributes(contentHeader) {
-  contentHeader.innerHTML = 'contentHeader';
-}
+function setContentHeaderAttributes(contentHeader) {}
 
 function setContentBodyAttributes(contentBody) {
-  contentBody.innerHTML = 'contentBody';
+  contentBody.classList.add(css['contentBody']);
+}
+
+function setProfileViewAttributes(profileView) {
+  profileView.innerHTML = 'profileView';
+}
+
+function setRankViewAttributes(rankView) {
+  // rankView.innerHTML = 'rankView';
+  rankView.classList.add(css['rankView']);
+}
+
+function setRecommandViewAttributes(recommandView) {
+  recommandView.innerHTML = 'recommandView';
+}
+
+function createRankCell(index, name, score) {
+  const [rankCell, setRankCell] = useElement('div');
+  const [rankCellIndex, setRankCellIndex] = useElement('div');
+  const [rankCellName, setRankCellName] = useElement('div');
+  const [rankCellScore, setRankCellScore] = useElement('div');
+
+  setRankCell((e) => {
+    e.classList.add(css['rankCell']);
+  });
+  setRankCellIndex((e) => {
+    e.classList.add(css['rankCellIndex']);
+    e.innerHTML = index;
+  });
+  setRankCellName((e) => {
+    e.classList.add(css['rankCellName']);
+    e.innerHTML = name;
+  });
+  setRankCellScore((e) => {
+    e.classList.add(css['rankCellScore']);
+    e.innerHTML = score;
+  });
+
+  rankCell.append(rankCellIndex);
+  rankCell.append(rankCellName);
+  rankCell.append(rankCellScore);
+
+  return rankCell;
 }
