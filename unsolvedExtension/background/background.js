@@ -12,7 +12,7 @@ async function fetchUser(sendResponse) {
     .then((data) => {
       chrome.storage.local.set({ solvedUser: data });
       chrome.storage.local.get('solvedUser', (result) => {
-        console.log('solvedUser : ' + JSON.stringify(result));
+        // console.log('solvedUser : ' + JSON.stringify(result));
       });
     })
     .catch((error) => {
