@@ -1,6 +1,13 @@
 import { useElement } from './useElement.js';
 import { css } from './cssTable.js';
 
+const contentLogoAndTexts = [
+  { unsolved: { logo: '', text: 'unsolved' } },
+  { profile: { logo: '', text: '내 정보' } },
+  { rank: { logo: '', text: '랭킹보기' } },
+  { recommand: { logo: '', text: '문제추천' } },
+];
+
 export const ContentContainerNavigator = (function () {
   const [contentNavigator, setContentNavigator] = useElement('div');
   const [contentNavigatorLogos, setContentNavigatorLogos] = useElement('div');
@@ -16,6 +23,17 @@ export const ContentContainerNavigator = (function () {
   setContentNavigatorSettingLogo(setContentNavigatorSettingLogoAttributes);
 
   setContentNavigatorTexts(setContentNavigatorTextsAttributes);
+
+  contentNavigator.addEventListener('mouseover', (e) => {
+    contentNavigator.style.width = '160px';
+    contentNavigatorTexts.style.opacity = '1';
+    contentNavigatorTexts.style.marginLeft = '60px';
+  });
+
+  contentNavigator.addEventListener('mouseout', (e) => {
+    contentNavigator.style.width = '60px';
+    contentNavigatorTexts.style.opacity = '0';
+  });
 
   contentNavigatorLogos.append(contentNavigatorUnsolvedLogo);
   contentNavigatorLogos.append(contentNavigatorHr);
