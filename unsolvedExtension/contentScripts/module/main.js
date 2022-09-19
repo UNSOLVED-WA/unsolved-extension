@@ -30,19 +30,12 @@ export const main = () => {
     setUnsolvedLogo(setUnsolvedLogoAttributes);
 
     button.addEventListener('click', (e) => handleUnsolvedFloatButton(e, panel, unsolvedLogo));
+    window.addEventListener('click', (e) => handleOutsideClick(e, button, panel, unsolvedLogo));
 
     button.append(unsolvedLogo);
     button.append(panel);
 
-    window.addEventListener('click', function (e) {
-      if (button.contains(e.target)) {
-        return;
-      } else {
-        button.classList.remove(css['clicked']);
-        panel.style.display = 'none';
-        unsolvedLogo.style.display = '';
-      }
-    });
+    /* 최종 렌더링 */
     document.body.append(button);
   }
 
@@ -62,6 +55,16 @@ function handleUnsolvedFloatButton(e, panel, unsolvedLogo) {
     e.currentTarget.classList.add(css['clicked']);
     panel.style.display = 'flex';
     unsolvedLogo.style.display = 'none';
+  }
+}
+
+function handleOutsideClick(e, button, panel, unsolvedLogo) {
+  if (button.contains(e.target)) {
+    return;
+  } else {
+    button.classList.remove(css['clicked']);
+    panel.style.display = 'none';
+    unsolvedLogo.style.display = '';
   }
 }
 
