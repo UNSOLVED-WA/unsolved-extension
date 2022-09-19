@@ -92,22 +92,26 @@
   height: 100%;
 
   position: absolute;
-  border-radius: 5px !important;
+  border-radius: 15px !important;
   left: 0;
   display: flex;
   flex-direction: row;
   justify-content: start;
   align-items: center;
 
-  background: #ff0000;
+  background: #2196f3; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to top, #f44336, #ff0000, #f15f79); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to top,
+    #f15f79,
+    #f44336,
+    #ff0000
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
   transition: all 0.3s ease-in-out;
 }
 .content-navigator > div {
   box-sizing: border-box;
-}
-
-.content-navigator:hover {
-  width: 160px;
 }
 
 .content-navigator-logos {
@@ -126,7 +130,9 @@
 .content-navigator-texts {
   height: 100%;
   padding: 10px 0;
+
   flex: 1 1 0;
+  transition: all 0.3s ease-in-out;
 }
 
 .content-navigator-setting {
