@@ -15,9 +15,16 @@ const ElementInterface = (function () {
     return [state, setElement];
   }
 
-  return { useElement };
+  function removeElementFromDom() {
+    element.forEach((el) => el.remove());
+    element = [];
+    idx = 0;
+  }
+
+  return { useElement, removeElementFromDom };
 })();
 
 const useElement = ElementInterface.useElement;
+const removeElementFromDom = ElementInterface.removeElementFromDom;
 
-export { useElement };
+export { useElement, removeElementFromDom };
