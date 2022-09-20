@@ -1,4 +1,5 @@
 // background.js
+console.log('background.js', Date.now());
 
 function fetchUser(sendResponse) {
   fetch('https://solved.ac/api/v3/account/verify_credentials')

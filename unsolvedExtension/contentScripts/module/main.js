@@ -22,53 +22,57 @@ function PanelElement() {
 }
 
 export const main = () => {
-  let displayState = true;
-
   function render() {
     removeElementFromDom();
 
     const [button, setButton] = useElement('button');
     const [unsolvedLogo, setUnsolvedLogo] = useElement('span');
-    const panel = PanelElement();
 
     setButton(setButtonAttributes);
     setUnsolvedLogo(setUnsolvedLogoAttributes);
 
-    button.addEventListener('click', (e) => handleUnsolvedFloatButton(e, panel, unsolvedLogo));
-    window.addEventListener('click', (e) => handleOutsideClick(e, button, panel, unsolvedLogo));
+    button.addEventListener('click', (e) => handleUnsolvedFloatButton(e, unsolvedLogo));
+    window.addEventListener('click', (e) => handleOutsideClick(e, button, unsolvedLogo));
 
     button.append(unsolvedLogo);
-    button.append(panel);
-
     /* 최종 렌더링 */
     document.body.append(button);
   }
 
   function handleDisplay() {
-    button.style.display = displayState ? 'none' : '';
-    displayState = !displayState;
+    const button = document.querySelector('.' + css['unsolvedButton']);
+    if (!button) return;
+    if (button.style.display === 'none') {
+      button.style.display = '';
+    } else {
+      button.style.display = 'none';
+    }
   }
 
   return { render, handleDisplay };
 };
 
 /* Element event handler */
-function handleUnsolvedFloatButton(e, panel, unsolvedLogo) {
+function handleUnsolvedFloatButton(e, unsolvedLogo) {
   if (e.currentTarget.classList.contains(css['clicked'])) {
     return;
   } else {
+    const panel = PanelElement();
+
     e.currentTarget.classList.add(css['clicked']);
-    panel.style.display = 'flex';
     unsolvedLogo.style.display = 'none';
+
+    e.currentTarget.append(panel);
   }
 }
 
-function handleOutsideClick(e, button, panel, unsolvedLogo) {
+function handleOutsideClick(e, button, unsolvedLogo) {
   if (button.contains(e.target)) {
     return;
   } else {
+    const unsolvedPanel = document.querySelector('.' + css['unsolvedPanel']);
+    if (unsolvedPanel) unsolvedPanel.remove();
     button.classList.remove(css['clicked']);
-    panel.style.display = 'none';
     unsolvedLogo.style.display = '';
   }
 }
@@ -80,8 +84,8 @@ function setUnsolvedLogoAttributes(unsolvedLogo) {
 }
 
 function setPanelAttributes(panel) {
-  panel.style.display = 'none';
   panel.classList.add(css['unsolvedPanel']);
+  panel.style.display = 'flex';
 }
 
 function setButtonAttributes(button) {

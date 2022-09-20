@@ -1,6 +1,6 @@
 // const message = document.getElementById('message');
 const hideButton = document.getElementById('unsolved-hide');
-const updateButton = document.getElementById('unsolved-hide');
+const updateButton = document.getElementById('unsolved-update');
 
 hideButton.addEventListener('click', handleHideButton);
 updateButton.addEventListener('click', handleUpdateButton);
@@ -12,6 +12,7 @@ function handleHideButton() {
     });
   });
 }
+
 function handleUpdateButton() {
   chrome.runtime.sendMessage({ message: 'userStatus' }, (response) => {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
