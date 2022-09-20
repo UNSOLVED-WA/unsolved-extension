@@ -26,14 +26,12 @@ export const ContentContainerNavigator = function (menuItem, handler) {
     contentNavigator.style.width = '160px';
     contentNavigatorTexts.style.opacity = '1';
     contentNavigatorTexts.style.marginLeft = '60px';
-    contentNavigatorTexts.style.zIndex = '1';
   });
 
   contentNavigator.addEventListener('mouseout', (e) => {
     contentNavigator.style.width = '60px';
     contentNavigatorTexts.style.width = '0px';
     contentNavigatorTexts.style.opacity = '0';
-    contentNavigatorTexts.style.zIndex = '-1';
   });
 
   contentNavigatorLogos.append(contentNavigatorUnsolvedLogo);
