@@ -145,7 +145,7 @@
   padding: 10px 0;
   opacity: 0;
   flex: 1 1 0;
-  transition: all 0.3s ease-out 0.15s;
+  transition: all 0.3s ease-out;
 
   display: flex;
   flex-direction: column;
@@ -184,6 +184,9 @@
   font-size: 14px;
   cursor: pointer;
   width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 /* views */
