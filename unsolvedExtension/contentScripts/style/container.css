@@ -90,9 +90,13 @@
 
 .content-body {
   width: 100%;
-  padding: 20px;
+  padding: 10px;
   box-sizing: border-box;
   overflow: scroll;
+}
+
+.content-body::-webkit-scrollbar {
+  width: 0px;
 }
 
 .content-body * {
@@ -217,4 +221,10 @@
   justify-content: space-between;
   align-items: center;
   gap: 10px;
+}
+
+.profile-view {
+}
+
+.recommand-view {
 }
