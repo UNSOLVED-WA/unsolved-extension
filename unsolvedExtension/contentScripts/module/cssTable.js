@@ -24,4 +24,6 @@ export const css = {
   rankCellIndex: 'rank-cell-index',
   rankCellName: 'rank-cell-name',
   rankCellScore: 'rank-cell-score',
+  profileView: 'profile-view',
+  recommandView: 'recommand-view',
 };

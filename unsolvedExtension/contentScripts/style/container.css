@@ -186,6 +186,14 @@
   width: 100%;
 }
 
+/* views */
+
+.profile-view,
+.recommand-view,
+.rank-view {
+  animation: fadein 0.75s ease-in-out forwards;
+}
+
 /* rank */
 
 .rank-view {
