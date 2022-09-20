@@ -80,15 +80,20 @@ function setContentBodyAttributes(contentBody) {
 
 function setProfileViewAttributes(profileView) {
   profileView.innerHTML = 'profileView';
+  profileView.classList.add(css['profileView']);
+  profileView.style.display = 'flex';
 }
 
 function setRankViewAttributes(rankView) {
   // rankView.innerHTML = 'rankView';
   rankView.classList.add(css['rankView']);
+  rankView.style.display = 'none';
 }
 
 function setRecommandViewAttributes(recommandView) {
+  recommandView.classList.add(css['recommandView']);
   recommandView.innerHTML = 'recommandView';
+  recommandView.style.display = 'none';
 }
 
 function createRankCell(index, name, score) {
