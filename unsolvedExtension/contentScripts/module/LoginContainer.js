@@ -1,7 +1,7 @@
 import { useElement } from './useElement.js';
 import { css } from './cssTable.js';
 
-export const LoginContainer = (function () {
+export const LoginContainer = function () {
   const [loginContainer, setLoginContainer] = useElement('div');
   const [loginButton, setLoginButton] = useElement('button');
   const [solvedLogo, setSolvedLogo] = useElement('img');
@@ -23,7 +23,7 @@ export const LoginContainer = (function () {
   loginContainer.append(loginButton);
 
   return loginContainer;
-})();
+};
 
 function setLoginContainerAttributes(loginContainer) {
   loginContainer.classList.add(css['login']);

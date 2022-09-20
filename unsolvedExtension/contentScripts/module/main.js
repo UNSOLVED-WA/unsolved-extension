@@ -1,18 +1,20 @@
-import { useElement } from './useElement.js';
+import { useElement, removeElementFromDom, getElement } from './useElement.js';
 import { LoginContainer } from './LoginContainer.js';
 import { ContentContainer } from './ContentContainer.js';
 import { css } from './cssTable.js';
 
 function PanelElement() {
   const [panel, setPanel] = useElement('div');
+  const contentContainer = ContentContainer();
+  const loginContainer = LoginContainer();
 
   setPanel(setPanelAttributes);
 
   chrome.storage.local.get('solvedUser', (result) => {
     if (result.solvedUser) {
-      panel.append(ContentContainer);
+      panel.append(contentContainer);
     } else {
-      panel.append(LoginContainer);
+      panel.append(loginContainer);
     }
   });
 
@@ -21,11 +23,14 @@ function PanelElement() {
 
 export const main = () => {
   let displayState = true;
-  const [button, setButton] = useElement('button');
-  const [unsolvedLogo, setUnsolvedLogo] = useElement('span');
-  const panel = PanelElement();
 
   function render() {
+    removeElementFromDom();
+
+    const [button, setButton] = useElement('button');
+    const [unsolvedLogo, setUnsolvedLogo] = useElement('span');
+    const panel = PanelElement();
+
     setButton(setButtonAttributes);
     setUnsolvedLogo(setUnsolvedLogoAttributes);
 

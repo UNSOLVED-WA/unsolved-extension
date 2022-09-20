@@ -8,9 +8,9 @@
 
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.message === 'hideButton') {
-      sendResponse({ message: 'success' });
       stream.handleDisplay(true);
-      return true;
+    } else if (request.message === 'rerender') {
+      stream.render();
     }
   });
 })();

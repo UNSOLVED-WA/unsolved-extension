@@ -8,7 +8,13 @@ const menuItem = [
   { logo: 'sl', text: '문제추천' },
 ];
 
-export const ContentContainer = (function () {
+function removeAllchild(element) {
+  while (element.hasChildNodes()) {
+    element.removeChild(element.firstChild);
+  }
+}
+
+export const ContentContainer = function () {
   const [contentContainer, setContentContainer] = useElement('div');
   const [contentHeader, setContentHeader] = useElement('div');
   const [contentBody, setContentBody] = useElement('div');
@@ -22,9 +28,19 @@ export const ContentContainer = (function () {
   function handler(str) {
     switch (str) {
       case 'pl':
+        const [plchild, setPlchild] = useElement('div');
         profileView.style.display = 'flex';
         rankView.style.display = 'none';
         recommandView.style.display = 'none';
+
+        removeAllchild(profileView);
+        chrome.storage.local.get('test', (result) => {
+          setPlchild((e) => {
+            e.innerHTML = result.test;
+          });
+          profileView.append(plchild);
+        });
+
         break;
       case 'rl':
         profileView.style.display = 'none';
@@ -66,7 +82,7 @@ export const ContentContainer = (function () {
   contentContainer.append(ContainerNavigator);
 
   return contentContainer;
-})();
+};
 
 function setContentContainerAttributes(contentContainer) {
   contentContainer.classList.add(css['contentContainer']);
@@ -79,7 +95,6 @@ function setContentBodyAttributes(contentBody) {
 }
 
 function setProfileViewAttributes(profileView) {
-  profileView.innerHTML = 'profileView';
   profileView.classList.add(css['profileView']);
   profileView.style.display = 'flex';
 }

@@ -1,28 +1,21 @@
 // const message = document.getElementById('message');
-const button = document.getElementById('go');
+const hideButton = document.getElementById('unsolved-hide');
+const updateButton = document.getElementById('unsolved-hide');
 
-button.addEventListener('click', handleFormSubmit);
+hideButton.addEventListener('click', handleHideButton);
+updateButton.addEventListener('click', handleUpdateButton);
 
-function handleFormSubmit(e) {
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, { message: 'hideButton' }, (response) => {
-      console.log(response);
+function handleHideButton() {
+  chrome.runtime.sendMessage({ message: 'userStatus' }, (response) => {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, { message: 'hideButton' });
     });
   });
 }
-
-chrome.runtime.sendMessage(
-  {
-    message: 'userStatus',
-  },
-  (response) => {
-    console.log(response);
-    if (response.message === 'success') {
-      window.location.href = 'https://www.google.com';
-    } else if (response.message === 'login') {
-      console.log('로그인하세요');
-    } else if (response.message === 'redirect') {
-      window.location.href = 'https://solved.ac'; // TODO 새탭 만들어서 리다이렉팅으로 변경하기
-    }
-  }
-);
+function handleUpdateButton() {
+  chrome.runtime.sendMessage({ message: 'userStatus' }, (response) => {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, { message: 'rerender' });
+    });
+  });
+}

@@ -21,10 +21,15 @@ const ElementInterface = (function () {
     idx = 0;
   }
 
-  return { useElement, removeElementFromDom };
+  function getElement() {
+    return element;
+  }
+
+  return { useElement, removeElementFromDom, getElement };
 })();
 
 const useElement = ElementInterface.useElement;
 const removeElementFromDom = ElementInterface.removeElementFromDom;
+const getElement = ElementInterface.getElement;
 
-export { useElement, removeElementFromDom };
+export { useElement, removeElementFromDom, getElement };
