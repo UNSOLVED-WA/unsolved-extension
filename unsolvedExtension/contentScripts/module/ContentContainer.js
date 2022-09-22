@@ -8,12 +8,6 @@ const menuItem = [
   { logo: 'sl', text: '문제추천' },
 ];
 
-function removeAllchild(element) {
-  while (element.hasChildNodes()) {
-    element.removeChild(element.firstChild);
-  }
-}
-
 export const ContentContainer = function () {
   const [contentContainer, setContentContainer] = useElement('div');
   const [contentHeader, setContentHeader] = useElement('div');
