@@ -1,5 +1,4 @@
 // background.js
-console.log('background.js', Date.now());
 
 function fetchUser(sendResponse) {
   fetch('https://solved.ac/api/v3/account/verify_credentials')
@@ -24,6 +23,7 @@ function fetchUser(sendResponse) {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.message === 'userStatus') {
     fetchUser(sendResponse);
+    sendResponse({ message: 'success' });
     return true;
   } else if (request.message === 'toLogin') {
     chrome.tabs.create({
@@ -31,5 +31,19 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     });
     sendResponse({ message: 'success' });
     return true;
+  } else if (request.message === 'test') {
+    const test = fetchBadge();
+    sendResponse({ message: test });
+    return true;
   }
 });
+
+function fetchBadge() {
+  fetch('https://mazassumnida.wtf/api/generate_badge?boj=rkskekzzz')
+    .then((response) => {
+      return response.text();
+    })
+    .then((html) => {
+      console.log(html);
+    });
+}

@@ -28,18 +28,28 @@ export const ContentContainer = function () {
   function handler(str) {
     switch (str) {
       case 'pl':
-        const [plchild, setPlchild] = useElement('div');
         profileView.style.display = 'flex';
         rankView.style.display = 'none';
         recommandView.style.display = 'none';
 
-        removeAllchild(profileView);
-        chrome.storage.local.get('test', (result) => {
-          setPlchild((e) => {
-            e.innerHTML = result.test;
+        fetch(chrome.runtime.getURL('contentScripts/module/template/profile.html'))
+          .then((response) => {
+            return response.text();
+          })
+          .then((html) => {
+            const badge = new Image();
+            badge.src = 'https://mazassumnida.wtf/api/generate_badge?boj=rkskekzzz';
+            badge.classList.add(css['profileViewBadge']);
+            profileView.innerHTML = html;
+
+            profileView.append(badge);
           });
-          profileView.append(plchild);
-        });
+
+        // chrome.runtime.sendMessage({ message: 'userStatus' }, (response) => {
+        //   chrome.storage.local.get('solvedUser', (result) => {
+        //     profileView.innerHTML = profile(result.solvedUser.user.handle);
+        //   });
+        // });
 
         break;
       case 'rl':
@@ -56,6 +66,8 @@ export const ContentContainer = function () {
         break;
     }
   }
+
+  handler('pl');
 
   setContentContainer(setContentContainerAttributes);
   setContentHeader(setContentHeaderAttributes);

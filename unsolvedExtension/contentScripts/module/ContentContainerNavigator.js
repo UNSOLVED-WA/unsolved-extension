@@ -83,7 +83,7 @@ function setContentNavigatorTextsAttributes(contentNavigatorTexts) {
 
 function setContentNavigatorLogoAttributes(contentNavigatorUnsolvedLogo) {
   contentNavigatorUnsolvedLogo.innerHTML = 'WA';
-  contentNavigatorUnsolvedLogo.classList.add(css['unsolvedLogoBig']);
+  contentNavigatorUnsolvedLogo.classList.add(css['unwaLogoBig']);
 }
 
 function setContentNavigatorHrAttributes(contentNavigatorHr) {

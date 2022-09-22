@@ -10,12 +10,14 @@ function PanelElement() {
 
   setPanel(setPanelAttributes);
 
-  chrome.storage.local.get('solvedUser', (result) => {
-    if (result.solvedUser) {
-      panel.append(contentContainer);
-    } else {
-      panel.append(loginContainer);
-    }
+  chrome.runtime.sendMessage({ message: 'userStatus' }, (response) => {
+    chrome.storage.local.get('solvedUser', (result) => {
+      if (result.solvedUser) {
+        panel.append(contentContainer);
+      } else {
+        panel.append(loginContainer);
+      }
+    });
   });
 
   return panel;
@@ -24,6 +26,9 @@ function PanelElement() {
 export const main = () => {
   function render() {
     removeElementFromDom();
+    chrome.runtime.sendMessage({ message: 'test' }, (response) => {
+      console.log(response);
+    });
 
     const [button, setButton] = useElement('button');
     const [unsolvedLogo, setUnsolvedLogo] = useElement('span');
@@ -40,7 +45,7 @@ export const main = () => {
   }
 
   function handleDisplay() {
-    const button = document.querySelector('.' + css['unsolvedButton']);
+    const button = document.querySelector('.' + css['unwaButton']);
     if (!button) return;
     if (button.style.display === 'none') {
       button.style.display = '';
@@ -70,7 +75,7 @@ function handleOutsideClick(e, button, unsolvedLogo) {
   if (button.contains(e.target)) {
     return;
   } else {
-    const unsolvedPanel = document.querySelector('.' + css['unsolvedPanel']);
+    const unsolvedPanel = document.querySelector('.' + css['unwaPanel']);
     if (unsolvedPanel) unsolvedPanel.remove();
     button.classList.remove(css['clicked']);
     unsolvedLogo.style.display = '';
@@ -80,14 +85,14 @@ function handleOutsideClick(e, button, unsolvedLogo) {
 /* Element Attributes */
 function setUnsolvedLogoAttributes(unsolvedLogo) {
   unsolvedLogo.innerHTML = 'WA';
-  unsolvedLogo.classList.add(css['unsolvedLogo']);
+  unsolvedLogo.classList.add(css['unwaLogo']);
 }
 
 function setPanelAttributes(panel) {
-  panel.classList.add(css['unsolvedPanel']);
+  panel.classList.add(css['unwaPanel']);
   panel.style.display = 'flex';
 }
 
 function setButtonAttributes(button) {
-  button.classList.add(css['unsolvedButton']);
+  button.classList.add(css['unwaButton']);
 }
