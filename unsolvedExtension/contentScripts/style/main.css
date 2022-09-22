@@ -1,11 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+@import 'reset.css';
 
-.unsolved-float-button * {
+.unwa-float-button * {
   font-family: 'Noto Sans KR', sans-serif;
   line-height: 16px;
+  box-sizing: border-box;
 }
 
-.unsolved-float-button {
+.unwa-float-button {
   padding: 0px;
   background-color: red;
   position: fixed;
@@ -13,7 +15,7 @@
   right: -6px;
   z-index: 9999999;
 
-  border: 0px !important;
+  border: 0px;
   cursor: pointer;
   transform: translateY(-50%);
 
@@ -27,12 +29,12 @@
   transition: all 0.3s ease-in-out;
 }
 
-.unsolved-float-button:hover {
+.unwa-float-button:hover {
   transform-origin: 50% 50%;
   transform: translateY(-50%) scale(1.5);
 }
 
-.unsolved-float-button:hover::before {
+.unwa-float-button:hover::before {
   content: '';
   display: block;
   position: fixed;
@@ -59,8 +61,9 @@
   }
 }
 
-.clicked {
-  background-color: #fffffffb;
+.unwa-clicked {
+  /* background: #fff5f5; */
+  background: linear-gradient(#fff5f5, #fffafa);
   right: 12px;
 
   width: 350px;
@@ -70,11 +73,11 @@
   cursor: default;
 }
 
-.clicked:hover {
+.unwa-clicked:hover {
   transform: translateY(-50%) scale(1);
 }
 
-.clicked:hover::before {
+.unwa-clicked:hover::before {
   display: none;
 }
 
@@ -90,7 +93,7 @@
   }
 }
 
-.unsolved-logo {
+.unwa-logo {
   border-radius: 5px !important;
   background: #ffffff;
   position: relative;
@@ -101,7 +104,7 @@
   padding: 3px 7.5px;
 }
 
-.unsolved-logo-big {
+.unwa-logo-big {
   border-radius: 5px !important;
   background: #ffffff;
   position: relative;
@@ -111,5 +114,4 @@
   font-weight: 900;
   height: 24px;
   padding: 5px 7.5px;
-  box-sizing: border-box;
 }
