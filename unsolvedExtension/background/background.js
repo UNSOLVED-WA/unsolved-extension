@@ -24,26 +24,31 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.message === 'userStatus') {
     fetchUser(sendResponse);
     sendResponse({ message: 'success' });
-    return true;
   } else if (request.message === 'toLogin') {
     chrome.tabs.create({
       url: 'https://solved.ac/',
     });
     sendResponse({ message: 'success' });
-    return true;
   } else if (request.message === 'test') {
-    const test = fetchBadge();
-    sendResponse({ message: test });
+    fetchBadge().then((data) => {
+      sendResponse({ message: data });
+    });
     return true;
   }
 });
 
-function fetchBadge() {
-  fetch('https://mazassumnida.wtf/api/generate_badge?boj=rkskekzzz')
-    .then((response) => {
-      return response.text();
-    })
-    .then((html) => {
-      console.log(html);
+async function fetchBadge() {
+  const res = await fetch('https://mazassumnida.wtf/api/generate_badge?boj=rkskekzzz');
+  if (res.status >= 400) {
+    let badgePromise = new Promise((resolve, _) => {
+      chrome.storage.local.get('badge', (data) => {
+        resolve(data.badge);
+      });
     });
+    return await badgePromise;
+  } else {
+    const data = await res.text();
+    chrome.storage.local.set({ badge: data });
+    return data;
+  }
 }
