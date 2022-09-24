@@ -1,10 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 @import 'reset.css';
 
 .unwa-float-button * {
-  font-family: 'Noto Sans KR', sans-serif;
+  /* font-family: 'Noto Sans KR', sans-serif; */
+  font-family: 'Roboto', sans-serif;
   line-height: 16px;
   box-sizing: border-box;
+
+  background: transparent;
 }
 
 .unwa-float-button {
@@ -62,8 +66,10 @@
 }
 
 .unwa-clicked {
-  /* background: #fff5f5; */
-  background: linear-gradient(#fff5f5, #fffafa);
+  box-shadow: rgb(0 0 0 / 30%) 0px 12px 60px 5px;
+  background-color: rgba(255, 255, 255, 0);
+  backdrop-filter: blur(60px);
+  /* background: linear-gradient(#fff5f5, #fffafa); */
   right: 12px;
 
   width: 350px;
@@ -99,8 +105,8 @@
   position: relative;
 
   color: #ff0000;
-  font-size: 10px;
-  font-weight: 900;
+  font-size: 12px;
+  font-weight: 600;
   padding: 3px 7.5px;
 }
 
@@ -111,7 +117,7 @@
 
   color: #ff0000;
   font-size: 20px;
-  font-weight: 900;
+  font-weight: 600;
   height: 24px;
   padding: 5px 7.5px;
 }
