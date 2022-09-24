@@ -1,4 +1,4 @@
-export const css = {
+export const className = {
   unwaButton: 'unwa-float-button',
   unwaLogo: 'unwa-logo',
   unwaLogoBig: 'unwa-logo-big',

@@ -1,5 +1,5 @@
 import { useElement } from './useElement.js';
-import { css } from './cssTable.js';
+import { className } from './cssTable.js';
 
 export const LoginContainer = function () {
   const [loginContainer, setLoginContainer] = useElement('div');
@@ -26,19 +26,19 @@ export const LoginContainer = function () {
 };
 
 function setLoginContainerAttributes(loginContainer) {
-  loginContainer.classList.add(css['login']);
+  loginContainer.classList.add(className['login']);
 }
 
 function setLoginButtonAttributes(loginButton) {
-  loginButton.classList.add(css['loginButton']);
+  loginButton.classList.add(className['loginButton']);
 }
 
 function setSolvedLogoAttributes(solvedLogo) {
-  solvedLogo.classList.add(css['loginButtonLogo']);
+  solvedLogo.classList.add(className['loginButtonLogo']);
   solvedLogo.src = 'https://static.solved.ac/res/logo-whitetext.svg';
 }
 
 function setMessageAttributes(message) {
-  message.classList.add(css['loginButtonMessage']);
+  message.classList.add(className['loginButtonMessage']);
   message.innerHTML = '로그인하기';
 }

@@ -1,5 +1,5 @@
 import { useElement } from './useElement.js';
-import { css } from './cssTable.js';
+import { className } from './cssTable.js';
 
 export const ContentContainerNavigator = function (menuItem, handler) {
   const [contentNavigator, setContentNavigator] = useElement('div');
@@ -50,7 +50,7 @@ export const ContentContainerNavigator = function (menuItem, handler) {
 
     setContentNavigatorItemLogo((e) => {
       e.innerHTML = contentNavigatorItem.logo;
-      e.classList.add(css['itemLogo']);
+      e.classList.add(className['itemLogo']);
       e.addEventListener('click', () => {
         console.log('click!');
         handler(contentNavigatorItem.logo);
@@ -58,7 +58,7 @@ export const ContentContainerNavigator = function (menuItem, handler) {
     });
     setContentNavigatorItemText((e) => {
       e.innerHTML = contentNavigatorItem.text;
-      e.classList.add(css['itemText']);
+      e.classList.add(className['itemText']);
       e.addEventListener('click', () => handler(contentNavigatorItem.logo));
     });
 
@@ -70,28 +70,28 @@ export const ContentContainerNavigator = function (menuItem, handler) {
 };
 
 function setContentNavigatorAttributes(contentNavigator) {
-  contentNavigator.classList.add(css['contentNavigator']);
+  contentNavigator.classList.add(className['contentNavigator']);
 }
 
 function setContentNavigatorLogosAttributes(contentNavigatorLogos) {
-  contentNavigatorLogos.classList.add(css['contentNavigatorLogos']);
+  contentNavigatorLogos.classList.add(className['contentNavigatorLogos']);
 }
 
 function setContentNavigatorTextsAttributes(contentNavigatorTexts) {
-  contentNavigatorTexts.classList.add(css['contentNavigatorTexts']);
+  contentNavigatorTexts.classList.add(className['contentNavigatorTexts']);
 }
 
 function setContentNavigatorLogoAttributes(contentNavigatorUnsolvedLogo) {
   contentNavigatorUnsolvedLogo.innerHTML = 'WA';
-  contentNavigatorUnsolvedLogo.classList.add(css['unwaLogoBig']);
+  contentNavigatorUnsolvedLogo.classList.add(className['unwaLogoBig']);
 }
 
 function setContentNavigatorHrAttributes(contentNavigatorHr) {
-  contentNavigatorHr.classList.add(css['contentNavigatorHr']);
+  contentNavigatorHr.classList.add(className['contentNavigatorHr']);
 }
 
 function setContentNavigatorSettingLogoAttributes(contentNavigatorSettingLogo) {
-  contentNavigatorSettingLogo.classList.add(css['contentNavigatorSetting']);
+  contentNavigatorSettingLogo.classList.add(className['contentNavigatorSetting']);
   contentNavigatorSettingLogo.innerHTML = '설정';
   // let imgPath = chrome.runtime.getURL('assets/setting.svg');
   // contentNavigatorSettingLogo.src = imgPath;
@@ -99,5 +99,5 @@ function setContentNavigatorSettingLogoAttributes(contentNavigatorSettingLogo) {
 
 function setContentNavigatorUnsolvedTextAttributes(contentNavigatorUnsolvedText) {
   contentNavigatorUnsolvedText.innerHTML = 'unsolved';
-  contentNavigatorUnsolvedText.classList.add(css['contentNavigatorUnsolvedText']);
+  contentNavigatorUnsolvedText.classList.add(className['contentNavigatorUnsolvedText']);
 }

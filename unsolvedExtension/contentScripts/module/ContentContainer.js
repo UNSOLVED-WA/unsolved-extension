@@ -1,5 +1,5 @@
 import { useElement } from './useElement.js';
-import { css } from './cssTable.js';
+import { className } from './cssTable.js';
 import { ContentContainerNavigator } from './ContentContainerNavigator.js';
 
 const menuItem = [
@@ -90,28 +90,28 @@ export const ContentContainer = function () {
 };
 
 function setContentContainerAttributes(contentContainer) {
-  contentContainer.classList.add(css['contentContainer']);
+  contentContainer.classList.add(className['contentContainer']);
 }
 
 function setContentHeaderAttributes(contentHeader) {}
 
 function setContentBodyAttributes(contentBody) {
-  contentBody.classList.add(css['contentBody']);
+  contentBody.classList.add(className['contentBody']);
 }
 
 function setProfileViewAttributes(profileView) {
-  profileView.classList.add(css['profileView']);
+  profileView.classList.add(className['profileView']);
   profileView.style.display = 'flex';
 }
 
 function setRankViewAttributes(rankView) {
   // rankView.innerHTML = 'rankView';
-  rankView.classList.add(css['rankView']);
+  rankView.classList.add(className['rankView']);
   rankView.style.display = 'none';
 }
 
 function setRecommandViewAttributes(recommandView) {
-  recommandView.classList.add(css['recommandView']);
+  recommandView.classList.add(className['recommandView']);
   recommandView.innerHTML = 'recommandView';
   recommandView.style.display = 'none';
 }
@@ -123,18 +123,18 @@ function createRankCell(index, name, score) {
   const [rankCellScore, setRankCellScore] = useElement('div');
 
   setRankCell((e) => {
-    e.classList.add(css['rankCell']);
+    e.classList.add(className['rankCell']);
   });
   setRankCellIndex((e) => {
-    e.classList.add(css['rankCellIndex']);
+    e.classList.add(className['rankCellIndex']);
     e.innerHTML = index;
   });
   setRankCellName((e) => {
-    e.classList.add(css['rankCellName']);
+    e.classList.add(className['rankCellName']);
     e.innerHTML = name;
   });
   setRankCellScore((e) => {
-    e.classList.add(css['rankCellScore']);
+    e.classList.add(className['rankCellScore']);
     e.innerHTML = score;
   });
 
