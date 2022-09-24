@@ -19,42 +19,41 @@ export const ContentContainer = function () {
 
   const ContainerNavigator = ContentContainerNavigator(menuItem, handler);
 
+  function setDisplayNone(flexView, noneView) {
+    flexView.style.display = 'flex';
+    noneView.forEach((e) => (e.style.display = 'none'));
+  }
+
   function handler(str) {
     switch (str) {
       case 'pl':
-        profileView.style.display = 'flex';
-        rankView.style.display = 'none';
-        recommandView.style.display = 'none';
+        setDisplayNone(profileView, [rankView, recommandView]);
 
         fetch(chrome.runtime.getURL('contentScripts/module/template/profile.html'))
           .then((response) => {
             return response.text();
           })
           .then((html) => {
-            const badge = new Image();
-            badge.src = 'https://mazassumnida.wtf/api/generate_badge?boj=rkskekzzz';
-            badge.classList.add(css['profileViewBadge']);
             profileView.innerHTML = html;
-
-            profileView.append(badge);
           });
 
-        // chrome.runtime.sendMessage({ message: 'userStatus' }, (response) => {
-        //   chrome.storage.local.get('solvedUser', (result) => {
-        //     profileView.innerHTML = profile(result.solvedUser.user.handle);
-        //   });
-        // });
+        chrome.runtime.sendMessage({ message: 'test' }, (response) => {
+          profileView
+            .getElementsByClassName('unwa-profile-view-container')[0]
+            .insertAdjacentHTML('beforeend', response.message);
+          profileView
+            .getElementsByClassName('unwa-profile-view-container')[0]
+            .lastElementChild.setAttribute('viewBox', '0 -30 350 170');
+        });
 
         break;
       case 'rl':
-        profileView.style.display = 'none';
-        rankView.style.display = 'flex';
-        recommandView.style.display = 'none';
+        setDisplayNone(rankView, [profileView, recommandView]);
+
         break;
       case 'sl':
-        profileView.style.display = 'none';
-        rankView.style.display = 'none';
-        recommandView.style.display = 'flex';
+        setDisplayNone(recommandView, [profileView, rankView]);
+
         break;
       default:
         break;
@@ -81,10 +80,10 @@ export const ContentContainer = function () {
   contentBody.append(profileView);
   contentBody.append(rankView);
   contentBody.append(recommandView);
+  // contentBody.insertAdjacentHTML('beforeend');
 
   // contentContainer.append(contentHeader);
   contentContainer.append(contentBody);
-
   contentContainer.append(ContainerNavigator);
 
   return contentContainer;
