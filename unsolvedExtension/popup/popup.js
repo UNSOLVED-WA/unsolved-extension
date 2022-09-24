@@ -1,4 +1,3 @@
-// const message = document.getElementById('message');
 const hideButton = document.getElementById('unsolved-hide');
 const updateButton = document.getElementById('unsolved-update');
 
