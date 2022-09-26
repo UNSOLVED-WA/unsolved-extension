@@ -29,13 +29,13 @@ const App: React.FC<{}> = () => {
   });
 
   useEffect(() => {
-    const handleOutsideClick = ({ target }: MouseEvent) => {
+    function handleOutsideClick({ target }: MouseEvent) {
       const unsolvedPanel = document.querySelector('.unsolved-float-button');
       if (unsolvedPanel && !unsolvedPanel.contains(target as Node)) {
         setIsClicked(false);
         unsolvedPanel.classList.remove('clicked');
       }
-    };
+    }
     window.addEventListener('click', handleOutsideClick);
     return () => {
       window.removeEventListener('click', handleOutsideClick);
