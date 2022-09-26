@@ -30,3 +30,5 @@ export const className = {
   profileViewBadge: 'unwa-profile-view-badge',
   recommandView: 'unwa-recommand-view',
 };
+
+export const idName = {};
