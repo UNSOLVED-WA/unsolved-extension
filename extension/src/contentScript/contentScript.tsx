@@ -8,7 +8,7 @@ const App: React.FC<{}> = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
 
-  const handleButtonClick = (e) => {
+  const handleButtonClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.currentTarget.classList.contains('clicked')) {
       e.currentTarget.classList.remove('clicked');
       setIsClicked(false);
