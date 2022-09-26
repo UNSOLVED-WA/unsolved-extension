@@ -37,6 +37,7 @@ export const UnsolvedFloatButton = styled.div<{ isClicked: boolean }>`
   height: 48px;
 
   transition: all 0.3s ease-in-out;
+  box-shadow: rgb(0 0 0 / 30%) 0px 12px 60px 5px;
   ${({ isClicked }) => setStyle(isClicked)}
 `;
 
@@ -78,7 +79,6 @@ const defaultStyle = css`
 `;
 
 const clickedStyle = css`
-  box-shadow: rgb(0 0 0 / 30%) 0px 12px 60px 5px;
   background-color: rgba(255, 255, 255, 0);
   backdrop-filter: blur(60px);
 
