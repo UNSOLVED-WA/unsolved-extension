@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import LoginPanel from './LoginPanel';
-import ContentPanel from './ContentPanel';
+import { LoginPanel, ContentPanel } from './components';
 import { UnsolvedFloatButton, UnsolvedLogo } from './style/button.styled';
 import './style/main.css';
 
