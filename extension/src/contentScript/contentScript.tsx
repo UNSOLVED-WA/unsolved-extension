@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { LoginPanel, ContentPanel, UnsolvedHeader } from './components';
 import { UnsolvedFloatButton, UnsolvedLogo } from './style/button.styled';
@@ -7,11 +7,12 @@ import './style/main.css';
 const App: React.FC<{}> = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
+  const panelElement = useRef(null);
 
   const handlePanelOpen = () => setIsClicked(true);
   const handlePanelClose = () => setIsClicked(false);
 
-  chrome.runtime.sendMessage({ message: 'fetchUser' }, (response) => {
+  chrome.runtime.sendMessage({ message: 'fetchUser' }, () => {
     chrome.storage.local.get('solvedUser', (result) => {
       if (result.solvedUser) {
         setIsLogin(true);
@@ -23,33 +24,25 @@ const App: React.FC<{}> = () => {
 
   useEffect(() => {
     function handleOutsideClick({ target }: MouseEvent) {
-      const unsolvedPanel = document.querySelector('.unsolved-float-button');
-      if (
-        isClicked &&
-        unsolvedPanel &&
-        !unsolvedPanel.contains(target as Node)
-      ) {
+      if (panelElement.current && !panelElement.current.contains(target as Node)) {
         setIsClicked(false);
       }
     }
-    window.addEventListener('click', handleOutsideClick);
+    window.addEventListener('click', handleOutsideClick, { capture: true });
     return () => {
-      window.removeEventListener('click', handleOutsideClick);
+      window.removeEventListener('click', handleOutsideClick, { capture: true });
     };
-  }, [isClicked]);
+  }, []);
 
   return (
-    <UnsolvedFloatButton
-      className="unsolved-float-button"
-      isClicked={isClicked}
-    >
+    <UnsolvedFloatButton className="unsolved-float-button" ref={panelElement} isClicked={isClicked}>
       {isClicked ? (
-        <>
+        <div>
           <UnsolvedHeader handlePanelClose={handlePanelClose} />
           {isLogin ? <ContentPanel /> : <LoginPanel />}
-        </>
+        </div>
       ) : (
-        <button onClick={handlePanelOpen}>
+        <button className="buttononon" onClick={handlePanelOpen}>
           <UnsolvedLogo size="medium">wa</UnsolvedLogo>
         </button>
       )}
