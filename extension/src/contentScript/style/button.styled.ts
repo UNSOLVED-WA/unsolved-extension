@@ -72,7 +72,7 @@ const clickedStyle = css`
   }
 `;
 
-export const UnsolvedFloatButton = styled.div<{ isClicked: boolean }>`
+const UnsolvedFloatButton = styled.div<{ isClicked: boolean }>`
   padding: 0px;
   position: fixed;
   background: red;
@@ -103,3 +103,7 @@ export const UnsolvedFloatButton = styled.div<{ isClicked: boolean }>`
 
   ${({ isClicked }) => (isClicked ? clickedStyle : defaultStyle)};
 `;
+
+const Styled = { UnsolvedFloatButton };
+
+export default Styled;
