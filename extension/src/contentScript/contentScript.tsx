@@ -37,10 +37,10 @@ const App: React.FC<{}> = () => {
   return (
     <UnsolvedFloatButton className="unsolved-float-button" ref={panelElement} isClicked={isClicked}>
       {isClicked ? (
-        <div>
+        <>
           <UnsolvedHeader handlePanelClose={handlePanelClose} />
           {isLogin ? <ContentPanel /> : <LoginPanel />}
-        </div>
+        </>
       ) : (
         <button className="buttononon" onClick={handlePanelOpen}>
           <UnsolvedLogo size="medium">wa</UnsolvedLogo>
