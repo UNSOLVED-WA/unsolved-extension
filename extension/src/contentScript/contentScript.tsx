@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { LoginPanel, ContentPanel } from './components';
+import { LoginPanel, ContentPanel, UnsolvedHeader } from './components';
 import { UnsolvedFloatButton, UnsolvedLogo } from './style/button.styled';
 import './style/main.css';
 
@@ -8,17 +8,10 @@ const App: React.FC<{}> = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
 
-  const handleButtonClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.currentTarget.classList.contains('clicked')) {
-      e.currentTarget.classList.remove('clicked');
-      setIsClicked(false);
-    } else {
-      e.currentTarget.classList.add('clicked');
-      setIsClicked(true);
-    }
-  };
+  const handlePanelOpen = () => setIsClicked(true);
+  const handlePanelClose = () => setIsClicked(false);
 
-  chrome.runtime.sendMessage({ message: 'userStatus' }, (response) => {
+  chrome.runtime.sendMessage({ message: 'fetchUser' }, (response) => {
     chrome.storage.local.get('solvedUser', (result) => {
       if (result.solvedUser) {
         setIsLogin(true);
@@ -31,9 +24,12 @@ const App: React.FC<{}> = () => {
   useEffect(() => {
     function handleOutsideClick({ target }: MouseEvent) {
       const unsolvedPanel = document.querySelector('.unsolved-float-button');
-      if (unsolvedPanel && !unsolvedPanel.contains(target as Node)) {
+      if (
+        isClicked &&
+        unsolvedPanel &&
+        !unsolvedPanel.contains(target as Node)
+      ) {
         setIsClicked(false);
-        unsolvedPanel.classList.remove('clicked');
       }
     }
     window.addEventListener('click', handleOutsideClick);
@@ -43,15 +39,46 @@ const App: React.FC<{}> = () => {
   }, [isClicked]);
 
   return (
-    <UnsolvedFloatButton className="unsolved-float-button" onClick={handleButtonClick} isClicked={isClicked}>
-      <UnsolvedLogo size="medium">wa</UnsolvedLogo>
-      {isClicked ?? (isLogin ? <ContentPanel /> : <LoginPanel />)}
+    <UnsolvedFloatButton
+      className="unsolved-float-button"
+      isClicked={isClicked}
+    >
+      {isClicked ? (
+        <>
+          <UnsolvedHeader handlePanelClose={handlePanelClose} />
+          {isLogin ? <ContentPanel /> : <LoginPanel />}
+        </>
+      ) : (
+        <button onClick={handlePanelOpen}>
+          <UnsolvedLogo size="medium">wa</UnsolvedLogo>
+        </button>
+      )}
     </UnsolvedFloatButton>
   );
 };
 
 const root = document.createElement('div');
 root.id = 'unsolved-wa';
-document.body.appendChild(root);
 
-ReactDOM.render(<App />, root);
+function handleHideInjectElement(element: HTMLElement, isHide: boolean) {
+  if (isHide) {
+    element.setAttribute('style', 'display: none');
+  } else {
+    element.setAttribute('style', 'display: block');
+  }
+}
+
+chrome.storage.local.get('hideButton', (data) => {
+  if (data) {
+    handleHideInjectElement(root, data.hideButton);
+
+    document.body.appendChild(root);
+    ReactDOM.render(<App />, root);
+  }
+});
+
+chrome.storage.onChanged.addListener((changes) => {
+  if (changes.hideButton) {
+    handleHideInjectElement(root, changes.hideButton.newValue);
+  }
+});

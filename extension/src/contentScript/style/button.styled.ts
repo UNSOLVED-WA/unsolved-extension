@@ -14,33 +14,6 @@ const scaling = keyframes`
   }
 `;
 
-const setStyle = (isClicked: boolean) => {
-  return isClicked ? clickedStyle : defaultStyle;
-};
-
-export const UnsolvedFloatButton = styled.div<{ isClicked: boolean }>`
-  padding: 0px;
-  background: red;
-  position: fixed;
-  top: 50%;
-  right: -6px;
-  z-index: 9999999;
-
-  border: 0px;
-  transform: translateY(-50%);
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  width: 48px;
-  height: 48px;
-
-  transition: all 0.3s ease-in-out;
-  box-shadow: rgb(0 0 0 / 30%) 0px 12px 60px 5px;
-  ${({ isClicked }) => setStyle(isClicked)}
-`;
-
 const border_pulse = keyframes`
   0% {
     border: 1px solid red;
@@ -97,6 +70,29 @@ const clickedStyle = css`
   &:hover::before {
     display: none;
   }
+`;
+
+export const UnsolvedFloatButton = styled.div<{ isClicked: boolean }>`
+  padding: 0px;
+  background: red;
+  position: fixed;
+  top: 50%;
+  right: -6px;
+  z-index: 9999999;
+
+  border: 0px;
+  transform: translateY(-50%);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 48px;
+  height: 48px;
+
+  transition: all 0.3s ease-in-out;
+  box-shadow: rgb(0 0 0 / 30%) 0px 12px 60px 5px;
+  ${({ isClicked }) => (isClicked ? clickedStyle : defaultStyle)};
 `;
 
 const unwa_logo_medium = css`
