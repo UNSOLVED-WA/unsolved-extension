@@ -6,8 +6,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
   entry: {
     popup: path.resolve('src/popup/popup.tsx'),
-    options: path.resolve('src/options/options.tsx'),
-    background: path.resolve('src/background/background.tsx'),
+    background: path.resolve('src/background/background.ts'),
     contentScript: path.resolve('src/contentScript/contentScript.tsx'),
   },
   module: {
@@ -23,9 +22,9 @@ module.exports = {
       },
       {
         test: /\.(jpg|jpeg|png|woff|woff2|eot|ttf|svg)$/,
-        type: 'asset/resource'
-      }
-    ]
+        type: 'asset/resource',
+      },
+    ],
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
@@ -39,13 +38,10 @@ module.exports = {
         {
           from: path.resolve('src/static'),
           to: path.resolve('dist'),
-        }
-      ]
+        },
+      ],
     }),
-    ...getHtmlPlugins([
-      'popup',
-      'options'
-    ]),
+    ...getHtmlPlugins(['popup']),
   ],
   output: {
     filename: '[name].js',
@@ -54,16 +50,19 @@ module.exports = {
   optimization: {
     splitChunks: {
       chunks(chunk) {
-        return chunk.name !== 'contentScript' && chunk.name !== 'background'
-      }
+        return chunk.name !== 'contentScript' && chunk.name !== 'background';
+      },
     },
-  }
-}
+  },
+};
 
 function getHtmlPlugins(chunks) {
-  return chunks.map(chunk => new HtmlPlugin({
-    title: 'React Extension',
-    filename: `${chunk}.html`,
-    chunks: [chunk],
-  }))
+  return chunks.map(
+    (chunk) =>
+      new HtmlPlugin({
+        title: 'React Extension',
+        filename: `${chunk}.html`,
+        chunks: [chunk],
+      })
+  );
 }
