@@ -38,7 +38,7 @@ const App: React.FC<{}> = () => {
           {isLogin ? <ContentPanel /> : <LoginPanel />}
         </>
       ) : (
-        <button className="buttononon" onClick={handlePanelOpen}>
+        <button onClick={handlePanelOpen}>
           <UnsolvedLogo size="medium" />
         </button>
       )}
