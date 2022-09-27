@@ -74,8 +74,8 @@ const clickedStyle = css`
 
 export const UnsolvedFloatButton = styled.div<{ isClicked: boolean }>`
   padding: 0px;
-  background: red;
   position: fixed;
+  background: red;
   top: 50%;
   right: -6px;
   z-index: 9999999;
@@ -92,6 +92,15 @@ export const UnsolvedFloatButton = styled.div<{ isClicked: boolean }>`
 
   transition: all 0.3s ease-in-out;
   box-shadow: rgb(0 0 0 / 30%) 0px 12px 60px 5px;
+
+  & > button {
+    z-index: 10000000;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: 0px;
+  }
+
   ${({ isClicked }) => (isClicked ? clickedStyle : defaultStyle)};
 `;
 
