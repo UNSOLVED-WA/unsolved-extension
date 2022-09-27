@@ -14,11 +14,7 @@ const App: React.FC<{}> = () => {
 
   chrome.runtime.sendMessage({ message: 'fetchUser' }, () => {
     chrome.storage.local.get('solvedUser', (result) => {
-      if (result.solvedUser) {
-        setIsLogin(true);
-      } else {
-        setIsLogin(false);
-      }
+      setIsLogin(result.solvedUser ? true : false);
     });
   });
 
@@ -54,11 +50,7 @@ const root = document.createElement('div');
 root.id = 'unsolved-wa';
 
 function handleHideInjectElement(element: HTMLElement, isHide: boolean) {
-  if (isHide) {
-    element.setAttribute('style', 'display: none');
-  } else {
-    element.setAttribute('style', 'display: block');
-  }
+  element.style.display = isHide ? 'none' : 'block';
 }
 
 chrome.storage.local.get('hideButton', (data) => {
