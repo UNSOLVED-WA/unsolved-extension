@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import ReactDOM from 'react-dom';
-import { LoginPanel, ContentPanel, UnsolvedHeader } from './components';
-import { UnsolvedFloatButton, UnsolvedLogo } from './style/button.styled';
+import { LoginPanel, ContentPanel, UnsolvedHeader, UnsolvedLogo } from './components';
+import { UnsolvedFloatButton } from './style/button.styled';
 import './style/main.css';
 
 const App: React.FC<{}> = () => {
@@ -39,7 +39,7 @@ const App: React.FC<{}> = () => {
         </>
       ) : (
         <button className="buttononon" onClick={handlePanelOpen}>
-          <UnsolvedLogo size="medium">wa</UnsolvedLogo>
+          <UnsolvedLogo size="medium" />
         </button>
       )}
     </UnsolvedFloatButton>
