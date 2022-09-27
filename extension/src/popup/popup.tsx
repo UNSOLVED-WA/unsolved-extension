@@ -2,7 +2,20 @@ import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 const App: React.FC<{}> = () => {
-  return <div>popup</div>;
+  function handleHideButton() {
+    chrome.runtime.sendMessage({ message: 'hideButton' });
+  }
+
+  function handleUpdateButton() {
+    chrome.runtime.sendMessage({ message: 'fetchUser' }, (response) => {});
+  }
+
+  return (
+    <div>
+      <button onClick={handleHideButton}>hide</button>
+      <button>update</button>
+    </div>
+  );
 };
 
 const root = document.createElement('div');
