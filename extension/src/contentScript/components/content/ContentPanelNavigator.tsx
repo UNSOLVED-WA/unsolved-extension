@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
-import NavigatorContainer from '../style/ContentPanelNavigator.styled';
-import Divider from '../style/Divider.styled';
-import UnsolvedLogo from './UnsolvedLogo';
+import NavigatorContainer from '../../style/ContentPanelNavigator.styled';
+import Divider from '../../style/Divider.styled';
+import UnsolvedLogo from '../UnsolvedLogo';
 
 interface NavigatorProps {
   contents: { text: string; icon: string }[];

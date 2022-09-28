@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import { ContentPanelNavigator } from './content';
 import { fadeIn } from '../style/animation.style';
-import ContentPanelNavigator from './ContentPanelNavigator';
 
 const Container = styled.div`
   width: 100%;
