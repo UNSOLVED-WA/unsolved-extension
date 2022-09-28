@@ -1,15 +1,8 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { fadeIn } from '../style/animation.style';
 
 const Container = styled.div`
-  @keyframes fadein {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
   border-radius: 15px !important;
   width: 100%;
   height: 100%;
@@ -19,7 +12,7 @@ const Container = styled.div`
   background: url('	https://static.solved.ac/site_main_graphic_1.png');
   background-size: center;
   background-position: center;
-  animation: fadein 0.75s ease-in-out forwards;
+  animation: ${fadeIn} 0.75s ease-in-out forwards;
 
   &::before {
     content: '';

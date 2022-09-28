@@ -1,33 +1,6 @@
 import styled from '@emotion/styled';
-import { LogoSize } from '../types/types';
-import { css, keyframes } from '@emotion/react';
-
-const scaling = keyframes`
-  0% {
-    transform: translateY(-50%) scale(1);
-  }
-  50% {
-    transform: translateY(-50%) scale(1.05);
-  }
-  100% {
-    transform: translateY(-50%) scale(1);
-  }
-`;
-
-const border_pulse = keyframes`
-  0% {
-    border: 1px solid red;
-    border-radius: 50%;
-    opacity: 1;
-  }
-  100% {
-    border: 1px solid red;
-    border-radius: 50%;
-    width: 68px;
-    height: 68px;
-    opacity: 0;
-  }
-`;
+import { css } from '@emotion/react';
+import { scaling, border_pulse } from './animation.style';
 
 const defaultStyle = css`
   border-radius: 50% !important;
@@ -52,6 +25,9 @@ const defaultStyle = css`
 `;
 
 const clickedStyle = css`
+  border-radius: 15px !important;
+  cursor: default;
+
   background-color: rgba(255, 255, 255, 0);
   backdrop-filter: blur(60px);
 
@@ -59,9 +35,8 @@ const clickedStyle = css`
 
   width: 350px;
   height: 500px;
-  border-radius: 15px !important;
+
   animation: ${scaling} 0.3s ease-in-out 0.25s forwards;
-  cursor: default;
 
   &:hover {
     transform: translateY(-50%) scale(1);
