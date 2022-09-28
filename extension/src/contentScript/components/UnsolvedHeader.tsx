@@ -7,6 +7,8 @@ const Container = styled.div`
   top: 0;
   right: 0;
 
+  z-index: 10000001;
+
   cursor: pointer;
 `;
 

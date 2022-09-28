@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { ContentPanelNavigator } from './content';
+import { ContentPanelNavigator, ContentPanelHeader } from './content';
 import { fadeIn } from '../style/animation.style';
 
 const Container = styled.div`
@@ -13,6 +13,9 @@ const Container = styled.div`
   animation: ${fadeIn} 0.75s ease-in-out forwards;
 
   overflow: scroll;
+  .panelBody {
+    padding-top: 40px;
+  }
 `;
 
 const ContentPanel = () => {
@@ -27,13 +30,16 @@ const ContentPanel = () => {
 
   return (
     <Container>
+      <ContentPanelHeader title={contents[selectedIndex].text} />
       <ContentPanelNavigator contents={contents} handleSelectedIndex={handleSelectedIndex} />
-      {
+      <div className="panelBody">
         {
-          0: <div>profile</div>,
-          1: <div>rank</div>,
-        }[selectedIndex]
-      }
+          {
+            0: <div>profile</div>,
+            1: <div>rank</div>,
+          }[selectedIndex]
+        }
+      </div>
     </Container>
   );
 };

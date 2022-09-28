@@ -4,7 +4,6 @@ import { scaling, border_pulse } from './animation.style';
 
 const defaultStyle = css`
   border-radius: 50% !important;
-  cursor: pointer;
 
   &&:hover {
     transform-origin: 50% 50%;
@@ -69,6 +68,7 @@ const UnsolvedFloatButton = styled.div<{ isClicked: boolean }>`
   box-shadow: rgb(0 0 0 / 30%) 0px 12px 60px 5px;
 
   & > button {
+    cursor: pointer;
     z-index: 10000000;
     width: 100%;
     height: 100%;
