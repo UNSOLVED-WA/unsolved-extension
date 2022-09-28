@@ -1,37 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
+import styled from '@emotion/styled';
+import { fadeIn } from '../style/animation.style';
+import ContentPanelNavigator from './ContentPanelNavigator';
 
-const menuItem = [
-  { logo: 'pl', text: '내 정보' },
-  { logo: 'rl', text: '랭킹보기' },
-  { logo: 'sl', text: '문제추천' },
-];
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+
+  padding-left: 60px;
+
+  animation: ${fadeIn} 0.75s ease-in-out forwards;
+
+  overflow: scroll;
+`;
 
 const ContentPanel = () => {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const contents = [
+    { text: '내 정보', icon: 'pl' },
+    { text: '랭킹보기', icon: 'rl' },
+    { text: '문제추천', icon: 'sl' },
+  ];
+
+  const handleSelectedIndex = (index: number) => setSelectedIndex(index);
+
   return (
-    <div>
-      <div>Header</div>
-      <div>Content</div>
-      <div>
-        <div>
-          <span>logo</span>
-          <span>hr</span>
-          {menuItem.map((item, index) => (
-            <div key={item.logo + index}>
-              <span>{item.logo}</span>
-            </div>
-          ))}
-        </div>
-        <div>
-          <span>logo</span>
-          <span>hr</span>
-          {menuItem.map((item, index) => (
-            <div key={item.text + index}>
-              <span>{item.text}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+    <Container>
+      <ContentPanelNavigator contents={contents} handleSelectedIndex={handleSelectedIndex} />
+      {
+        {
+          0: <div>profile</div>,
+          1: <div>rank</div>,
+        }[selectedIndex]
+      }
+    </Container>
   );
 };
 
