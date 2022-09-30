@@ -15,7 +15,7 @@ const NavigatorContainer = styled.div`
   background: #2196f3; /* fallback for old browsers */
   background: linear-gradient(
     to top,
-    #f47419,
+    #ff000077,
     #f44336,
     #ff0000
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
