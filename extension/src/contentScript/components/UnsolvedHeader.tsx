@@ -1,6 +1,7 @@
 import React from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import styled from '@emotion/styled';
+import { fadeIn } from '../style/animation.style';
 
 const Container = styled.div`
   position: absolute;
@@ -10,6 +11,8 @@ const Container = styled.div`
   z-index: 10000001;
 
   cursor: pointer;
+
+  animation: ${fadeIn} 0.75s ease-in-out forwards;
 `;
 
 type Props = {
