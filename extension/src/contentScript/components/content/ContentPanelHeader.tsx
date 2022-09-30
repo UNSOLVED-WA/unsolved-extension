@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { ScrollDirection } from '../../types/types';
 
-const Container = styled.div`
+const Container = styled.div<{ scrollDirection: ScrollDirection }>`
   position: absolute;
   width: 100%;
   height: 44px;
@@ -23,16 +24,35 @@ const Container = styled.div`
     margin: 0px;
     margin-left: 15px;
     font-size: 20px;
+    transition: all 0.3s ease-in-out;
+    /* background-color: rgba(255, 255, 255, 0.5); */
+    ${({ scrollDirection }) => {
+      if (scrollDirection === 'down') {
+        return ``;
+      } else {
+        return `
+        background: #ff7373bf;
+        color: #ffffff;
+        transform: translateY(-200%);
+        top: -20px;
+        padding: 5px 10px;
+        backdrop-filter: blur(60px);
+        border-radius: 15px;
+        font-size: 12px;
+      `;
+      }
+    }}
   }
 `;
 
 interface Props {
   title: string;
+  scrollDirection: ScrollDirection;
 }
 
-const ContentPanelHeader = ({ title }: Props) => {
+const ContentPanelHeader = ({ title, scrollDirection }: Props) => {
   return (
-    <Container>
+    <Container scrollDirection={scrollDirection}>
       <h1>{title}</h1>
     </Container>
   );

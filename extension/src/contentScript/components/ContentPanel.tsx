@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { ContentPanelNavigator, ContentPanelHeader, ContentPanelBody } from './content';
 import { fadeIn } from '../style/animation.style';
 import { throttle } from 'lodash';
+import { ScrollDirection } from '../types/types';
 
 const Container = styled.div`
   width: 100%;
@@ -22,6 +23,7 @@ const Container = styled.div`
 
 const ContentPanel = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [scrollDirection, setScrollDirection] = useState<ScrollDirection>('down');
   const containerElementRef = useRef(null);
 
   const contents = [
@@ -38,9 +40,9 @@ const ContentPanel = () => {
     function handleScroll() {
       const scrollTop = containerElement.scrollTop;
       if (scrollTop > lastScrollTop) {
-        console.log('down');
+        setScrollDirection('up');
       } else {
-        console.log('up');
+        setScrollDirection('down');
       }
       lastScrollTop = scrollTop;
     }
@@ -52,7 +54,7 @@ const ContentPanel = () => {
 
   return (
     <Container ref={containerElementRef}>
-      <ContentPanelHeader title={contents[selectedIndex].text} />
+      <ContentPanelHeader title={contents[selectedIndex].text} scrollDirection={scrollDirection} />
       <ContentPanelNavigator contents={contents} handleSelectedIndex={handleSelectedIndex} />
       <ContentPanelBody selectedIndex={selectedIndex} />
     </Container>
