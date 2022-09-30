@@ -2,8 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import UnsolvedFloatButton from './UnsolvedFloatButton';
 import './style/main.css';
+import { CssVarsProvider } from '@mui/joy/styles';
 
-const App: React.FC<{}> = () => <UnsolvedFloatButton />;
+const App: React.FC<{}> = () => (
+  <CssVarsProvider>
+    <UnsolvedFloatButton />
+  </CssVarsProvider>
+);
 
 const root = document.createElement('div');
 root.id = 'unsolved-wa';

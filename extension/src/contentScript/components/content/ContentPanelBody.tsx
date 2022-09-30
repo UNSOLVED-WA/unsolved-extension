@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
-import CircularProgress from '@mui/joy/CircularProgress';
+import { CircularProgress } from '@mui/joy';
 import { ContentBox } from '../../common';
 
 const Container = styled.div`
@@ -52,7 +52,7 @@ const ContentPanelBody = ({ selectedIndex }) => {
                 <div>hi3</div>
               </ContentBox>
               {svgHTML == '' ? (
-                <CircularProgress color="danger" size="md" />
+                <CircularProgress color="danger" size="sm" />
               ) : (
                 <div ref={svgRef} dangerouslySetInnerHTML={{ __html: svgHTML }} />
               )}
