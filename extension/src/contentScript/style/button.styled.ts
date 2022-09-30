@@ -65,7 +65,7 @@ const UnsolvedFloatButton = styled.div<{ isClicked: boolean }>`
   height: 48px;
 
   transition: all 0.3s ease-in-out;
-  box-shadow: rgb(0 0 0 / 30%) 0px 12px 60px 5px;
+  box-shadow: rgb(0 0 0 / 30%) 0px 0px 30px 0px;
 
   & > button {
     cursor: pointer;
