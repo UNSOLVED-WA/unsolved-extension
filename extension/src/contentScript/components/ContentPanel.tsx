@@ -34,18 +34,19 @@ const ContentPanel = () => {
 
   useEffect(() => {
     let lastScrollTop = 0;
-    const handleScroll = () => {
-      const scrollTop = containerElementRef.current.scrollTop;
+    const containerElement = containerElementRef.current;
+    function handleScroll() {
+      const scrollTop = containerElement.scrollTop;
       if (scrollTop > lastScrollTop) {
         console.log('down');
       } else {
         console.log('up');
       }
       lastScrollTop = scrollTop;
-    };
-    containerElementRef.current.addEventListener('scroll', throttle(handleScroll, 100));
+    }
+    containerElement.addEventListener('scroll', throttle(handleScroll, 100));
     return () => {
-      containerElementRef.current.removeEventListener('scroll', throttle(handleScroll, 100));
+      containerElement.removeEventListener('scroll', throttle(handleScroll, 100));
     };
   }, []);
 
