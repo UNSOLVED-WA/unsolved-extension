@@ -8,6 +8,8 @@ const Container = styled.div`
   top: 10px;
   right: 10px;
 
+  width: 24px;
+  height: 24px;
   z-index: 10000001;
 
   cursor: pointer;
@@ -22,7 +24,7 @@ type Props = {
 const UnsolvedHeader = ({ handlePanelClose }: Props) => {
   return (
     <Container onClick={handlePanelClose}>
-      <CloseIcon />
+      <CloseIcon sx={{ width: '100%', height: '100%' }} />
     </Container>
   );
 };
