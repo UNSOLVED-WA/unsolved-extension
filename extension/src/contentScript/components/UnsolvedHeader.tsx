@@ -4,8 +4,8 @@ import styled from '@emotion/styled';
 
 const Container = styled.div`
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 10px;
+  right: 10px;
 
   z-index: 10000001;
 
