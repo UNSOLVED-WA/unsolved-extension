@@ -22,7 +22,7 @@ const Container = styled.div`
   .panel-body {
     width: 100%;
     height: 100%;
-    padding-top: 40px;
+    padding-top: 44px;
     gap: 10px;
 
     .panel-contents {

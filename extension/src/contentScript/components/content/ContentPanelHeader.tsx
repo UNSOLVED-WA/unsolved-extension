@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 const Container = styled.div`
   position: absolute;
   width: 100%;
-  height: 40px;
+  height: 44px;
 
   display: flex;
   justify-content: start;
