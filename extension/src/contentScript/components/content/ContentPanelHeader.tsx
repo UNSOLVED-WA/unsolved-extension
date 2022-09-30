@@ -11,6 +11,7 @@ const Container = styled.div`
   align-items: center;
 
   left: 0px;
+  padding-top: 10px;
   padding-left: 60px;
   border-radius: 15px 15px 0 0 !important;
 
