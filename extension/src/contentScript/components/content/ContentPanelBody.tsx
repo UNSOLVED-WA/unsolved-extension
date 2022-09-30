@@ -31,7 +31,7 @@ const ContentPanelBody = ({ selectedIndex }) => {
         svgRef.current.lastElementChild.setAttribute('viewBox', '0 0 350 170');
       }
     });
-  }, []);
+  }, [selectedIndex]);
 
   return (
     <Container>
