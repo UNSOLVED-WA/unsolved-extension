@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
-import { ContentPanelNavigator, ContentPanelHeader } from './content';
+import { ContentPanelNavigator, ContentPanelHeader, ContentPanelFooter } from './content';
 import { fadeIn } from '../style/animation.style';
+import { throttle } from 'lodash';
 import { ContentBox } from '../common';
-import Divider from '../style/Divider.styled';
 
 const Container = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
+  flex-direction: column;
 
   padding-left: 60px;
 
@@ -36,6 +37,10 @@ const Container = styled.div`
 
 const ContentPanel = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [svgHTML, setSvgHTML] = useState('');
+  const containerElementRef = useRef(null);
+  const svgRef = useRef(null);
+
   const contents = [
     { text: '내 정보', icon: 'pl' },
     { text: '랭킹보기', icon: 'rl' },
@@ -44,8 +49,38 @@ const ContentPanel = () => {
 
   const handleSelectedIndex = (index: number) => setSelectedIndex(index);
 
+  useEffect(() => {
+    let lastScrollTop = 0;
+    const handleScroll = () => {
+      const scrollTop = containerElementRef.current.scrollTop;
+      if (scrollTop > lastScrollTop) {
+        console.log('down');
+      } else {
+        console.log('up');
+      }
+      lastScrollTop = scrollTop;
+    };
+    containerElementRef.current.addEventListener('scroll', throttle(handleScroll, 100));
+    return () => {
+      containerElementRef.current.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  // 프로필뷰로 분리 예정
+
+  useEffect(() => {
+    chrome.runtime.sendMessage({ message: 'fetchBadge' }, (response) => {
+      setSvgHTML(response.message);
+      if (svgRef.current) {
+        svgRef.current.lastElementChild.setAttribute('width', '270');
+        svgRef.current.lastElementChild.setAttribute('height', '135');
+        svgRef.current.lastElementChild.setAttribute('viewBox', '0 0 350 170');
+      }
+    });
+  }, []);
+
   return (
-    <Container>
+    <Container ref={containerElementRef}>
       <ContentPanelHeader title={contents[selectedIndex].text} />
       <ContentPanelNavigator contents={contents} handleSelectedIndex={handleSelectedIndex} />
       <div className="panel-body">
@@ -63,14 +98,9 @@ const ContentPanel = () => {
                   <div>hi3</div>
                 </ContentBox>
                 <ContentBox>
-                  <div>hi4</div>
+                  <div>hi3</div>
                 </ContentBox>
-                <ContentBox>
-                  <div>hi4</div>
-                </ContentBox>
-                <ContentBox>
-                  <div>hi4</div>
-                </ContentBox>
+                <div ref={svgRef} dangerouslySetInnerHTML={{ __html: svgHTML }} />
               </div>
             ),
             1: (
