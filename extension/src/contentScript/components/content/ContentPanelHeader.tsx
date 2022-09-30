@@ -37,7 +37,7 @@ const Container = styled.div<{ scrollDirection: ScrollDirection }>`
         top: -20px;
         padding: 5px 10px;
         backdrop-filter: blur(60px);
-        border-radius: 15px;
+        border-radius: 15px !important;
         font-size: 12px;
       `;
       }
