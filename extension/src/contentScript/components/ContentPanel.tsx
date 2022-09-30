@@ -73,7 +73,20 @@ const ContentPanel = () => {
                 </ContentBox>
               </div>
             ),
-            1: <div>rank</div>,
+            1: (
+              <div className="panel-contents">
+                <ContentBox>
+                  <div>hi</div>
+                </ContentBox>
+              </div>
+            ),
+            2: (
+              <div className="panel-contents">
+                <ContentBox>
+                  <div>hi</div>
+                </ContentBox>
+              </div>
+            ),
           }[selectedIndex]
         }
       </div>
