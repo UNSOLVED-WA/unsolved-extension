@@ -47,16 +47,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       sendResponse({ message: 'success' });
       break;
     case 'hideButton':
-      const opt = {
-        type: 'basic',
-        title: 'Unsolved.WA',
-        message: '문제풀 시간입니다.',
-        iconUrl:
-          'https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png',
-      };
-      chrome.notifications.create('helloworld', opt, (data) => {
-        console.log(data);
-      });
       chrome.storage.local.get('hideButton', (data) => {
         chrome.storage.local.set({ hideButton: !data.hideButton });
       });
