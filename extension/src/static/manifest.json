@@ -24,6 +24,12 @@
     "128": "black-cat.png"
   },
   "content_scripts": [
-    { "matches": ["<all_urls>"], "js": ["contentScript.js"], "exclude_matches": [], "run_at": "document_idle" }
+    { "matches": ["<all_urls>"], "js": ["contentScript.js"], "exclude_matches": [], "run_at": "document_idle" },
+    {
+      "matches": ["https://www.acmicpc.net/*"],
+      "js": ["solvedTest.js"],
+      "exclude_matches": [],
+      "run_at": "document_idle"
+    }
   ]
 }

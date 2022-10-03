@@ -19,9 +19,7 @@ function fetchUser(sendResponse) {
 }
 
 async function fetchBadge() {
-  const res = await fetch(
-    'https://mazassumnida.wtf/api/generate_badge?boj=rkskekzzz'
-  );
+  const res = await fetch('https://mazassumnida.wtf/api/generate_badge?boj=rkskekzzz');
   if (res.status >= 400) {
     let badgePromise = new Promise((resolve, _) => {
       chrome.storage.local.get('badge', (data) => {
@@ -49,6 +47,16 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       sendResponse({ message: 'success' });
       break;
     case 'hideButton':
+      const opt = {
+        type: 'basic',
+        title: 'Unsolved.WA',
+        message: '문제풀 시간입니다.',
+        iconUrl:
+          'https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png',
+      };
+      chrome.notifications.create('helloworld', opt, (data) => {
+        console.log(data);
+      });
       chrome.storage.local.get('hideButton', (data) => {
         chrome.storage.local.set({ hideButton: !data.hideButton });
       });
@@ -57,9 +65,19 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         sendResponse({ message: data });
       });
       return true;
+    case 'submit':
+      chrome.storage.local.get('submit', (data) => {
+        if (data.submit !== '') {
+          chrome.storage.local.set({ submit: '' });
+          sendResponse({ message: 'success' });
+        } else {
+          sendResponse({ message: 'fail' });
+        }
+      });
+      return true;
   }
 });
 
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.local.set({ hideButton: false });
+  chrome.storage.local.set({ hideButton: false, submit: '' });
 });
