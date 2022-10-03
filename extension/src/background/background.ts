@@ -65,6 +65,15 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         }
       });
       return true;
+    case 'sendNotification':
+      const option = {
+        type: 'basic',
+        title: 'Unsolved.WA',
+        message: '문제풀 시간입니다.',
+        iconUrl:
+          'https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png',
+      };
+      chrome.notifications.create('helloworld', option);
   }
 });
 

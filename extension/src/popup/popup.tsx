@@ -6,14 +6,14 @@ const App: React.FC<{}> = () => {
     chrome.runtime.sendMessage({ message: 'hideButton' });
   }
 
-  function handleUpdateButton() {
-    chrome.runtime.sendMessage({ message: 'fetchUser' }, (response) => {});
+  function handleUNotificationButton() {
+    chrome.runtime.sendMessage({ message: 'sendNotification' });
   }
 
   return (
     <div>
       <button onClick={handleHideButton}>hide</button>
-      <button>update</button>
+      <button onClick={handleUNotificationButton}>noti</button>
     </div>
   );
 };
