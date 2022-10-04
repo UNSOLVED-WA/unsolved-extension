@@ -1,4 +1,4 @@
-import { Request, SendResponse } from './types';
+import { Request, SendResponse } from './messageTypes';
 
 function fetchUser(sendResponse: SendResponse) {
   fetch('https://solved.ac/api/v3/account/verify_credentials')
@@ -16,7 +16,7 @@ function fetchBadge(sendResponse: SendResponse) {
   fetch('https://mazassumnida.wtf/api/generate_badge?boj=rkskekzzz')
     .then((response) => {
       if (response.status >= 400) {
-        return new Promise((resolve, _) => {
+        return new Promise<string>((resolve, _) => {
           chrome.storage.local.get('badge', (data) => {
             resolve(data.badge);
           });
@@ -27,7 +27,7 @@ function fetchBadge(sendResponse: SendResponse) {
     })
     .then((badgeElement) => {
       chrome.storage.local.set({ badge: badgeElement });
-      sendResponse({ message: badgeElement });
+      sendResponse({ message: 'success', data: badgeElement });
     });
 }
 

@@ -24,7 +24,7 @@ const ContentPanelBody = ({ selectedIndex }) => {
   // 프로필뷰로 분리 예정
   useEffect(() => {
     chrome.runtime.sendMessage({ message: 'fetchBadge' }, (response) => {
-      setSvgHTML(response.message);
+      setSvgHTML(response.data);
       if (svgRef.current) {
         svgRef.current.lastElementChild.setAttribute('width', '270');
         svgRef.current.lastElementChild.setAttribute('height', '135');
