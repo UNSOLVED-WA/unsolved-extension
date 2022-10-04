@@ -1,4 +1,6 @@
-function fetchUser(sendResponse) {
+import { Request, SendResponse } from './types';
+
+function fetchUser(sendResponse: SendResponse) {
   fetch('https://solved.ac/api/v3/account/verify_credentials')
     .then((response) => (response.status === 200 ? response.json() : Promise.reject(new Error('Not logged in'))))
     .then((data) => {
@@ -10,7 +12,7 @@ function fetchUser(sendResponse) {
     });
 }
 
-function fetchBadge(sendResponse) {
+function fetchBadge(sendResponse: SendResponse) {
   fetch('https://mazassumnida.wtf/api/generate_badge?boj=rkskekzzz')
     .then((response) => {
       if (response.status >= 400) {
@@ -29,7 +31,7 @@ function fetchBadge(sendResponse) {
     });
 }
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((request: Request, _, sendResponse: SendResponse) => {
   switch (request.message) {
     case 'fetchUser':
       fetchUser(sendResponse);
