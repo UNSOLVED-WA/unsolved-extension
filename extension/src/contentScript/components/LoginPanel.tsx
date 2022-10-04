@@ -60,11 +60,9 @@ const Container = styled.div`
 `;
 
 const LoginPanel = () => {
-  const handleLoginButtonClick = () => {
-    chrome.runtime.sendMessage({ message: 'toLogin' }, (response) => {
-      console.log(response);
-    });
-  };
+  function handleLoginButtonClick() {
+    chrome.runtime.sendMessage({ message: 'toLogin' });
+  }
   return (
     <Container>
       <button onClick={handleLoginButtonClick}>

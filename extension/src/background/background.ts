@@ -1,59 +1,41 @@
 function fetchUser(sendResponse) {
   fetch('https://solved.ac/api/v3/account/verify_credentials')
-    .then((response) => {
-      if (response.status === 200) {
-        return response.json();
-      } else {
-        return Promise.reject(response);
-      }
-    })
+    .then((response) => (response.status === 200 ? response.json() : Promise.reject(new Error('Not logged in'))))
     .then((data) => {
       chrome.storage.local.set({ solvedUser: data });
-    })
-    .then(() => {
       sendResponse({ message: 'success' });
     })
-    .catch((error) => {
-      console.log(error);
+    .catch(() => {
+      sendResponse({ message: 'fail' });
     });
 }
 
-async function fetchBadge() {
-  const res = await fetch('https://mazassumnida.wtf/api/generate_badge?boj=rkskekzzz');
-  if (res.status >= 400) {
-    let badgePromise = new Promise((resolve, _) => {
-      chrome.storage.local.get('badge', (data) => {
-        resolve(data.badge);
-      });
+function fetchBadge(sendResponse) {
+  fetch('https://mazassumnida.wtf/api/generate_badge?boj=rkskekzzz')
+    .then((response) => {
+      if (response.status >= 400) {
+        return new Promise((resolve, _) => {
+          chrome.storage.local.get('badge', (data) => {
+            resolve(data.badge);
+          });
+        });
+      } else {
+        return response.text();
+      }
+    })
+    .then((badgeElement) => {
+      chrome.storage.local.set({ badge: badgeElement });
+      sendResponse({ message: badgeElement });
     });
-    return await badgePromise;
-  } else {
-    const data = await res.text();
-    chrome.storage.local.set({ badge: data });
-    return data;
-  }
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   switch (request.message) {
     case 'fetchUser':
       fetchUser(sendResponse);
-      sendResponse({ message: 'success' });
-      break;
-    case 'toLogin':
-      chrome.tabs.create({
-        url: 'https://solved.ac/',
-      });
-      sendResponse({ message: 'success' });
-      break;
-    case 'hideButton':
-      chrome.storage.local.get('hideButton', (data) => {
-        chrome.storage.local.set({ hideButton: !data.hideButton });
-      });
+      return true;
     case 'fetchBadge':
-      fetchBadge().then((data) => {
-        sendResponse({ message: data });
-      });
+      fetchBadge(sendResponse);
       return true;
     case 'submit':
       chrome.storage.local.get('submit', (data) => {
@@ -65,6 +47,15 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         }
       });
       return true;
+    case 'toLogin':
+      chrome.tabs.create({
+        url: 'https://solved.ac/',
+      });
+      break;
+    case 'hideButton':
+      chrome.storage.local.get('hideButton', (data) => {
+        chrome.storage.local.set({ hideButton: !data.hideButton });
+      });
     case 'sendNotification':
       const option = {
         type: 'basic',
