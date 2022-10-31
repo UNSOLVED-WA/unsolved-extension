@@ -26,10 +26,17 @@ chrome://extensions
 ## 디렉토리 구조
 
 ```shell
-contentScripts
-ㄴ manifest.json  # extension base options
-ㄴ background.js  # service worker logic
-ㄴ popup.js       # extension process
-ㄴ popup.html     # popup html doc
-ㄴ style.css      # popup style sheet
+unsolved-extention
+├── README.md
+├── asset
+├── extension
+│   ├── dist                  # build file for Load
+│   └── src
+│   │   ├── background        # background script
+│   │   ├── contentScript     # conteent script(for injection)
+│   │   ├── popup             # action script
+│   │   ├── static            # manifest.json & images
+│   │   ├── test              # experimental function
+│   │   └── utils             # common utility functions
+└── lagacy_with_vanilla_js
 ```
