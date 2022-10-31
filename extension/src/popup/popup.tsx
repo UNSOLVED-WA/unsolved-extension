@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
+// TODO : contentscript가 동작할 domain 추가, 삭제 기능 필요
 const App: React.FC<{}> = () => {
   function handleHideButton() {
     chrome.runtime.sendMessage({ message: 'hideButton' });

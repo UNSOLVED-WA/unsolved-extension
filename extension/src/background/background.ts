@@ -31,6 +31,7 @@ function fetchBadge(sendResponse: SendResponse) {
     });
 }
 
+// TODO : case를 비동기와 동기로 나누기( 비동기는 return true가 필요함 )
 chrome.runtime.onMessage.addListener((request: Request, _, sendResponse: SendResponse) => {
   switch (request.message) {
     case 'fetchUser':

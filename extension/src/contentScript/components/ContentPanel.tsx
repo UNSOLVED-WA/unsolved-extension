@@ -26,6 +26,7 @@ const ContentPanel = () => {
   const [scrollDirection, setScrollDirection] = useState<ScrollDirection>('down');
   const containerElementRef = useRef(null);
 
+  // TODO : icon을 string에서 svg로 변경
   const contents = [
     { text: '내 정보', icon: 'pl' },
     { text: '랭킹보기', icon: 'rl' },
@@ -36,6 +37,7 @@ const ContentPanel = () => {
 
   useEffect(() => {
     let lastScrollTop = 0;
+    // TODO : containerElementRef.current가 null일 경우에 대한 예외처리
     const containerElement = containerElementRef.current;
     function handleScroll() {
       const scrollTop = containerElement.scrollTop;
