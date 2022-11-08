@@ -1,10 +1,4 @@
-export type AllRankingResponse = {
-  teamName: string;
-  bojId: string;
-  score: number;
-};
-
-export type MonthRankingResponse = {
+export type Ranking = {
   teamName: string;
   bojId: string;
   score: number;
