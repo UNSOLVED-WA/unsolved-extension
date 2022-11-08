@@ -1,4 +1,5 @@
 import { Request, SendResponse } from './messageTypes';
+import { SolvedUser } from '../@types/User';
 
 function fetchUser(sendResponse: SendResponse) {
   fetch('https://solved.ac/api/v3/account/verify_credentials')

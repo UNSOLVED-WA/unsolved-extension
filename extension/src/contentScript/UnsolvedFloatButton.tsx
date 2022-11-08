@@ -11,11 +11,15 @@ const UnsolvedFloatButton = () => {
   const handlePanelClose = () => setIsClicked(false);
 
   // TODO : 로그인 상태 확인 로직 호출 시점 점검 필요( 현재는 페이지 로드 시점에 호출 )
-  chrome.runtime.sendMessage({ message: 'fetchUser' }, () => {
-    chrome.storage.local.get('solvedUser', (result) => {
-      setIsLogin(result.solvedUser ? true : false);
+  useEffect(() => {
+    chrome.runtime.sendMessage({ message: 'fetchUser' }, (response) => {
+      if (response.message === 'success') {
+        chrome.storage.local.get('solvedUser', (result) => {
+          setIsLogin(!!result.solvedUser);
+        });
+      }
     });
-  });
+  }, []);
 
   useEffect(() => {
     function handleOutsideClick({ target }: MouseEvent) {
