@@ -1,9 +1,9 @@
-export type SolvingProblemRequestDto = {
+export type SolvingProblemRequest = {
   userId: number;
   problemNumber: number;
 };
 
-export type SolvingProblemResponseDto = {
+export type SolvingProblemResponse = {
   problemId: number;
   tier: number;
   problemTitle: string;
