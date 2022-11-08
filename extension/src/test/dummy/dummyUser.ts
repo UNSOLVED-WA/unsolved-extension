@@ -1,4 +1,4 @@
-import { SolvedUser } from '../../@types/User';
+import { SolvedUser } from '../../@types/SolvedUser';
 
 export const dummyUser: SolvedUser = {
   emoticons: [
