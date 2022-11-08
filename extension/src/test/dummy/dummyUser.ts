@@ -1,6 +1,13 @@
 import { SolvedUser } from '../../@types/SolvedUser';
+import { UnsolvedUser } from '../../@types/UnsolvedUser';
 
-export const dummyUser: SolvedUser = {
+export const dummyUnsolvedUser: UnsolvedUser = {
+  id: 1,
+  bojId: 'rkskekzzz',
+  solvingCount: 0,
+};
+
+export const dummySolvedUser: SolvedUser = {
   emoticons: [
     {
       displayName: '망?했네?',
