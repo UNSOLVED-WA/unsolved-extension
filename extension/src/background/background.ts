@@ -1,4 +1,6 @@
 import { Request, SendResponse } from './messageTypes';
+import { SolvedUser } from '../@types/SolvedUser';
+import API from '../api/api';
 
 function fetchUser(sendResponse: SendResponse) {
   fetch('https://solved.ac/api/v3/account/verify_credentials')
@@ -74,3 +76,17 @@ chrome.runtime.onMessage.addListener((request: Request, _, sendResponse: SendRes
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.local.set({ hideButton: false, submit: '' });
 });
+
+// async function test() {
+//   const testUser = await API.UserService.getUnsolvedUsers('rkskekzzz');
+//   const testUpdate = await API.ProblemService.updateUnsolvedProblems(1, 1);
+//   const testProblem = await API.ProblemService.getUnsolvedProblems('42seoul', 'gold');
+//   const testAllRank = await API.RankingService.getAllRanking('42seoul');
+//   const testMonthRank = await API.RankingService.getMonthRanking('42seoul');
+
+//   console.log(testUser);
+//   console.log(testUpdate);
+//   console.log(testProblem);
+//   console.log(testAllRank);
+//   console.log(testMonthRank);
+// }
