@@ -43,7 +43,7 @@ export type Settings = {};
 
 export type User = {
   background: Background;
-  badge?: any;
+  badge?: string;
   bio: string;
   class: number;
   classDecoration: string;
@@ -51,11 +51,11 @@ export type User = {
   email: string;
   exp: number;
   handle: string;
-  joinedAt: String;
+  joinedAt: string;
   maxStreak: number;
   organizations: Organization[];
-  proUntil?: any;
-  profileImageUrl?: any;
+  proUntil?: string;
+  profileImageUrl?: string;
   rating: number;
   ratingByClass: number;
   ratingByProblemsSum: number;
