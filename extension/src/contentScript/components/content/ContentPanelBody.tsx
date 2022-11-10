@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
-import styled from '@emotion/styled';
-import { CircularProgress } from '@mui/joy';
-import { ContentBox } from '../../common';
+import React, { useState, useEffect, useRef } from "react";
+import styled from "@emotion/styled";
+import { CircularProgress } from "@mui/joy";
+import { ContentBox } from "../../common";
 
 const Container = styled.div`
   width: 100%;
@@ -19,19 +19,25 @@ const Container = styled.div`
 `;
 
 const ContentPanelBody = ({ selectedIndex }) => {
-  const [svgHTML, setSvgHTML] = useState('');
+  const [svgHTML, setSvgHTML] = useState("");
   const svgRef = useRef(null);
 
   // 프로필뷰로 분리 예정
   useEffect(() => {
-    chrome.runtime.sendMessage({ message: 'fetchBadge' }, (response) => {
-      setSvgHTML(response.data);
-      if (svgRef.current) {
-        svgRef.current.lastElementChild.setAttribute('width', '270');
-        svgRef.current.lastElementChild.setAttribute('height', '135');
-        svgRef.current.lastElementChild.setAttribute('viewBox', '0 0 350 170');
+    chrome.runtime.sendMessage(
+      { message: "fetchBadge", type: "async" },
+      (response) => {
+        setSvgHTML(response.data);
+        if (svgRef.current) {
+          svgRef.current.lastElementChild.setAttribute("width", "270");
+          svgRef.current.lastElementChild.setAttribute("height", "135");
+          svgRef.current.lastElementChild.setAttribute(
+            "viewBox",
+            "0 0 350 170"
+          );
+        }
       }
-    });
+    );
   }, [selectedIndex]);
 
   return (
@@ -52,10 +58,13 @@ const ContentPanelBody = ({ selectedIndex }) => {
               <ContentBox>
                 <div>hi3</div>
               </ContentBox>
-              {svgHTML == '' ? (
+              {svgHTML == "" ? (
                 <CircularProgress color="danger" size="sm" />
               ) : (
-                <div ref={svgRef} dangerouslySetInnerHTML={{ __html: svgHTML }} />
+                <div
+                  ref={svgRef}
+                  dangerouslySetInnerHTML={{ __html: svgHTML }}
+                />
               )}
             </div>
           ),
