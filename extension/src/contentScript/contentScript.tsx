@@ -4,7 +4,7 @@ import UnsolvedFloatButton from './UnsolvedFloatButton';
 import './style/main.css';
 import { CssVarsProvider } from '@mui/joy/styles';
 
-const App: React.FC<{}> = () => (
+const App = () => (
   <CssVarsProvider>
     <UnsolvedFloatButton />
   </CssVarsProvider>

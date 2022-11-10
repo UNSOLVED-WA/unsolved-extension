@@ -34,7 +34,7 @@ function fetchBadge(sendResponse: SendResponse, bojId: string) {
     });
 }
 
-function asyncRequest(request: Request, sendResponse: SendResponse): Boolean {
+function asyncRequest(request: Request, sendResponse: SendResponse): boolean {
   switch (request.message) {
     case 'fetchUser':
       fetchUser(sendResponse);
@@ -69,13 +69,12 @@ function syncRequest(request: Request) {
       });
       break;
     case 'sendNotification':
-      const option = {
+      chrome.notifications.create('helloworld', {
         type: 'basic',
         title: 'Unsolved.WA',
         message: '문제풀 시간입니다.',
         iconUrl: 'https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png',
-      };
-      chrome.notifications.create('helloworld', option);
+      });
       break;
   }
 }
