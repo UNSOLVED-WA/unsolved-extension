@@ -4,7 +4,7 @@ type Props =
   | {
       color: string;
     }
-  | {};
+  | Record<string, unknown>;
 
 const Divider = styled.div<Props>`
   width: 80%;

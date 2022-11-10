@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 // TODO : contentscript가 동작할 domain 추가, 삭제 기능 필요
-const App: React.FC<{}> = () => {
+const App = () => {
   function handleHideButton() {
-    chrome.runtime.sendMessage({ message: "hideButton", type: "sync" });
+    chrome.runtime.sendMessage({ message: 'hideButton', type: 'sync' });
   }
 
   function handleUNotificationButton() {
-    chrome.runtime.sendMessage({ message: "sendNotification", type: "sync" });
+    chrome.runtime.sendMessage({ message: 'sendNotification', type: 'sync' });
   }
 
   return (
@@ -19,7 +19,7 @@ const App: React.FC<{}> = () => {
   );
 };
 
-const root = document.createElement("div");
+const root = document.createElement('div');
 document.body.appendChild(root);
 
 ReactDOM.render(<App />, root);

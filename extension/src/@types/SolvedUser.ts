@@ -39,7 +39,7 @@ export type Organization = {
   voteCount: number;
 };
 
-export type Settings = {};
+export type Settings = Record<string, unknown>;
 
 export type User = {
   background: Background;
