@@ -18,7 +18,7 @@ function fetchBadge(sendResponse: SendResponse, bojId: string) {
   fetch(`https://mazassumnida.wtf/api/generate_badge?boj=${bojId}`)
     .then((response) => {
       if (response.status >= 400) {
-        return new Promise((resolve, _) => {
+        return new Promise((resolve) => {
           // TODO: Promise typeError
           chrome.storage.local.get('badge', (data) => {
             resolve(data.badge);
