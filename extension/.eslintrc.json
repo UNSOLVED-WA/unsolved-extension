@@ -6,6 +6,7 @@
     "es6": true,
     "node": true
   },
+  "ignorePatterns": ["webpack.*.js", "node_modules/*", "test/*"],
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
