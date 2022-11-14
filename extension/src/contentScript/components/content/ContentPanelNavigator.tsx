@@ -1,10 +1,18 @@
 import React, { useRef } from 'react';
+
+import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
+import FaceIcon from '@mui/icons-material/Face';
+import CodeIcon from '@mui/icons-material/Code';
+
 import NavigatorContainer from '../../style/ContentPanelNavigator.styled';
 import Divider from '../../style/Divider.styled';
 import UnsolvedLogo from '../UnsolvedLogo';
 
 interface NavigatorProps {
-  contents: { text: string; icon: string }[];
+  contents: {
+    text: string;
+    icon: string;
+  }[];
   handleSelectedIndex: (index: number) => void;
 }
 
@@ -33,22 +41,28 @@ const ContentPanelNavigator = ({ contents, handleSelectedIndex }: NavigatorProps
     handleSelectedIndex(index);
   };
 
+  const icons = {
+    profile: <FaceIcon />,
+    ranking: <WorkspacePremiumIcon />,
+    problem: <CodeIcon />,
+  };
+
   return (
     <NavigatorContainer ref={navigatorRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <div className="logos">
-        <UnsolvedLogo size="large" />
+      <div className='naviitem logos'>
+        <UnsolvedLogo size='large' />
         <Divider />
         {contents.map((item, index) => (
-          <span className="logo" key={'icon-' + item.text} onClick={() => handleClick(index)}>
-            {item.icon}
+          <span className='logo' key={'icon-' + item.text} onClick={() => handleClick(index)}>
+            {icons[item.icon]}
           </span>
         ))}
       </div>
-      <div className="texts" ref={navigatorTextsRef}>
-        <span className="unsolved">unsolved</span>
+      <div className='naviitem texts' ref={navigatorTextsRef}>
+        <span className='unsolved'>unsolved</span>
         <Divider />
         {contents.map((item, index) => (
-          <span className="text" key={'text-' + item.text} onClick={() => handleClick(index)}>
+          <span className='text' key={'text-' + item.text} onClick={() => handleClick(index)}>
             {item.text}
           </span>
         ))}
