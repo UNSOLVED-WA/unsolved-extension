@@ -49,7 +49,7 @@ const ContentPanelNavigator = ({ contents, handleSelectedIndex }: NavigatorProps
 
   return (
     <NavigatorContainer ref={navigatorRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <div className='logos'>
+      <div className='naviitem logos'>
         <UnsolvedLogo size='large' />
         <Divider />
         {contents.map((item, index) => (
@@ -58,7 +58,7 @@ const ContentPanelNavigator = ({ contents, handleSelectedIndex }: NavigatorProps
           </span>
         ))}
       </div>
-      <div className='texts' ref={navigatorTextsRef}>
+      <div className='naviitem texts' ref={navigatorTextsRef}>
         <span className='unsolved'>unsolved</span>
         <Divider />
         {contents.map((item, index) => (

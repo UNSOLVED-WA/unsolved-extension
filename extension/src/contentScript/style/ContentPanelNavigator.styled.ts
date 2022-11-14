@@ -13,40 +13,31 @@ const NavigatorContainer = styled.div`
   align-items: center;
 
   background: #2196f3; /* fallback for old browsers */
-  background: linear-gradient(
-    to top,
-    #ff000077,
-    #f44336,
-    #ff0000
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to top, #ff000077, #f44336, #ff0000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
   transition: all 0.3s ease-in-out;
 
-  .logos {
-    position: absolute;
-    height: 100%;
-    width: 60px;
+  .naviitem {
     padding: 10px 0;
+    height: 100%;
 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-self: start;
-    gap: 10px;
+
+    gap: 15px;
+  }
+
+  .logos {
+    position: absolute;
+    width: 60px;
   }
 
   .texts {
-    height: 100%;
-    padding: 10px 0;
     opacity: 0;
     flex: 1 1 0;
     transition: all 0.3s ease-out;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-self: start;
-    gap: 10px;
 
     .unsolved {
       color: #ffffff;
