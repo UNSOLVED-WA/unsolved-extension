@@ -40,7 +40,9 @@ function asyncRequest(request: Request, sendResponse: SendResponse): boolean {
       fetchUser(sendResponse);
       break;
     case 'fetchBadge':
-      fetchBadge(sendResponse, 'mosong');
+      chrome.storage.local.get('solvedUser', (result) => {
+        fetchBadge(sendResponse, result.solvedUser.user.handle);
+      });
       break;
     case 'submit':
       chrome.storage.local.get('submit', (data) => {
@@ -81,7 +83,6 @@ function syncRequest(request: Request) {
 
 // TODO : case를 비동기와 동기로 나누기( 비동기는 return true가 필요함 )
 chrome.runtime.onMessage.addListener((request: Request, _, sendResponse: SendResponse) => {
-  console.info(request);
   if (request.type === 'async') return asyncRequest(request, sendResponse);
   else if (request.type === 'sync') return syncRequest(request); // return undefined
 });
