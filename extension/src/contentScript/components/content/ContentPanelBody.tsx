@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import { CircularProgress } from '@mui/joy';
 import { ContentBox } from '../../common';
+import Profile from './Profile';
+import useUserInfo from '../../../utils/hooks/useUserInfo';
+import Group from './Group';
 
 const Container = styled.div`
   width: 100%;
@@ -24,19 +27,25 @@ interface Props {
 
 const ContentPanelBody = ({ selectedIndex }: Props) => {
   const [svgHTML, setSvgHTML] = useState('');
+  const [myInfo, setMyInfo] = useUserInfo(null);
   const svgRef = useRef(null);
 
   // 프로필뷰로 분리 예정
   useEffect(() => {
     chrome.runtime.sendMessage({ message: 'fetchBadge', type: 'async' }, (response) => {
-      setSvgHTML(response.data);
-      if (svgRef.current) {
-        svgRef.current.lastElementChild.setAttribute('width', '270');
-        svgRef.current.lastElementChild.setAttribute('height', '135');
-        svgRef.current.lastElementChild.setAttribute('viewBox', '0 0 350 170');
+      if (response.message === 'success') {
+        setSvgHTML(response.data);
+        if (svgRef.current) {
+          svgRef.current.lastElementChild.setAttribute('width', '270');
+          svgRef.current.lastElementChild.setAttribute('height', '135');
+          svgRef.current.lastElementChild.setAttribute('viewBox', '0 0 350 170');
+        }
+        chrome.storage.local.get('solvedUser', (result) => {
+          setMyInfo(result.solvedUser.user);
+        });
       }
     });
-  }, [selectedIndex]);
+  }, [selectedIndex, setMyInfo]);
 
   return (
     <Container>
@@ -44,14 +53,10 @@ const ContentPanelBody = ({ selectedIndex }: Props) => {
         {
           0: (
             <div className='panel-contents'>
-              <ContentBox>
-                <div>hi</div>
-              </ContentBox>
+              {myInfo ? <Profile myBjoId={myInfo.handle} bio={myInfo.bio} /> : <CircularProgress color='danger' size='sm' />}
+              {myInfo ? <Group bjoOrganization={myInfo.organizations} /> : <CircularProgress color='danger' size='sm' />}
               <ContentBox>
                 <div>hi2</div>
-              </ContentBox>
-              <ContentBox>
-                <div>hi3</div>
               </ContentBox>
               <ContentBox>
                 <div>hi3</div>
