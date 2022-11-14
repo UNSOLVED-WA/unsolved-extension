@@ -28,9 +28,9 @@ const ContentPanel = () => {
 
   // TODO : icon을 string에서 svg로 변경
   const contents = [
-    { text: '내 정보', icon: 'pl' },
-    { text: '랭킹보기', icon: 'rl' },
-    { text: '문제추천', icon: 'sl' },
+    { text: '내 정보', icon: 'profile' },
+    { text: '랭킹보기', icon: 'ranking' },
+    { text: '문제추천', icon: 'problem' },
   ];
 
   const handleSelectedIndex = (index: number) => setSelectedIndex(index);
