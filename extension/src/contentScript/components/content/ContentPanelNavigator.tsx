@@ -1,12 +1,6 @@
 import React, { useRef } from 'react';
-
-import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
-import FaceIcon from '@mui/icons-material/Face';
-import CodeIcon from '@mui/icons-material/Code';
-
 import NavigatorContainer from '../../style/ContentPanelNavigator.styled';
 import Divider from '../../style/Divider.styled';
-import UnsolvedLogo from '../UnsolvedLogo';
 
 interface NavigatorProps {
   contents: {
@@ -41,20 +35,14 @@ const ContentPanelNavigator = ({ contents, handleSelectedIndex }: NavigatorProps
     handleSelectedIndex(index);
   };
 
-  const icons = {
-    profile: <FaceIcon />,
-    ranking: <WorkspacePremiumIcon />,
-    problem: <CodeIcon />,
-  };
-
   return (
     <NavigatorContainer ref={navigatorRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <div className='naviitem logos'>
-        <UnsolvedLogo size='large' />
+        <span className='unsolved-wa-logo-large'>wa</span>
         <Divider />
         {contents.map((item, index) => (
-          <span className='logo' key={'icon-' + item.text} onClick={() => handleClick(index)}>
-            {icons[item.icon]}
+          <span key={'icon-' + item.text} className='logo material-symbols-outlined' onClick={() => handleClick(index)}>
+            {item.icon}
           </span>
         ))}
       </div>

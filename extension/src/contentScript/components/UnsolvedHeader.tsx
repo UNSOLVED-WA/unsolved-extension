@@ -1,5 +1,5 @@
 import React from 'react';
-import CloseIcon from '@mui/icons-material/Close';
+
 import styled from '@emotion/styled';
 import { fadeIn } from '../style/animation.style';
 
@@ -24,7 +24,7 @@ type Props = {
 const UnsolvedHeader = ({ handlePanelClose }: Props) => {
   return (
     <Container onClick={handlePanelClose}>
-      <CloseIcon sx={{ width: '100%', height: '100%' }} />
+      <span className='material-symbols-outlined'>close</span>
     </Container>
   );
 };

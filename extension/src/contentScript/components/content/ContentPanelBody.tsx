@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { CircularProgress } from '@mui/joy';
 import { ContentBox } from '../../common';
 import Profile from './Profile';
-import useUserInfo from '../../../utils/hooks/useUserInfo';
+import useUserInfo from '../../hooks/useUserInfo';
 import Group from './Group';
 
 const Container = styled.div`

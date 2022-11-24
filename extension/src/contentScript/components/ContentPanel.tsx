@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import { ContentPanelNavigator, ContentPanelHeader, ContentPanelBody } from './content';
 import { fadeIn } from '../style/animation.style';
-import { throttle } from 'lodash';
+import throttle from 'lodash/throttle';
 import { ScrollDirection } from '../types/types';
 
 const Container = styled.div`
@@ -26,11 +26,10 @@ const ContentPanel = () => {
   const [scrollDirection, setScrollDirection] = useState<ScrollDirection>('down');
   const containerElementRef = useRef(null);
 
-  // TODO : icon을 string에서 svg로 변경
   const contents = [
-    { text: '내 정보', icon: 'profile' },
-    { text: '랭킹보기', icon: 'ranking' },
-    { text: '문제추천', icon: 'problem' },
+    { text: '내 정보', icon: 'face' },
+    { text: '랭킹보기', icon: 'star' },
+    { text: '문제추천', icon: 'recommend' },
   ];
 
   const handleSelectedIndex = (index: number) => setSelectedIndex(index);
@@ -48,6 +47,7 @@ const ContentPanel = () => {
       }
       lastScrollTop = scrollTop;
     }
+
     containerElement.addEventListener('scroll', throttle(handleScroll, 100));
     return () => {
       containerElement.removeEventListener('scroll', throttle(handleScroll, 100));

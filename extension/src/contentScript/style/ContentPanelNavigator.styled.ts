@@ -54,7 +54,7 @@ const NavigatorContainer = styled.div`
     height: 24px;
     width: 100%;
 
-    font-size: 14px;
+    font-size: 18px;
     text-align: center;
     font-weight: 600;
 

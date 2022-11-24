@@ -2,6 +2,7 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   entry: {
@@ -43,6 +44,7 @@ module.exports = {
       ],
     }),
     ...getHtmlPlugins(['popup']),
+    new BundleAnalyzerPlugin(),
   ],
   output: {
     filename: '[name].js',
