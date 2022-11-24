@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { LoginPanel, ContentPanel, UnsolvedHeader, UnsolvedLogo } from './components';
+import { IFrame } from './IFrame';
 import Styled from './style/button.styled';
 
 const UnsolvedFloatButton = () => {
@@ -38,10 +39,10 @@ const UnsolvedFloatButton = () => {
   return (
     <Styled.UnsolvedFloatButton className='unsolved-float-button' ref={panelElement} isClicked={isClicked}>
       {isClicked ? (
-        <>
+        <IFrame title='unsolved-content'>
           <UnsolvedHeader handlePanelClose={handlePanelClose} />
           {isLogin ? <ContentPanel /> : <LoginPanel />}
-        </>
+        </IFrame>
       ) : (
         <button onClick={handlePanelOpen}>
           <UnsolvedLogo size='medium' />
