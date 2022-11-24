@@ -40,10 +40,8 @@ const UnsolvedFloatButton = () => {
     <Styled.UnsolvedFloatButton className='unsolved-float-button' ref={panelElement} isClicked={isClicked}>
       {isClicked ? (
         <IFrame title='unsolved-content'>
-          <>
-            <UnsolvedHeader handlePanelClose={handlePanelClose} />
-            {isLogin ? <ContentPanel /> : <LoginPanel />}
-          </>
+          <UnsolvedHeader handlePanelClose={handlePanelClose} />
+          {isLogin ? <ContentPanel /> : <LoginPanel />}
         </IFrame>
       ) : (
         <button onClick={handlePanelOpen}>
