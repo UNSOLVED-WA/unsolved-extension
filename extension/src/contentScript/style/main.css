@@ -7,3 +7,115 @@
   box-sizing: border-box;
   /* background: transparent; */
 }
+
+.unsolved-wa-container {
+  padding: 0px;
+  position: fixed;
+  background: red;
+  top: 50%;
+  right: -6px;
+  z-index: 9999999;
+
+  border: 0px;
+  transform: translateY(-50%);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 48px;
+  height: 48px;
+
+  transition: all 0.3s ease-in-out;
+  box-shadow: rgb(0 0 0 / 30%) 0px 0px 30px 0px;
+}
+
+.unsolved-wa-floatbtn {
+  cursor: pointer;
+  z-index: 10000000;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: 0px;
+}
+
+.unsolved-wa-clicked {
+  border-radius: 15px !important;
+  cursor: default;
+
+  background-color: rgba(255, 255, 255, 0);
+  backdrop-filter: blur(60px);
+
+  right: 12px;
+
+  width: 350px;
+  height: 500px;
+
+  animation: scaling 0.3s ease-in-out 0.25s forwards;
+}
+
+.unsolved-wa-clicked:hover {
+  transform: translateY(-50%) scale(1);
+}
+.unsolved-wa-clicked:hover::before {
+  display: none;
+}
+
+.unsolved-wa-default {
+  border-radius: 50% !important;
+}
+.unsolved-wa-default:hover {
+  transform-origin: 50% 50%;
+  transform: translateY(-50%) scale(1.5);
+}
+
+.unsolved-wa-default:hover::before {
+  content: '';
+  display: block;
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  top: 50%;
+
+  transform: translateY(-50%);
+  animation: border_pulse 1s ease-in-out infinite 0.3s;
+}
+
+/* 중복 css 제거 */
+.unsolved-wa-logo-medium {
+  border-radius: 5px !important;
+  background: #ffffff;
+  position: relative;
+  color: #ff0000;
+
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 7.5px;
+}
+
+@keyframes border_pulse {
+  0% {
+    border: 1px solid red;
+    border-radius: 50%;
+    opacity: 1;
+  }
+  100% {
+    border: 1px solid red;
+    border-radius: 50%;
+    width: 68px;
+    height: 68px;
+    opacity: 0;
+  }
+}
+
+@keyframes scaling {
+  0% {
+    transform: translateY(-50%) scale(1);
+  }
+  50% {
+    transform: translateY(-50%) scale(1.05);
+  }
+  100% {
+    transform: translateY(-50%) scale(1);
+  }
+}

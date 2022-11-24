@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import NavigatorContainer from '../../style/ContentPanelNavigator.styled';
 import Divider from '../../style/Divider.styled';
-import UnsolvedLogo from '../UnsolvedLogo';
 
 interface NavigatorProps {
   contents: {
@@ -39,7 +38,7 @@ const ContentPanelNavigator = ({ contents, handleSelectedIndex }: NavigatorProps
   return (
     <NavigatorContainer ref={navigatorRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <div className='naviitem logos'>
-        <UnsolvedLogo size='large' />
+        <span className='unsolved-wa-logo-large'>wa</span>
         <Divider />
         {contents.map((item, index) => (
           <span key={'icon-' + item.text} className='logo material-symbols-outlined' onClick={() => handleClick(index)}>

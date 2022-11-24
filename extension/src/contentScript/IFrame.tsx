@@ -50,6 +50,19 @@ export const IFrame = ({ children, title }: { children: React.ReactNode; title: 
                 .material-symbols-outlined {
                   font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
                 }
+                // logo svg 변경 필요
+                .unsolved-wa-logo-large {
+                  border-radius: 5px !important;
+                  background: #ffffff;
+                  position: relative;
+                  color: #ff0000;
+
+                  height: 24px;
+
+                  font-size: 20px;
+                  font-weight: 600;
+                  padding: 5px 7.5px;
+                }
               `}
             />
             {children}
