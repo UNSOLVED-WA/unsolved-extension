@@ -26,7 +26,6 @@ const ContentPanel = () => {
   const [scrollDirection, setScrollDirection] = useState<ScrollDirection>('down');
   const containerElementRef = useRef(null);
 
-  // TODO : icon을 string에서 svg로 변경
   const contents = [
     { text: '내 정보', icon: 'face' },
     { text: '랭킹보기', icon: 'star' },
