@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { CacheProvider, Global, css } from '@emotion/react';
 import createCache from '@emotion/cache';
 import weakMemoize from '@emotion/weak-memoize';
+import { createWebIcon, icons } from './style/icons';
 import { createPortal } from 'react-dom';
 
 const memoizedCreateCacheWithContainer = weakMemoize((container: Node) => {
@@ -24,6 +25,15 @@ export const IFrame = ({ children, title }: { children: React.ReactNode; title: 
     }
   }, [contentRef]);
 
+  useEffect(() => {
+    // TODO : useEffect 활용이 적절한지 점검 필요
+    if (insertionTarget) {
+      insertionTarget.appendChild(createWebIcon(icons.face));
+      insertionTarget.appendChild(createWebIcon(icons.star));
+      insertionTarget.appendChild(createWebIcon(icons.recommend));
+    }
+  }, [insertionTarget]);
+
   return (
     <iframe title={title} ref={setContentRef} style={{ width: '100%', height: '100%', border: 'none' }}>
       {mountNode &&
@@ -36,6 +46,9 @@ export const IFrame = ({ children, title }: { children: React.ReactNode; title: 
                   font-family: 'Roboto', sans-serif;
                   line-height: 16px;
                   box-sizing: border-box;
+                }
+                .material-symbols-outlined {
+                  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
                 }
               `}
             />
