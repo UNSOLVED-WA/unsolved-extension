@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import { ContentPanelNavigator, ContentPanelHeader, ContentPanelBody } from './content';
 import { fadeIn } from '../style/animation.style';
-import { throttle } from 'lodash';
 import { ScrollDirection } from '../types/types';
 
 const Container = styled.div`
@@ -48,6 +47,17 @@ const ContentPanel = () => {
       }
       lastScrollTop = scrollTop;
     }
+    function throttle(func: () => void, timeFrame: number) {
+      let lastTime = 0;
+      return function () {
+        const now = Date.now();
+        if (now - lastTime >= timeFrame) {
+          func();
+          lastTime = now;
+        }
+      };
+    }
+
     containerElement.addEventListener('scroll', throttle(handleScroll, 100));
     return () => {
       containerElement.removeEventListener('scroll', throttle(handleScroll, 100));
