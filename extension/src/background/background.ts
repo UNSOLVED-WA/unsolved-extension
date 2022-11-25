@@ -19,7 +19,6 @@ function fetchBadge(sendResponse: SendResponse, bojId: string) {
     .then((response) => {
       if (response.status >= 400) {
         return new Promise((resolve) => {
-          // TODO: Promise typeError
           chrome.storage.local.get('badge', (data) => {
             resolve(data.badge);
           });
@@ -34,7 +33,7 @@ function fetchBadge(sendResponse: SendResponse, bojId: string) {
     });
 }
 
-function asyncRequest(request: Request, sendResponse: SendResponse): boolean {
+function asyncRequest(request: Request, sendResponse: SendResponse) {
   switch (request.message) {
     case 'fetchUser':
       fetchUser(sendResponse);
@@ -55,7 +54,6 @@ function asyncRequest(request: Request, sendResponse: SendResponse): boolean {
       });
       break;
   }
-  return true;
 }
 
 function syncRequest(request: Request) {
@@ -83,8 +81,11 @@ function syncRequest(request: Request) {
 
 // TODO : case를 비동기와 동기로 나누기( 비동기는 return true가 필요함 )
 chrome.runtime.onMessage.addListener((request: Request, _, sendResponse: SendResponse) => {
-  if (request.type === 'async') return asyncRequest(request, sendResponse);
-  else if (request.type === 'sync') return syncRequest(request); // return undefined
+  if (request.type === 'async') {
+    asyncRequest(request, sendResponse);
+    return true;
+  }
+  syncRequest(request);
 });
 
 chrome.runtime.onInstalled.addListener(() => {
