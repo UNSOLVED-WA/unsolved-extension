@@ -14,23 +14,25 @@ function fetchUser(sendResponse: SendResponse) {
     });
 }
 
-function fetchBadge(sendResponse: SendResponse, bojId: string) {
-  fetch(`https://mazassumnida.wtf/api/generate_badge?boj=${bojId}`)
-    .then((response) => {
-      if (response.status >= 400) {
-        return new Promise((resolve) => {
-          chrome.storage.local.get('badge', (data) => {
-            resolve(data.badge);
+function fetchBadge(sendResponse: SendResponse) {
+  chrome.storage.local.get('solvedUser', (result) => {
+    fetch(`https://mazassumnida.wtf/api/generate_badge?boj=${result.solvedUser.user.handle}`)
+      .then((response) => {
+        if (response.status >= 400) {
+          return new Promise((resolve) => {
+            chrome.storage.local.get('badge', (data) => {
+              resolve(data.badge);
+            });
           });
-        });
-      } else {
-        return response.text();
-      }
-    })
-    .then((badgeElement) => {
-      chrome.storage.local.set({ badge: badgeElement });
-      sendResponse({ message: 'success', data: badgeElement });
-    });
+        } else {
+          return response.text();
+        }
+      })
+      .then((badgeElement) => {
+        chrome.storage.local.set({ badge: badgeElement });
+        sendResponse({ message: 'success', data: badgeElement });
+      });
+  });
 }
 
 function asyncRequest(request: Request, sendResponse: SendResponse) {
@@ -39,9 +41,7 @@ function asyncRequest(request: Request, sendResponse: SendResponse) {
       fetchUser(sendResponse);
       break;
     case 'fetchBadge':
-      chrome.storage.local.get('solvedUser', (result) => {
-        fetchBadge(sendResponse, result.solvedUser.user.handle);
-      });
+      fetchBadge(sendResponse);
       break;
     case 'submit':
       chrome.storage.local.get('submit', (data) => {
