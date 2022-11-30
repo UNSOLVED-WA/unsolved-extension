@@ -26,7 +26,6 @@ export const IFrame = ({ children, title }: { children: React.ReactNode; title: 
   }, [contentRef]);
 
   useEffect(() => {
-    // TODO : useEffect 활용이 적절한지 점검 필요
     if (insertionTarget) {
       insertionTarget.appendChild(createWebIcon(icons.face));
       insertionTarget.appendChild(createWebIcon(icons.star));
@@ -35,7 +34,7 @@ export const IFrame = ({ children, title }: { children: React.ReactNode; title: 
   }, [insertionTarget]);
 
   return (
-    <iframe title={title} ref={setContentRef} style={{ width: '100%', height: '100%', border: 'none' }}>
+    <iframe title={title} ref={setContentRef} style={{ width: '100%', height: '100%', border: 'none', borderRadius: '15px' }}>
       {mountNode &&
         insertionTarget &&
         createPortal(
