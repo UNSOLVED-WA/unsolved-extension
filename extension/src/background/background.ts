@@ -1,16 +1,33 @@
-import { Request, SendResponse } from './messageTypes';
+import { Request, SendResponse } from './types';
 import { SolvedUser } from '../@types/SolvedUser';
 import API from '../api/api';
 
+function responseValid(response: Response) {
+  switch (true) {
+    case response.status === 200:
+      return response.json();
+    case response.status >= 500:
+      throw new Error('Server error');
+    case response.status >= 400:
+      throw new Error('Invalid request');
+    default:
+      throw new Error('Unknown error');
+  }
+}
+
 function fetchUser(sendResponse: SendResponse) {
   fetch('https://solved.ac/api/v3/account/verify_credentials')
-    .then((response) => (response.status === 200 ? response.json() : Promise.reject(new Error('Not logged in'))))
+    .then(responseValid)
     .then((data) => {
-      chrome.storage.local.set({ solvedUser: data });
-      sendResponse({ message: 'success' });
+      chrome.storage.local.set({ solvedUser: data }, () => {
+        if (chrome.runtime.lastError) {
+          throw new Error('Unknown error');
+        }
+        sendResponse({ state: 'success', data });
+      });
     })
-    .catch(() => {
-      sendResponse({ message: 'fail' });
+    .catch((error: Error) => {
+      sendResponse({ state: 'fail', message: error.message });
     });
 }
 
@@ -30,7 +47,7 @@ function fetchBadge(sendResponse: SendResponse) {
       })
       .then((badgeElement) => {
         chrome.storage.local.set({ badge: badgeElement });
-        sendResponse({ message: 'success', data: badgeElement });
+        sendResponse({ state: 'success', data: badgeElement });
       });
   });
 }
@@ -47,9 +64,9 @@ function asyncRequest(request: Request, sendResponse: SendResponse) {
       chrome.storage.local.get('submit', (data) => {
         if (data.submit !== '') {
           chrome.storage.local.set({ submit: '' });
-          sendResponse({ message: 'success' });
+          sendResponse({ state: 'success' });
         } else {
-          sendResponse({ message: 'fail' });
+          sendResponse({ state: 'fail' });
         }
       });
       break;

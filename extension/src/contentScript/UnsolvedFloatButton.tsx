@@ -13,10 +13,8 @@ const UnsolvedFloatButton = () => {
   // TODO : 로그인 상태 확인 로직 호출 시점 점검 필요( 현재는 페이지 로드 시점에 호출 )
   useEffect(() => {
     chrome.runtime.sendMessage({ message: 'fetchUser', type: 'async' }, (response) => {
-      if (response.message === 'success') {
-        chrome.storage.local.get('solvedUser', (result) => {
-          setIsLogin(!!result.solvedUser);
-        });
+      if (response.state === 'success') {
+        setIsLogin(!!response.data);
       }
     });
   }, []);
