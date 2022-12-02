@@ -6,7 +6,7 @@ interface props {
   bio: string;
 }
 
-const Profile = ({ myBjoId, bio }: props) => {
+const ProfileView = ({ myBjoId, bio }: props) => {
   return (
     <>
       <ContentBox>
@@ -17,4 +17,4 @@ const Profile = ({ myBjoId, bio }: props) => {
   );
 };
 
-export default Profile;
+export default ProfileView;

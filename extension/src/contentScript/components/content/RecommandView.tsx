@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Recommand = () => {
+const RecommandView = () => {
   return <div>Recommand</div>;
 };
 
-export default Recommand;
+export default RecommandView;

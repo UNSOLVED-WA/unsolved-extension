@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import { CircularProgress } from '@mui/joy';
 import { ContentBox } from '../../common';
-import Profile from './Profile';
+import Profile from './ProfileView';
 import useUserInfo from '../../hooks/useUserInfo';
 import Group from './Group';
+import Ranking from './RankingView';
 
 const Container = styled.div`
   width: 100%;
@@ -68,13 +69,7 @@ const ContentPanelBody = ({ selectedIndex }: Props) => {
               )}
             </div>
           ),
-          1: (
-            <div className='panel-contents'>
-              <ContentBox>
-                <div>hi</div>
-              </ContentBox>
-            </div>
-          ),
+          1: <Ranking />,
           2: (
             <div className='panel-contents'>
               <ContentBox>

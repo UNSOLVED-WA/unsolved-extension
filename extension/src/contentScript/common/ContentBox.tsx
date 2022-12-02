@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 const Container = styled.div`
   width: calc(100% - 20px);
-  height: 100px;
+  height: auto;
 
   border-radius: 7px !important;
   background: #ffffff;
