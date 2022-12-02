@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 const Container = styled.div`
   width: calc(100% - 20px);
-  height: 100px;
+  height: auto;
 
   border-radius: 7px !important;
   background: #ffffff;
@@ -16,6 +16,8 @@ const Container = styled.div`
 
 interface Props {
   children?: React.ReactNode;
+  bgColor?: string;
+  fgColor?: string;
 }
 
 const ContentBox = ({ children }: Props) => {
