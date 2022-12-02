@@ -1,4 +1,11 @@
-export type RequestMessage = 'fetchUser' | 'fetchBadge' | 'submit' | 'toLogin' | 'hideButton' | 'sendNotification';
+export type RequestMessage =
+  | 'fetchUser' //
+  | 'fetchBadge'
+  | 'fetchRanking'
+  | 'submit'
+  | 'toLogin'
+  | 'hideButton'
+  | 'sendNotification';
 
 export type Request = {
   message: RequestMessage;

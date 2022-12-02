@@ -23,6 +23,16 @@ function fetchCachedData(_: Error, key: string) {
   });
 }
 
+function fetchRanking(sendResponse: SendResponse, teamId: string) {
+  API.RankingService.getAllRanking(teamId)
+    .then((data) => {
+      sendResponse({ state: 'success', data });
+    })
+    .catch((error) => {
+      sendResponse({ state: 'fail', message: error.message });
+    });
+}
+
 function fetchUser(sendResponse: SendResponse) {
   fetch('https://solved.ac/api/v3/account/verify_credentials')
     .then((response) => responseStatusCheck(response, 'json'))
@@ -66,6 +76,9 @@ function asyncRequest(request: Request, sendResponse: SendResponse) {
       break;
     case 'fetchBadge':
       fetchBadge(sendResponse);
+      break;
+    case 'fetchRanking':
+      fetchRanking(sendResponse, request.data);
       break;
     case 'submit':
       chrome.storage.local.get('submit', (data) => {
