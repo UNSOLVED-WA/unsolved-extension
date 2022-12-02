@@ -36,11 +36,11 @@ const ContentPanel = () => {
 
   useEffect(() => {
     let lastScrollTop = 0;
-    // TODO : containerElementRef.current가 null일 경우에 대한 예외처리
     const containerElement = containerElementRef.current;
+    if (containerElement === null || containerElementRef.current === null) return;
     function handleScroll() {
       const scrollTop = containerElement.scrollTop;
-      if (scrollTop > lastScrollTop) {
+      if (scrollTop > lastScrollTop || scrollTop > 30) {
         setScrollDirection('up');
       } else {
         setScrollDirection('down');

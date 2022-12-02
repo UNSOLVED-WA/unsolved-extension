@@ -7,7 +7,8 @@ export type Request = {
 };
 
 export type Response = {
-  message: 'success' | 'fail';
+  state: 'success' | 'fail' | 'cached';
+  message?: string;
   data?: any;
 };
 

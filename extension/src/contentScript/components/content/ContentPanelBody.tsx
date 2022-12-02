@@ -33,7 +33,7 @@ const ContentPanelBody = ({ selectedIndex }: Props) => {
   // 프로필뷰로 분리 예정
   useEffect(() => {
     chrome.runtime.sendMessage({ message: 'fetchBadge', type: 'async' }, (response) => {
-      if (response.message === 'success') {
+      if (response.state === 'success') {
         setSvgHTML(response.data);
         if (svgRef.current) {
           svgRef.current.lastElementChild.setAttribute('width', '270');

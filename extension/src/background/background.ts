@@ -1,61 +1,83 @@
-import { Request, SendResponse } from './messageTypes';
+import { Request, SendResponse } from './types';
 import { SolvedUser } from '../@types/SolvedUser';
 import API from '../api/api';
 
+function responseStatusCheck(response: Response, returnType: 'json' | 'text') {
+  switch (true) {
+    case response.status === 200:
+      return response[returnType]();
+    case response.status >= 500:
+      throw new Error('Server error');
+    case response.status >= 400:
+      throw new Error('Invalid request');
+    default:
+      throw new Error('Unknown error');
+  }
+}
+
+function fetchCachedData(_: Error, key: string) {
+  return new Promise((resolve) => {
+    chrome.storage.local.get(key, (result) => {
+      resolve(result[key]);
+    });
+  });
+}
+
 function fetchUser(sendResponse: SendResponse) {
   fetch('https://solved.ac/api/v3/account/verify_credentials')
-    .then((response) => (response.status === 200 ? response.json() : Promise.reject(new Error('Not logged in'))))
+    .then((response) => responseStatusCheck(response, 'json'))
+    .catch((error: Error) => fetchCachedData(error, 'solvedUser'))
     .then((data) => {
-      chrome.storage.local.set({ solvedUser: data });
-      sendResponse({ message: 'success' });
+      chrome.storage.local.set({ solvedUser: data }, () => {
+        if (chrome.runtime.lastError) {
+          throw new Error('storage.local.set error');
+        }
+        sendResponse({ state: 'success', data });
+      });
     })
-    .catch(() => {
-      sendResponse({ message: 'fail' });
+    .catch((error: Error) => {
+      sendResponse({ state: 'fail', message: error.message });
     });
 }
 
-function fetchBadge(sendResponse: SendResponse, bojId: string) {
-  fetch(`https://mazassumnida.wtf/api/generate_badge?boj=${bojId}`)
-    .then((response) => {
-      if (response.status >= 400) {
-        return new Promise((resolve) => {
-          // TODO: Promise typeError
-          chrome.storage.local.get('badge', (data) => {
-            resolve(data.badge);
-          });
+function fetchBadge(sendResponse: SendResponse) {
+  chrome.storage.local.get('solvedUser', (result) => {
+    fetch(`https://mazassumnida.wtf/api/generate_badge?boj=${result.solvedUser.user.handle}`)
+      .then((response) => responseStatusCheck(response, 'text'))
+      .catch((error: Error) => fetchCachedData(error, 'badge'))
+      .then((data) => {
+        chrome.storage.local.set({ badge: data }, () => {
+          if (chrome.runtime.lastError) {
+            throw new Error('storage.local.set error');
+          }
+          sendResponse({ state: 'success', data: data });
         });
-      } else {
-        return response.text();
-      }
-    })
-    .then((badgeElement) => {
-      chrome.storage.local.set({ badge: badgeElement });
-      sendResponse({ message: 'success', data: badgeElement });
-    });
+      })
+      .catch((error: Error) => {
+        sendResponse({ state: 'fail', message: error.message });
+      });
+  });
 }
 
-function asyncRequest(request: Request, sendResponse: SendResponse): boolean {
+function asyncRequest(request: Request, sendResponse: SendResponse) {
   switch (request.message) {
     case 'fetchUser':
       fetchUser(sendResponse);
       break;
     case 'fetchBadge':
-      chrome.storage.local.get('solvedUser', (result) => {
-        fetchBadge(sendResponse, result.solvedUser.user.handle);
-      });
+      fetchBadge(sendResponse);
       break;
     case 'submit':
       chrome.storage.local.get('submit', (data) => {
         if (data.submit !== '') {
           chrome.storage.local.set({ submit: '' });
-          sendResponse({ message: 'success' });
+          sendResponse({ state: 'success' });
         } else {
-          sendResponse({ message: 'fail' });
+          sendResponse({ state: 'fail' });
         }
       });
       break;
   }
-  return true;
 }
 
 function syncRequest(request: Request) {
@@ -83,8 +105,11 @@ function syncRequest(request: Request) {
 
 // TODO : case를 비동기와 동기로 나누기( 비동기는 return true가 필요함 )
 chrome.runtime.onMessage.addListener((request: Request, _, sendResponse: SendResponse) => {
-  if (request.type === 'async') return asyncRequest(request, sendResponse);
-  else if (request.type === 'sync') return syncRequest(request); // return undefined
+  if (request.type === 'async') {
+    asyncRequest(request, sendResponse);
+    return true;
+  }
+  syncRequest(request);
 });
 
 chrome.runtime.onInstalled.addListener(() => {

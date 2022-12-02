@@ -33,8 +33,7 @@ const Container = styled.div<{ scrollDirection: ScrollDirection }>`
         return `
         background: #ff7373bf;
         color: #ffffff;
-        transform: translateY(-200%);
-        top: -20px;
+
         padding: 5px 10px;
         backdrop-filter: blur(60px);
         border-radius: 15px !important;
