@@ -2,10 +2,10 @@ import { Request, SendResponse } from './types';
 import { SolvedUser } from '../@types/SolvedUser';
 import API from '../api/api';
 
-function responseValid(response: Response) {
+function responseStatusCheck(response: Response, returnType: 'json' | 'text') {
   switch (true) {
     case response.status === 200:
-      return response.json();
+      return response[returnType]();
     case response.status >= 500:
       throw new Error('Server error');
     case response.status >= 400:
@@ -15,13 +15,22 @@ function responseValid(response: Response) {
   }
 }
 
+function fetchCachedData(_: Error, key: string) {
+  return new Promise((resolve) => {
+    chrome.storage.local.get(key, (result) => {
+      resolve(result[key]);
+    });
+  });
+}
+
 function fetchUser(sendResponse: SendResponse) {
   fetch('https://solved.ac/api/v3/account/verify_credentials')
-    .then(responseValid)
+    .then((response) => responseStatusCheck(response, 'json'))
+    .catch((error: Error) => fetchCachedData(error, 'solvedUser'))
     .then((data) => {
       chrome.storage.local.set({ solvedUser: data }, () => {
         if (chrome.runtime.lastError) {
-          throw new Error('Unknown error');
+          throw new Error('storage.local.set error');
         }
         sendResponse({ state: 'success', data });
       });
@@ -34,20 +43,18 @@ function fetchUser(sendResponse: SendResponse) {
 function fetchBadge(sendResponse: SendResponse) {
   chrome.storage.local.get('solvedUser', (result) => {
     fetch(`https://mazassumnida.wtf/api/generate_badge?boj=${result.solvedUser.user.handle}`)
-      .then((response) => {
-        if (response.status >= 400) {
-          return new Promise((resolve) => {
-            chrome.storage.local.get('badge', (data) => {
-              resolve(data.badge);
-            });
-          });
-        } else {
-          return response.text();
-        }
+      .then((response) => responseStatusCheck(response, 'text'))
+      .catch((error: Error) => fetchCachedData(error, 'badge'))
+      .then((data) => {
+        chrome.storage.local.set({ badge: data }, () => {
+          if (chrome.runtime.lastError) {
+            throw new Error('storage.local.set error');
+          }
+          sendResponse({ state: 'success', data: data });
+        });
       })
-      .then((badgeElement) => {
-        chrome.storage.local.set({ badge: badgeElement });
-        sendResponse({ state: 'success', data: badgeElement });
+      .catch((error: Error) => {
+        sendResponse({ state: 'fail', message: error.message });
       });
   });
 }
