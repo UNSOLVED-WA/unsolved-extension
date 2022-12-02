@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { CacheProvider, Global, css } from '@emotion/react';
+import { CacheProvider, Global, ThemeProvider, useTheme, css } from '@emotion/react';
 import createCache from '@emotion/cache';
 import weakMemoize from '@emotion/weak-memoize';
 import { createWebIcon, icons } from './style/icons';
 import { createPortal } from 'react-dom';
+import { theme } from './style/theme';
 
 const memoizedCreateCacheWithContainer = weakMemoize((container: Node) => {
   const newCache = createCache({
@@ -39,34 +40,36 @@ export const IFrame = ({ children, title }: { children: React.ReactNode; title: 
       {mountNode &&
         insertionTarget &&
         createPortal(
-          <CacheProvider value={memoizedCreateCacheWithContainer(insertionTarget)}>
-            <Global
-              styles={css`
-                * {
-                  font-family: 'Roboto', sans-serif;
-                  line-height: 16px;
-                  box-sizing: border-box;
-                }
-                .material-symbols-outlined {
-                  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
-                }
-                // logo svg 변경 필요
-                .unsolved-wa-logo-large {
-                  border-radius: 5px !important;
-                  background: #ffffff;
-                  position: relative;
-                  color: #ff0000;
+          <ThemeProvider theme={theme}>
+            <CacheProvider value={memoizedCreateCacheWithContainer(insertionTarget)}>
+              <Global
+                styles={css`
+                  * {
+                    font-family: 'Roboto', sans-serif;
+                    line-height: 16px;
+                    box-sizing: border-box;
+                  }
+                  .material-symbols-outlined {
+                    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+                  }
+                  // logo svg 변경 필요
+                  .unsolved-wa-logo-large {
+                    border-radius: 5px !important;
+                    background: #ffffff;
+                    position: relative;
+                    color: #ff0000;
 
-                  height: 24px;
+                    height: 24px;
 
-                  font-size: 20px;
-                  font-weight: 600;
-                  padding: 5px 7.5px;
-                }
-              `}
-            />
-            {children}
-          </CacheProvider>,
+                    font-size: 20px;
+                    font-weight: 600;
+                    padding: 5px 7.5px;
+                  }
+                `}
+              />
+              {children}
+            </CacheProvider>
+          </ThemeProvider>,
           mountNode
         )}
     </iframe>
