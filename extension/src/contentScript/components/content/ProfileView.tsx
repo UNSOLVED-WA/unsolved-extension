@@ -1,19 +1,31 @@
 import React from 'react';
 import { ContentBox } from '../../common';
+import SVG from 'react-inlinesvg';
+import { CircularProgress } from '@mui/joy';
+import { useProfile } from '../../hooks/useProfile';
+import { useBadge } from '../../hooks/useBadge';
 
-interface props {
-  myBjoId: string;
-  bio: string;
-}
+const ProfileView = () => {
+  const { profile, isLoaded: isProfileLoaded } = useProfile();
+  const { badge, isLoaded: isBadgeLoaded } = useBadge();
 
-const ProfileView = ({ myBjoId, bio }: props) => {
+  if (!isProfileLoaded || !isBadgeLoaded) {
+    return <CircularProgress />;
+  }
   return (
-    <>
+    <div className='panel-contents'>
       <ContentBox>
-        <div>백준 id : {myBjoId}</div>
-        <div>boi : {bio ? bio : '내용을 채워주세요'}</div>
+        <div>{profile.user.bio}</div>
       </ContentBox>
-    </>
+      <ContentBox>
+        <div>{profile.user.email}</div>
+      </ContentBox>
+      <ContentBox>
+        <div>hi2</div>
+      </ContentBox>
+      <ContentBox></ContentBox>
+      <SVG width={270} height={135} viewBox='0 0 350 170' src={badge} />
+    </div>
   );
 };
 
