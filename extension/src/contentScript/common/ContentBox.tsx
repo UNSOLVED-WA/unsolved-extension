@@ -5,8 +5,10 @@ const Container = styled.div<{ bgColor?: string; fgColor?: string }>`
   width: calc(100% - 20px);
   height: auto;
 
-  border-radius: 7px !important;
+  color: ${(props) => props.fgColor || 'black'};
   background: ${(props) => props.bgColor || 'white'};
+
+  border-radius: 7px !important;
   box-shadow: rgb(0 0 0 / 10%) 0px 2px 16px 1px;
 
   padding: 10px;
@@ -21,7 +23,11 @@ interface Props {
 }
 
 const ContentBox = ({ children, ...props }: Props) => {
-  return <Container bgColor={props.bgColor}>{children}</Container>;
+  return (
+    <Container bgColor={props.bgColor} fgColor={props.fgColor}>
+      {children}
+    </Container>
+  );
 };
 
 export default ContentBox;

@@ -1,14 +1,19 @@
 import { createTheme } from '@mui/material';
 
+type FGBG = {
+  bg: string;
+  fg: string;
+};
+
 declare module '@mui/material/styles' {
   interface Theme {
     tier: {
-      bronze: string;
-      silver: string;
-      gold: string;
-      platinum: string;
-      diamond: string;
-      ruby: string;
+      bronze: FGBG;
+      silver: FGBG;
+      gold: FGBG;
+      platinum: FGBG;
+      diamond: FGBG;
+      ruby: FGBG;
     };
     unwaLight: {
       background: string;
@@ -17,15 +22,14 @@ declare module '@mui/material/styles' {
       background: string;
     };
   }
-  // allow configuration using `createTheme`
   interface ThemeOptions {
     tier?: {
-      bronze?: string;
-      silver?: string;
-      gold?: string;
-      platinum?: string;
-      diamond?: string;
-      ruby?: string;
+      bronze?: FGBG;
+      silver?: FGBG;
+      gold?: FGBG;
+      platinum?: FGBG;
+      diamond?: FGBG;
+      ruby?: FGBG;
     };
     unwaLight?: {
       background?: string;
@@ -38,13 +42,12 @@ declare module '@mui/material/styles' {
 
 export const theme = createTheme({
   tier: {
-    // '#ef8037' to #592401
-    bronze: 'linear-gradient(130deg, #ef8037 0%, #592401 100%)',
-    silver: '#c5bdcb', // gradient: #263548
-    gold: '#ffbf35', // gradient: #d46d1c
-    platinum: '#7bbb71', // gradient: #3ba3c4 #439983
-    diamond: '#84a9d4', // gradient: #3c95d2 #3c4e87
-    ruby: '#da4450', // gradient: #bb0047
+    bronze: { bg: 'linear-gradient(130deg, #ef8037 0%, #592401 100%)', fg: '#fff' },
+    silver: { bg: 'linear-gradient(130deg, #c5bdcb 0%, #263548 100%)', fg: '#fff' },
+    gold: { bg: 'linear-gradient(130deg, #ffbf35 0%, #d46d1c 100%)', fg: '#fff' },
+    platinum: { bg: 'linear-gradient(130deg, #7bbb71 0%, #439983 100%)', fg: '#fff' },
+    diamond: { bg: 'linear-gradient(130deg, #84a9d4 0%, #3c95d2 50%, #3c4e87 100%)', fg: '#fff' },
+    ruby: { bg: 'linear-gradient(130deg, #da4450 0%, #bb0047 100%)', fg: '#fff' },
   },
   unwaLight: {
     background: '#fff',
