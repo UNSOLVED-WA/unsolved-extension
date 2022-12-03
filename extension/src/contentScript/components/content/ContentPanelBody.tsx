@@ -1,11 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
-import { CircularProgress } from '@mui/joy';
-import { ContentBox } from '../../common';
-import Profile from './ProfileView';
-import useUserInfo from '../../hooks/useUserInfo';
-import Group from './Group';
-import Ranking from './RankingView';
+
+import RankingView from './RankingView';
+import RecommandView from './RecommandView';
+import ProfileView from './ProfileView';
 
 const Container = styled.div`
   width: 100%;
@@ -27,56 +25,13 @@ interface Props {
 }
 
 const ContentPanelBody = ({ selectedIndex }: Props) => {
-  const [svgHTML, setSvgHTML] = useState('');
-  const [myInfo, setMyInfo] = useUserInfo(null);
-  const svgRef = useRef(null);
-
-  // 프로필뷰로 분리 예정
-  useEffect(() => {
-    chrome.runtime.sendMessage({ message: 'fetchBadge', type: 'async' }, (response) => {
-      if (response.state === 'success') {
-        setSvgHTML(response.data);
-        if (svgRef.current) {
-          svgRef.current.lastElementChild.setAttribute('width', '270');
-          svgRef.current.lastElementChild.setAttribute('height', '135');
-          svgRef.current.lastElementChild.setAttribute('viewBox', '0 0 350 170');
-        }
-        chrome.storage.local.get('solvedUser', (result) => {
-          setMyInfo(result.solvedUser.user);
-        });
-      }
-    });
-  }, [selectedIndex, setMyInfo]);
-
   return (
     <Container>
       {
         {
-          0: (
-            <div className='panel-contents'>
-              {myInfo ? <Profile myBjoId={myInfo.handle} bio={myInfo.bio} /> : <CircularProgress color='danger' size='sm' />}
-              {myInfo ? <Group bjoOrganization={myInfo.organizations} /> : <CircularProgress color='danger' size='sm' />}
-              <ContentBox>
-                <div>hi2</div>
-              </ContentBox>
-              <ContentBox>
-                <div>hi3</div>
-              </ContentBox>
-              {svgHTML == '' ? (
-                <CircularProgress color='danger' size='sm' />
-              ) : (
-                <div ref={svgRef} dangerouslySetInnerHTML={{ __html: svgHTML }} />
-              )}
-            </div>
-          ),
-          1: <Ranking />,
-          2: (
-            <div className='panel-contents'>
-              <ContentBox>
-                <div>hi</div>
-              </ContentBox>
-            </div>
-          ),
+          0: <ProfileView />,
+          1: <RankingView />,
+          2: <RecommandView />,
         }[selectedIndex]
       }
     </Container>

@@ -6,7 +6,7 @@ const RankingView = () => {
   const [ranking, setRanking] = useState<Ranking[]>([]);
 
   useEffect(() => {
-    chrome.runtime.sendMessage({ message: 'fetchRanking', type: 'async' }, (response) => {
+    chrome.runtime.sendMessage({ message: 'fetchRanking', type: 'async', data: '1' }, (response) => {
       if (response.state === 'success') {
         setRanking(response.data);
       }
