@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { CacheProvider, Global, ThemeProvider, useTheme, css } from '@emotion/react';
+import { CacheProvider, Global, css } from '@emotion/react';
+import { ThemeProvider, useTheme } from '@mui/joy';
 import createCache from '@emotion/cache';
 import weakMemoize from '@emotion/weak-memoize';
 import { createWebIcon, icons } from './style/icons';
@@ -39,8 +40,8 @@ export const IFrame = ({ children, title }: { children: React.ReactNode; title: 
       {mountNode &&
         insertionTarget &&
         createPortal(
-          <ThemeProvider theme={theme}>
-            <CacheProvider value={memoizedCreateCacheWithContainer(insertionTarget)}>
+          <CacheProvider value={memoizedCreateCacheWithContainer(insertionTarget)}>
+            <ThemeProvider theme={theme}>
               <Global
                 styles={css`
                   * {
@@ -67,8 +68,8 @@ export const IFrame = ({ children, title }: { children: React.ReactNode; title: 
                 `}
               />
               {children}
-            </CacheProvider>
-          </ThemeProvider>,
+            </ThemeProvider>
+          </CacheProvider>,
           mountNode
         )}
     </iframe>
