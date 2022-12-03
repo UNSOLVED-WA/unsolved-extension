@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CacheProvider, Global, css } from '@emotion/react';
-import { ThemeProvider, useTheme } from '@mui/joy';
+import { ThemeProvider, useTheme } from '@mui/material';
 import createCache from '@emotion/cache';
 import weakMemoize from '@emotion/weak-memoize';
 import { createWebIcon, icons } from './style/icons';

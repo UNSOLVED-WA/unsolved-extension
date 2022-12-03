@@ -1,7 +1,7 @@
 import React from 'react';
 import { ContentBox } from '../../common';
 import SVG from 'react-inlinesvg';
-import { CircularProgress } from '@mui/joy';
+import { CircularProgress } from '@mui/material';
 import { useProfile } from '../../hooks/useProfile';
 import { useBadge } from '../../hooks/useBadge';
 
