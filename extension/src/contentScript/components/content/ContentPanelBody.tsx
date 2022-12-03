@@ -5,6 +5,8 @@ import RankingView from './RankingView';
 import RecommandView from './RecommandView';
 import ProfileView from './ProfileView';
 
+import { fadeIn } from '../../style/animation.style';
+
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -17,6 +19,8 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     width: 100%;
+
+    animation: ${fadeIn} 0.5s ease-in-out;
   }
 `;
 
