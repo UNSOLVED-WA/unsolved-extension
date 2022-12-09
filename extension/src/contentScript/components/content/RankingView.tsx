@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useTheme } from '@mui/material';
 import { Ranking } from '../../../@types/Ranking';
 import { ContentBox } from '../../common';
 
 const RankingView = () => {
-  const theme = useTheme();
   const [ranking, setRanking] = useState<Ranking[]>([]);
 
   useEffect(() => {
@@ -18,7 +16,7 @@ const RankingView = () => {
   return (
     <div className='panel-contents'>
       {ranking.map((user) => (
-        <ContentBox key={user.teamName + user.bojId} bgColor={theme.tier.gold.bg} fgColor={theme.tier.gold.fg}>
+        <ContentBox key={user.teamName + user.bojId} color='bronze'>
           <div>{user.bojId}</div>
           <div>{user.score}</div>
         </ContentBox>

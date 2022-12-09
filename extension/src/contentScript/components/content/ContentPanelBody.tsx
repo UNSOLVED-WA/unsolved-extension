@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 
 import RankingView from './RankingView';
 import RecommandView from './RecommandView';
 import ProfileView from './ProfileView';
-
 import { fadeIn } from '../../style/animation.style';
 
 const Container = styled.div`
@@ -21,6 +20,7 @@ const Container = styled.div`
     width: 100%;
 
     animation: ${fadeIn} 0.5s ease-in-out;
+    padding-bottom: 9px;
   }
 `;
 
@@ -29,11 +29,18 @@ interface Props {
 }
 
 const ContentPanelBody = ({ selectedIndex }: Props) => {
+  const [toggle, setToggle] = useState(false);
+  const toggleAction = () => setToggle((prev) => !prev);
+
+  useEffect(() => {
+    console.log(toggle);
+  }, [toggle]);
+
   return (
     <Container>
       {
         {
-          0: <ProfileView />,
+          0: <ProfileView refresh={toggleAction} />,
           1: <RankingView />,
           2: <RecommandView />,
         }[selectedIndex]
