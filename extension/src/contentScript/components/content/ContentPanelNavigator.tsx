@@ -59,4 +59,4 @@ const ContentPanelNavigator = ({ contents, handleSelectedIndex }: NavigatorProps
   );
 };
 
-export default ContentPanelNavigator;
+export default React.memo(ContentPanelNavigator);

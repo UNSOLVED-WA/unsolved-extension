@@ -49,4 +49,4 @@ const ContentPanelBody = ({ selectedIndex }: Props) => {
   );
 };
 
-export default ContentPanelBody;
+export default React.memo(ContentPanelBody);
