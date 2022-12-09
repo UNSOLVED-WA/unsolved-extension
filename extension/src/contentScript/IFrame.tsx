@@ -32,6 +32,7 @@ export const IFrame = ({ children, title }: { children: React.ReactNode; title: 
       insertionTarget.appendChild(createWebIcon(icons.face));
       insertionTarget.appendChild(createWebIcon(icons.star));
       insertionTarget.appendChild(createWebIcon(icons.recommend));
+      insertionTarget.appendChild(createWebIcon(icons.refresh));
     }
   }, [insertionTarget]);
 
@@ -46,7 +47,7 @@ export const IFrame = ({ children, title }: { children: React.ReactNode; title: 
                 styles={css`
                   * {
                     font-family: 'Roboto', sans-serif;
-                    line-height: 16px;
+                    /* line-height: 16px; */
                     box-sizing: border-box;
                   }
                   .material-symbols-outlined {
@@ -63,7 +64,7 @@ export const IFrame = ({ children, title }: { children: React.ReactNode; title: 
 
                     font-size: 20px;
                     font-weight: 600;
-                    padding: 5px 7.5px;
+                    padding: 0px 7.5px;
                   }
                 `}
               />
