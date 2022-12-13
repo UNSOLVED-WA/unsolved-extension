@@ -7,12 +7,12 @@ export const dummyRanking1 = {
 };
 export const dummyRanking2 = {
   teamName: '42Seoul',
-  bojId: 'asdf',
+  bojId: 'mosong',
   score: 120,
 };
 export const dummyRanking3 = {
   teamName: '42Seoul',
-  bojId: 'zxcv',
+  bojId: 'firefinger08',
   score: 130,
 };
 export const dummyRanking4 = {
