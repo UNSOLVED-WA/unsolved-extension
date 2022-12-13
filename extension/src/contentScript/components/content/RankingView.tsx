@@ -16,7 +16,7 @@ const RankingView = () => {
   return (
     <div className='panel-contents'>
       {ranking.map((user) => (
-        <ContentBox key={user.teamName + user.bojId}>
+        <ContentBox key={user.teamName + user.bojId} color='bronze'>
           <div>{user.bojId}</div>
           <div>{user.score}</div>
         </ContentBox>

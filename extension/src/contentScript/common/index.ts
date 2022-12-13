@@ -1,3 +1,4 @@
 import ContentBox from './ContentBox';
+import Flex from './Flex';
 
-export { ContentBox };
+export { ContentBox, Flex };

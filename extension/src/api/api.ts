@@ -6,7 +6,7 @@ import * as mockAPI from './mockapi';
 
 const UNSOLVED_BASE_URL = 'https://heyinsa.kr/unsolved/';
 const SOLVED_URL = 'https://solved.ac/api/v3/account/verify_credentials';
-const BOJBADGE_URL = 'https://mazassumnida.wtf/api/generate_badge?boj=';
+const BOJBADGE_URL = 'https://mazassumnida.wtf/api/v2/generate_badge?boj=';
 
 const convertURL = (strings: string[]) => strings.join('/');
 

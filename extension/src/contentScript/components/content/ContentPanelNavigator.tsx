@@ -47,7 +47,7 @@ const ContentPanelNavigator = ({ contents, handleSelectedIndex }: NavigatorProps
         ))}
       </div>
       <div className='naviitem texts' ref={navigatorTextsRef}>
-        <span className='unsolved'>unsolved</span>
+        <span className='unsolved text'>unsolved</span>
         <Divider />
         {contents.map((item, index) => (
           <span className='text' key={'text-' + item.text} onClick={() => handleClick(index)}>
@@ -59,4 +59,4 @@ const ContentPanelNavigator = ({ contents, handleSelectedIndex }: NavigatorProps
   );
 };
 
-export default ContentPanelNavigator;
+export default React.memo(ContentPanelNavigator);
