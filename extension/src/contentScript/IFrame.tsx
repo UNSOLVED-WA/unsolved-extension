@@ -48,6 +48,10 @@ export const IFrame = ({ children, title }: { children: React.ReactNode; title: 
                     font-family: 'Roboto', sans-serif;
                     line-height: 16px;
                     box-sizing: border-box;
+                    -webkit-user-select: none;
+                    -moz-user-select: none;
+                    -ms-user-select: none;
+                    user-select: none;
                   }
                   .material-symbols-outlined {
                     font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
