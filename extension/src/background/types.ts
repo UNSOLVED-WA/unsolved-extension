@@ -2,6 +2,7 @@ export type RequestMessage =
   | 'fetchUser' //
   | 'fetchBadge'
   | 'fetchRanking'
+  | 'fetchRecommand'
   | 'submit'
   | 'toLogin'
   | 'hideButton'

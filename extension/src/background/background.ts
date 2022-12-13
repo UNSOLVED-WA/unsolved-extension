@@ -19,6 +19,16 @@ function fetchRanking(sendResponse: SendResponse, teamId: string) {
     });
 }
 
+function fetchRecommand(sendResponse: SendResponse, teamId: string, tier: string) {
+  API.ProblemService.getUnsolvedProblems(teamId, tier)
+    .then((data) => {
+      sendResponse({ state: 'success', data });
+    })
+    .catch((error) => {
+      sendResponse({ state: 'fail', message: error.message });
+    });
+}
+
 function fetchUser(sendResponse: SendResponse) {
   API.ExternalService.getSolvedUsers()
     .then((data) => {
@@ -71,6 +81,9 @@ function asyncRequest(request: Request, sendResponse: SendResponse) {
       break;
     case 'fetchRanking':
       fetchRanking(sendResponse, request.data);
+      break;
+    case 'fetchRecommand':
+      fetchRecommand(sendResponse, request.data.teamId, request.data.tier);
       break;
     case 'submit':
       chrome.storage.local.get('submit', (data) => {
