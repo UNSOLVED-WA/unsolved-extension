@@ -6,7 +6,9 @@ export type RequestMessage =
   | 'submit'
   | 'toLogin'
   | 'hideButton'
-  | 'sendNotification';
+  | 'sendNotification'
+  | 'toRedirectProblem'
+  | 'toRedirectUser';
 
 export type Request = {
   message: RequestMessage;

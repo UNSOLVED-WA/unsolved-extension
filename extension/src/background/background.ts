@@ -118,6 +118,16 @@ function syncRequest(request: Request) {
         iconUrl: 'https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png',
       });
       break;
+    case 'toRedirectProblem':
+      chrome.tabs.create({
+        url: `https://www.acmicpc.net/problem/${request.data}`,
+      });
+      break;
+    case 'toRedirectUser':
+      chrome.tabs.create({
+        url: `https://www.acmicpc.net/user/${request.data}`,
+      });
+      break;
   }
 }
 
