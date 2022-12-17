@@ -13,6 +13,10 @@ const ProfileView = ({ refresh }: Props) => {
   const { profile, isLoaded: isProfileLoaded } = useProfile();
   const { badge, isLoaded: isBadgeLoaded } = useBadge();
 
+  const redirectUserInfo = (bojId: string) => {
+    chrome.runtime.sendMessage({ message: 'toRedirectUser', type: 'sync', data: bojId });
+  };
+
   if (!isProfileLoaded || !isBadgeLoaded) {
     return <CircularProgress />;
   }
@@ -21,22 +25,24 @@ const ProfileView = ({ refresh }: Props) => {
     <div className='panel-contents'>
       <ContentBox defined='error' definedAction={refresh} />
       <ContentBox title='Solved Profile'>
-        <Flex direction='row' divided='two'>
-          <b>ID</b>
-          <div>{profile.user.handle}</div>
-        </Flex>
-        <Flex direction='row' divided='two'>
-          <b>Bio</b>
-          <div>{profile.user.bio}</div>
-        </Flex>
-        <Flex direction='row' divided='two'>
-          <b>Coins</b>
-          <div>{profile.user.coins}</div>
-        </Flex>
-        <Flex direction='row' divided='two'>
-          <b>Exp</b>
-          <div>{profile.user.exp}</div>
-        </Flex>
+        <div onClick={() => redirectUserInfo(profile.user.handle)}>
+          <Flex direction='row' divided='two'>
+            <b>ID</b>
+            <div>{profile.user.handle}</div>
+          </Flex>
+          <Flex direction='row' divided='two'>
+            <b>Bio</b>
+            <div>{profile.user.bio}</div>
+          </Flex>
+          <Flex direction='row' divided='two'>
+            <b>Coins</b>
+            <div>{profile.user.coins}</div>
+          </Flex>
+          <Flex direction='row' divided='two'>
+            <b>Exp</b>
+            <div>{profile.user.exp}</div>
+          </Flex>
+        </div>
       </ContentBox>
       <ContentBox title='Unsolved Profile'>
         <Flex direction='row' divided='two'>

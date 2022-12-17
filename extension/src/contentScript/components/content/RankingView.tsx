@@ -5,7 +5,9 @@ import { ContentBox } from '../../common';
 const RankingView = () => {
   const [ranking, setRanking] = useState<Ranking[]>([]);
 
-  const redirectUserInfo = (bojId: string) => (window.location.href = `https://www.acmicpc.net/user/${bojId}`);
+  const redirectUserInfo = (bojId: string) => {
+    chrome.runtime.sendMessage({ message: 'toRedirectUser', type: 'sync', data: bojId });
+  };
 
   useEffect(() => {
     // TODO: 여러 그룹일 경우 data에 넣을 teamId 설정 필요

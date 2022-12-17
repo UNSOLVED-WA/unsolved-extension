@@ -5,7 +5,9 @@ import { ContentBox } from '../../common';
 const RecommandView = () => {
   const [recommand, setRecommand] = useState<ProblemResponse[]>([]);
 
-  const redirectProblemInfo = (data: number) => (window.location.href = `https://www.acmicpc.net/problem/${data}`);
+  const redirectProblemInfo = (problemId: number) => {
+    chrome.runtime.sendMessage({ message: 'toRedirectProblem', type: 'sync', data: problemId });
+  };
 
   useEffect(() => {
     // TODO: 추천 문제 갖고오는 message
