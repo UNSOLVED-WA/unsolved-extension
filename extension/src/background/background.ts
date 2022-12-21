@@ -92,6 +92,11 @@ function syncRequest(request: Request) {
         url: 'https://solved.ac/',
       });
       break;
+    case 'toRegisterInSchool':
+      chrome.tabs.create({
+        url: 'https://www.acmicpc.net/setting/school',
+      });
+      break;
     case 'hideButton':
       chrome.storage.local.get('hideButton', (data) => {
         chrome.storage.local.set({ hideButton: !data.hideButton });

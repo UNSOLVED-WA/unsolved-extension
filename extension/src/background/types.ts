@@ -5,7 +5,8 @@ export type RequestMessage =
   | 'submit'
   | 'toLogin'
   | 'hideButton'
-  | 'sendNotification';
+  | 'sendNotification'
+  | 'toRegisterInSchool';
 
 export type Request = {
   message: RequestMessage;

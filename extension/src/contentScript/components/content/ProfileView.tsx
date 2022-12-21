@@ -48,20 +48,39 @@ const ProfileView = ({ refresh }: Props) => {
           <div>10</div>
         </Flex>
       </ContentBox>
-      <ContentBox title='Organization Info'>
-        <Flex direction='row' divided='two'>
-          <b>Name</b>
-          <div>{profile.user.organizations[0].name}</div>
-        </Flex>
-        <Flex direction='row' divided='two'>
-          <b>User Count</b>
-          <div>{profile.user.organizations[0].userCount}</div>
-        </Flex>
-        <Flex direction='row' divided='two'>
-          <b>Rating</b>
-          <div>{profile.user.organizations[0].rating}</div>
-        </Flex>
-      </ContentBox>
+      {profile.user.organizations.length === 0 ? (
+        <>
+          <ContentBox color='error'>
+            <div
+              onClick={() => {
+                chrome.runtime.sendMessage({ message: 'toRegisterInSchool', type: 'sync' });
+              }}
+              style={{ cursor: 'pointer' }}
+            >
+              <Flex direction='row' divided='none'>
+                학교/회사 정보를 추가해주세요
+              </Flex>
+            </div>
+          </ContentBox>
+        </>
+      ) : (
+        <>
+          <ContentBox title='Organization Info'>
+            <Flex direction='row' divided='two'>
+              <b>Name</b>
+              <div>{profile.user.organizations[0].name}</div>
+            </Flex>
+            <Flex direction='row' divided='two'>
+              <b>User Count</b>
+              <div>{profile.user.organizations[0].userCount}</div>
+            </Flex>
+            <Flex direction='row' divided='two'>
+              <b>Rating</b>
+              <div>{profile.user.organizations[0].rating}</div>
+            </Flex>
+          </ContentBox>
+        </>
+      )}
       <SVG width={270} height={135} viewBox='0 0 350 170' src={badge} />
     </div>
   );
