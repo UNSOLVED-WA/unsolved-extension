@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ProblemResponse } from '../../../@types/Problem';
 import { ContentBox, Flex } from '../../common';
 import styled from '@emotion/styled';
+import { numberToTier } from '../../utils/numberToTier';
 
 const RecommandView = () => {
   const [recommand, setRecommand] = useState<ProblemResponse[]>([]);
@@ -20,19 +21,23 @@ const RecommandView = () => {
 
   return (
     <div className='panel-contents'>
-      {recommand.map((problem) => (
-        <ContentBox key={problem.problemId} color='bronze'>
-          <ReccomandBox onClick={() => redirectProblemInfo(problem.problemId)}>
-            <Flex direction='column' gap='0px' align='start'>
-              <Flex direction='row' justify='space-between'>
-                <span className='problem-id'>No.{problem.problemId}</span>
-                <span className='problem-tier'>bronze {problem.tier}</span>
+      {recommand.map((problem) => {
+        const { problemId, problemTitle, tier } = problem;
+        const tierInfo = numberToTier(tier);
+        return (
+          <ContentBox key={problemId} color={tierInfo.tier}>
+            <ReccomandBox onClick={() => redirectProblemInfo(problemId)}>
+              <Flex direction='column' gap='0px' align='start'>
+                <Flex direction='row' justify='space-between'>
+                  <span className='problem-id'>No.{problemId}</span>
+                  <span className='problem-tier'>{tierInfo.tier + ' ' + tierInfo.level}</span>
+                </Flex>
+                <span className='problem-title'>{problemTitle}</span>
               </Flex>
-              <span className='problem-title'>{problem.problemTitle}</span>
-            </Flex>
-          </ReccomandBox>
-        </ContentBox>
-      ))}
+            </ReccomandBox>
+          </ContentBox>
+        );
+      })}
     </div>
   );
 };
