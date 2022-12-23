@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Ranking } from '../../../@types/Ranking';
-import { ContentBox } from '../../common';
+import { ContentBox, Flex } from '../../common';
+
+import styled from '@emotion/styled';
 
 const RankingView = () => {
   const [ranking, setRanking] = useState<Ranking[]>([]);
@@ -20,12 +22,17 @@ const RankingView = () => {
 
   return (
     <div className='panel-contents'>
-      {ranking.map((user) => (
-        <ContentBox key={user.teamName + user.bojId} color='bronze'>
-          <div onClick={() => redirectUserInfo(user.bojId)}>
-            <div>{user.bojId}</div>
-            <div>{user.score}</div>
-          </div>
+      {ranking.map((user, index) => (
+        <ContentBox key={user.teamName + user.bojId} color='bronze' type='border' pointer={true}>
+          <RankingBox onClick={() => redirectUserInfo(user.bojId)}>
+            <Flex direction='row' justify='space-between' gap='10px'>
+              <div>
+                <span>{index}</span>
+                <span>{user.bojId}</span>
+              </div>
+              <span>{user.score}</span>
+            </Flex>
+          </RankingBox>
         </ContentBox>
       ))}
     </div>
@@ -33,3 +40,17 @@ const RankingView = () => {
 };
 
 export default RankingView;
+
+const RankingBox = styled.div`
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  .user-ranking {
+  }
+  .user-id {
+  }
+`;

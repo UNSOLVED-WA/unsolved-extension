@@ -25,7 +25,7 @@ const RecommandView = () => {
         const { problemId, problemTitle, tier } = problem;
         const tierInfo = numberToTier(tier);
         return (
-          <ContentBox key={problemId} color={tierInfo.tier}>
+          <ContentBox key={problemId} color={tierInfo.tier} pointer={true}>
             <ReccomandBox onClick={() => redirectProblemInfo(problemId)}>
               <Flex direction='column' gap='0px' align='start'>
                 <Flex direction='row' justify='space-between'>
