@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 const NavigatorContainer = styled.div`
   width: 60px;
   height: 100%;
-
+  z-index: 100;
   position: absolute;
   border-radius: 15px !important;
   left: 0;

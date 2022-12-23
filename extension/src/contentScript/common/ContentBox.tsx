@@ -54,6 +54,7 @@ export default ContentBox;
 const Container = styled.div<{ bgColor?: string; fgColor?: string }>`
   width: calc(100% - 20px);
   height: auto;
+  position: relative;
 
   color: ${(props) => props.fgColor || 'black'};
   background: ${(props) => props.bgColor || 'white'};
