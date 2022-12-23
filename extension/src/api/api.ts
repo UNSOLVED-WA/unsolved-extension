@@ -50,6 +50,12 @@ const UserService = {
 };
 
 const ProblemService = {
+  /**
+   * 해결한 문제를 unsolved 서버에 전송후 score 받기
+   * @param userId
+   * @param problemNumber
+   * @returns 그룹랭킹 상승에 기여한 score
+   */
   updateUnsolvedProblems: async (userId: number, problemNumber: number) => {
     const body: ProblemRequest = {
       userId: userId,
@@ -57,6 +63,12 @@ const ProblemService = {
     };
     return serviceInterface<ProblemResponse[]>(convertURL([UNSOLVED_BASE_URL, 'problems']), 'POST', body);
   },
+  /**
+   * unsolved 리스트 조회(?) // TODO: backend에서 어떤 문제 리스트를 보내주는지 알려줘야함(티어에 맞는 문제만 보내주는건지)
+   * @param teamId
+   * @param tier
+   * @returns 문제 리스트
+   */
   getUnsolvedProblems: async (teamId: string, tier: string) => {
     return serviceInterface<ProblemResponse[]>(convertURL([UNSOLVED_BASE_URL, 'problems', teamId, tier]), 'GET');
   },

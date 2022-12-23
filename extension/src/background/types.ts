@@ -2,10 +2,13 @@ export type RequestMessage =
   | 'fetchUser' //
   | 'fetchBadge'
   | 'fetchRanking'
+  | 'fetchRecommand'
   | 'submit'
   | 'toLogin'
   | 'hideButton'
-  | 'sendNotification';
+  | 'sendNotification'
+  | 'toRedirectProblem'
+  | 'toRedirectUser';
 
 export type Request = {
   message: RequestMessage;

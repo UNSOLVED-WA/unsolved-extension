@@ -19,6 +19,16 @@ function fetchRanking(sendResponse: SendResponse, teamId: string) {
     });
 }
 
+function fetchRecommand(sendResponse: SendResponse, teamId: string, tier: string) {
+  API.ProblemService.getUnsolvedProblems(teamId, tier)
+    .then((data) => {
+      sendResponse({ state: 'success', data });
+    })
+    .catch((error) => {
+      sendResponse({ state: 'fail', message: error.message });
+    });
+}
+
 function fetchUser(sendResponse: SendResponse) {
   API.ExternalService.getSolvedUsers()
     .then((data) => {
@@ -72,6 +82,9 @@ function asyncRequest(request: Request, sendResponse: SendResponse) {
     case 'fetchRanking':
       fetchRanking(sendResponse, request.data);
       break;
+    case 'fetchRecommand':
+      fetchRecommand(sendResponse, request.data.teamId, request.data.tier);
+      break;
     case 'submit':
       chrome.storage.local.get('submit', (data) => {
         if (data.submit !== '') {
@@ -103,6 +116,16 @@ function syncRequest(request: Request) {
         title: 'Unsolved.WA',
         message: '문제풀 시간입니다.',
         iconUrl: 'https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png',
+      });
+      break;
+    case 'toRedirectProblem':
+      chrome.tabs.create({
+        url: `https://www.acmicpc.net/problem/${request.data}`,
+      });
+      break;
+    case 'toRedirectUser':
+      chrome.tabs.create({
+        url: `https://www.acmicpc.net/user/${request.data}`,
       });
       break;
   }
