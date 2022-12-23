@@ -1,46 +1,78 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
-type Direction = 'row' | 'column';
+type Direction = 'row' | 'column' | 'row-reverse' | 'column-reverse';
 type Divided = 'none' | 'two' | 'three';
 
-const Container = styled.div<{ direction?: Direction; divided?: Divided }>`
-  /* width: calc(100% - 20px); */
-  width: 100%;
-  display: flex;
-  flex-direction: ${(props) => props.direction || 'row'};
-  justify-content: space-between;
-
-  font-size: 0.9rem;
-
-  gap: 30px;
-  /* color: #555555; */
-  && > * {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
-  && > *:last-child {
-    text-align: end;
-  }
-  .material-symbols-outlined {
-    font-size: 1.2rem;
-    cursor: pointer;
-  }
-`;
-
 interface Props {
+  className?: string;
   children?: React.ReactNode;
   direction?: Direction;
   divided?: Divided;
+  width?: string;
+  height?: string;
+  align?: 'start' | 'center' | 'end';
+  justify?: 'space-between' | 'space-around' | 'space-evenly' | 'start' | 'center' | 'end';
+  gap?: string;
+  flexGrow?: number;
+  flexShrink?: number;
+  flexBasis?: string;
 }
 
 const Flex = ({ children, ...props }: Props) => {
   return (
-    <Container direction={props.direction} divided={props.divided}>
+    <Container
+      className={props.className}
+      direction={props.direction}
+      divided={props.divided}
+      width={props.width}
+      height={props.height}
+      align={props.align}
+      justify={props.justify}
+      gap={props.gap}
+      flexGrow={props.flexGrow}
+      flexShrink={props.flexShrink}
+      flexBasis={props.flexBasis}
+    >
       {children}
     </Container>
   );
 };
 
 export default Flex;
+
+const Container = styled.div<Props>`
+  width: ${(props) => props.width ?? '100%'};
+  height: ${(props) => props.height ?? 'auto'};
+  display: flex;
+  flex-direction: ${(props) => props.direction ?? 'row'};
+
+  justify-content: ${(props) => props.justify ?? 'space-between'};
+  align-items: ${(props) => props.align ?? 'center'};
+  gap: ${(props) => props.gap ?? '0px'};
+
+  flex-grow: ${(props) => props.flexGrow ?? 1};
+  flex-shrink: ${(props) => props.flexShrink ?? 1};
+  flex-basis: ${(props) => props.flexBasis ?? 'auto'};
+
+  font-size: 0.9rem;
+
+  ${(props) =>
+    props.divided === 'two' &&
+    `
+    color: #555555;
+    `}
+
+  && > * {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  && > *:last-child {
+    text-align: ${(props) => (props.divided === 'two' ? 'end' : 'left')};
+  }
+  .material-symbols-outlined {
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+`;
