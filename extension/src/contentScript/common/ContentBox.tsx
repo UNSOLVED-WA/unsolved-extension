@@ -77,7 +77,6 @@ const Container = styled.div<{ bgColor?: string; fgColor?: string; type?: 'borde
   }}
 
   box-shadow: rgb(0 0 0 / 10%) 0px 2px 16px 1px;
-  /* padding: 10px; */
   margin: 1px 0 10px;
 
   display: flex;
