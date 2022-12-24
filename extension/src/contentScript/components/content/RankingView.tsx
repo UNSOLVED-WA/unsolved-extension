@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Ranking } from '../../../@types/Ranking';
 import { ContentBox, Flex } from '../../common';
-
+import { indexToTier } from '../../utils/indexToTier';
 import styled from '@emotion/styled';
 
 const RankingView = () => {
@@ -22,7 +22,7 @@ const RankingView = () => {
   return (
     <div className='panel-contents'>
       {ranking.map((user, index) => (
-        <ContentBox key={user.teamName + user.bojId} color='bronze' type='border' pointer={true}>
+        <ContentBox key={user.teamName + user.bojId} color={indexToTier(index)} type='border' pointer={true}>
           <RankingBox onClick={() => redirectUserInfo(user.bojId)}>
             <Flex direction='row' justify='space-between' gap='10px'>
               <div>
