@@ -40,7 +40,7 @@ const ProfileView = ({ refresh }: Props) => {
           </Flex>
           <Flex direction='row' divided='two'>
             <b>Exp</b>
-            <div>{profile.user.exp}</div>
+            <div>{profile.user.exp.toLocaleString('ko-KR')}</div>
           </Flex>
         </div>
       </ContentBox>
@@ -61,11 +61,11 @@ const ProfileView = ({ refresh }: Props) => {
         </Flex>
         <Flex direction='row' divided='two'>
           <b>User Count</b>
-          <div>{profile.user.organizations[0].userCount}</div>
+          <div>{profile.user.organizations[0].userCount.toLocaleString('ko-KR')}</div>
         </Flex>
         <Flex direction='row' divided='two'>
           <b>Rating</b>
-          <div>{profile.user.organizations[0].rating}</div>
+          <div>{profile.user.organizations[0].rating.toLocaleString('ko-KR')}</div>
         </Flex>
       </ContentBox>
       <SVG width={270} height={135} viewBox='0 0 350 170' src={badge} />

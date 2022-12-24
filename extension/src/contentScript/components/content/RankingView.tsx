@@ -26,10 +26,10 @@ const RankingView = () => {
           <RankingBox onClick={() => redirectUserInfo(user.bojId)}>
             <Flex direction='row' justify='space-between' gap='10px'>
               <div>
-                <span>{index}</span>
-                <span>{user.bojId}</span>
+                <span className='ranking-index'>{index}. </span>
+                <span className='ranking-id'>{user.bojId}</span>
               </div>
-              <span>ⓟ {user.score}</span>
+              <span className='ranking-score'>ⓟ {user.score}</span>
             </Flex>
           </RankingBox>
         </ContentBox>
@@ -48,8 +48,8 @@ const RankingBox = styled.div`
 
   gap: 10px;
 
-  .user-ranking {
-  }
-  .user-id {
+  .ranking-id,
+  .ranking-score {
+    font-weight: 600;
   }
 `;
