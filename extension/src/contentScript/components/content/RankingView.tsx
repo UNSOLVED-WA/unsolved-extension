@@ -12,7 +12,6 @@ const RankingView = () => {
   };
 
   useEffect(() => {
-    // TODO: 여러 그룹일 경우 data에 넣을 teamId 설정 필요
     chrome.runtime.sendMessage({ message: 'fetchRanking', type: 'async', data: '1' }, (response) => {
       if (response.state === 'success') {
         setRanking(response.data);
@@ -30,7 +29,7 @@ const RankingView = () => {
                 <span>{index}</span>
                 <span>{user.bojId}</span>
               </div>
-              <span>{user.score}</span>
+              <span>ⓟ {user.score}</span>
             </Flex>
           </RankingBox>
         </ContentBox>

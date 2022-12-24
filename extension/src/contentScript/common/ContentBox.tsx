@@ -45,8 +45,10 @@ const ContentBox = ({ children, ...props }: Props) => {
   }
   return (
     <Container bgColor={theme.uwcolor[props.color]?.bg} fgColor={theme.uwcolor[props.color]?.fg} type={props.type} pointer={props.pointer}>
-      {props.title && <h4 className='contentbox-title'>{props.title}</h4>}
-      {children}
+      <div>
+        {props.title && <h4 className='contentbox-title'>{props.title}</h4>}
+        {children}
+      </div>
     </Container>
   );
 };
@@ -68,20 +70,24 @@ const Container = styled.div<{ bgColor?: string; fgColor?: string; type?: 'borde
       background: white;
       border: 1px solid transparent;
       background-image: linear-gradient(#fff, #fff), ${props.bgColor ?? 'white'};
-      background-origin: padding-box;
-      background-clip: padding-box, border-box;
+      background-origin: border-box;
+      background-clip: content-box, border-box;
     `;
     }
   }}
 
   box-shadow: rgb(0 0 0 / 10%) 0px 2px 16px 1px;
-  padding: 10px;
+  /* padding: 10px; */
   margin: 1px 0 10px;
 
   display: flex;
   flex-direction: column;
   gap: 5px;
   cursor: ${(props) => (props.pointer ? 'pointer' : 'default')};
+
+  > div {
+    padding: 10px;
+  }
 
   .contentbox-title {
     margin: 0;
