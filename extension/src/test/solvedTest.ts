@@ -17,6 +17,12 @@ if (window.location.pathname.includes('/status')) {
 
   const checkPassed = () => {
     if (result.children[0].innerHTML === '맞았습니다!!') {
+      chrome.runtime.sendMessage({ message: 'submit', type: 'async' }, (response) => {
+        if (response.state === 'success') {
+          // TODO: insert re-rendering code
+        }
+      });
+
       clearInterval(monitoring);
       clearTimeout(limitTime);
     }
