@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { ScrollDirection } from '../../types/types';
 
 const Container = styled.div<{ scrollDirection: ScrollDirection }>`
+  z-index: 100;
   position: absolute;
   width: 100%;
   height: 44px;
