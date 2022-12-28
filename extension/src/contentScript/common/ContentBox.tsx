@@ -25,6 +25,7 @@ interface Props {
   defined?: keyof UWColor;
   type?: 'border' | 'background';
   pointer?: boolean;
+  fullHeight?: boolean;
   definedAction?: () => void;
 }
 
@@ -44,7 +45,13 @@ const ContentBox = ({ children, ...props }: Props) => {
     );
   }
   return (
-    <Container bgColor={theme.uwcolor[props.color]?.bg} fgColor={theme.uwcolor[props.color]?.fg} type={props.type} pointer={props.pointer}>
+    <Container
+      bgColor={theme.uwcolor[props.color]?.bg}
+      fgColor={theme.uwcolor[props.color]?.fg}
+      type={props.type}
+      pointer={props.pointer}
+      fullHeight={props.fullHeight}
+    >
       <div>
         {props.title && <h4 className='contentbox-title'>{props.title}</h4>}
         {children}
@@ -55,9 +62,14 @@ const ContentBox = ({ children, ...props }: Props) => {
 
 export default ContentBox;
 
-const Container = styled.div<{ bgColor?: string; fgColor?: string; type?: 'border' | 'background'; pointer?: boolean }>`
+type ContainerProps = Pick<Props, 'type' | 'pointer' | 'fullHeight'> & {
+  bgColor?: string;
+  fgColor?: string;
+};
+
+const Container = styled.div<ContainerProps>`
   width: calc(100% - 20px);
-  height: auto;
+  height: ${(props) => (props.fullHeight ? '100%' : 'auto')};
   position: relative;
 
   color: ${(props) => (props.type === 'border' ? 'black' : props.fgColor ?? 'black')};
