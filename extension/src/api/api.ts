@@ -35,21 +35,13 @@ function setResponseType(response: Response, type = 'json') {
 }
 
 async function serviceInterface<T>(url: string, method: string, body?: any, type = 'json'): Promise<T> {
-  if (method === 'POST')
-    return fetch(url, {
-      method,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    })
-      .then(responseStatusCheck)
-      .then((response) => setResponseType(response, type));
-  else
-    return fetch(url, {
-      method,
-      body,
-    })
-      .then(responseStatusCheck)
-      .then((response) => setResponseType(response, type));
+  return fetch(url, {
+    method,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  })
+    .then(responseStatusCheck)
+    .then((response) => setResponseType(response, type));
 }
 
 const UserService = {
