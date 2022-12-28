@@ -4,7 +4,7 @@ import { Ranking } from '../@types/Ranking';
 import { SolvedUser } from '../@types/SolvedUser';
 import * as mockAPI from './mockapi';
 
-const UNSOLVED_BASE_URL = 'https://heyinsa.kr/unsolved/';
+const UNSOLVED_BASE_URL = 'https://heyinsa.kr/unsolved';
 const SOLVED_URL = 'https://solved.ac/api/v3/account/verify_credentials';
 const BOJBADGE_URL = 'https://mazassumnida.wtf/api/v2/generate_badge?boj=';
 
@@ -37,15 +37,16 @@ function setResponseType(response: Response, type = 'json') {
 async function serviceInterface<T>(url: string, method: string, body?: any, type = 'json'): Promise<T> {
   return fetch(url, {
     method,
-    body,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
   })
     .then(responseStatusCheck)
     .then((response) => setResponseType(response, type));
 }
 
 const UserService = {
-  getUnsolvedUsers: async (bojId: string) => {
-    return serviceInterface<UnsolvedUser[]>(convertURL([UNSOLVED_BASE_URL, 'users', bojId]), 'GET');
+  getUnsolvedUser: async (bojId: string) => {
+    return serviceInterface<UnsolvedUser>(convertURL([UNSOLVED_BASE_URL, 'users', bojId]), 'GET');
   },
 };
 
@@ -61,7 +62,8 @@ const ProblemService = {
       userId: userId,
       problemNumber: problemNumber,
     };
-    return serviceInterface<ProblemResponse[]>(convertURL([UNSOLVED_BASE_URL, 'problems']), 'POST', body);
+    console.log(userId, problemNumber);
+    return serviceInterface<ProblemResponse[]>(convertURL([UNSOLVED_BASE_URL, 'problems', 'solving']), 'POST', body);
   },
   /**
    * unsolved 리스트 조회(?) // TODO: backend에서 어떤 문제 리스트를 보내주는지 알려줘야함(티어에 맞는 문제만 보내주는건지)

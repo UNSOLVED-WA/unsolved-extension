@@ -1,5 +1,7 @@
 import { Request, SendResponse } from './types';
 import API from '../api/api';
+import { SolvedUser } from '../@types/SolvedUser';
+import { UnsolvedUser } from '../@types/UnsolvedUser';
 
 function fetchCachedData(_: Error, key: string) {
   return new Promise((resolve) => {
@@ -86,12 +88,17 @@ function asyncRequest(request: Request, sendResponse: SendResponse) {
       fetchRecommand(sendResponse, request.data.teamId, request.data.tier);
       break;
     case 'submit':
-      chrome.storage.local.get('submit', (data) => {
-        if (data.submit !== '') {
-          chrome.storage.local.set({ submit: '' });
-          sendResponse({ state: 'success' });
-        } else {
-          sendResponse({ state: 'fail' });
+      chrome.storage.local.get(['solvedUser', 'submit'], (res: any) => {
+        const { solvedUser, submit } = res;
+        try {
+          // TODO: 'user2' -> solvedUser.id로 바꿀 것
+          API.UserService.getUnsolvedUser('user2').then((unsolvedUser: UnsolvedUser) => {
+            API.ProblemService.updateUnsolvedProblems(unsolvedUser.id, parseInt(submit)).then((res) => {
+              console.log(res);
+            });
+          });
+        } catch (e) {
+          console.log(e);
         }
       });
       break;
