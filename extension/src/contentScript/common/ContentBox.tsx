@@ -23,6 +23,8 @@ interface Props {
   title?: string;
   color?: keyof UWColor;
   defined?: keyof UWColor;
+  type?: 'border' | 'background';
+  pointer?: boolean;
   definedAction?: () => void;
 }
 
@@ -31,7 +33,7 @@ const ContentBox = ({ children, ...props }: Props) => {
 
   if (props.defined) {
     return (
-      <Container bgColor={theme.uwcolor[props.defined]?.bg} fgColor={theme.uwcolor[props.defined]?.fg}>
+      <Container bgColor={theme.uwcolor[props.defined]?.bg} fgColor={theme.uwcolor[props.defined]?.fg} type={props.type}>
         <Flex direction='row' divided='none'>
           <div>{definedContent[props.defined].title}</div>
           <span onClick={props.definedAction} className='material-symbols-outlined'>
@@ -42,32 +44,49 @@ const ContentBox = ({ children, ...props }: Props) => {
     );
   }
   return (
-    <Container bgColor={theme.uwcolor[props.color]?.bg} fgColor={theme.uwcolor[props.color]?.fg}>
-      {props.title && <h4 className='contentbox-title'>{props.title}</h4>}
-      {children}
+    <Container bgColor={theme.uwcolor[props.color]?.bg} fgColor={theme.uwcolor[props.color]?.fg} type={props.type} pointer={props.pointer}>
+      <div>
+        {props.title && <h4 className='contentbox-title'>{props.title}</h4>}
+        {children}
+      </div>
     </Container>
   );
 };
 
 export default ContentBox;
 
-const Container = styled.div<{ bgColor?: string; fgColor?: string }>`
+const Container = styled.div<{ bgColor?: string; fgColor?: string; type?: 'border' | 'background'; pointer?: boolean }>`
   width: calc(100% - 20px);
   height: auto;
+  position: relative;
 
-  color: ${(props) => props.fgColor || 'black'};
-  background: ${(props) => props.bgColor || 'white'};
-
+  color: ${(props) => (props.type === 'border' ? 'black' : props.fgColor ?? 'black')};
   border-radius: 7px !important;
+  background: ${(props) => props.bgColor ?? 'white'};
+
+  ${(props) => {
+    if (props.type === 'border') {
+      return `
+      background: white;
+      border: 1px solid transparent;
+      background-image: linear-gradient(#fff, #fff), ${props.bgColor ?? 'white'};
+      background-origin: border-box;
+      background-clip: content-box, border-box;
+    `;
+    }
+  }}
+
   box-shadow: rgb(0 0 0 / 10%) 0px 2px 16px 1px;
-
-  padding: 10px;
-
   margin: 1px 0 10px;
 
   display: flex;
   flex-direction: column;
   gap: 5px;
+  cursor: ${(props) => (props.pointer ? 'pointer' : 'default')};
+
+  > div {
+    padding: 10px;
+  }
 
   .contentbox-title {
     margin: 0;

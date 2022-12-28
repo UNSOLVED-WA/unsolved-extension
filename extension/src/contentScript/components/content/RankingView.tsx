@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Ranking } from '../../../@types/Ranking';
-import { ContentBox } from '../../common';
+import { ContentBox, Flex } from '../../common';
+import { indexToTier } from '../../utils/indexToTier';
+import styled from '@emotion/styled';
 
 const RankingView = () => {
   const [ranking, setRanking] = useState<Ranking[]>([]);
@@ -10,7 +12,6 @@ const RankingView = () => {
   };
 
   useEffect(() => {
-    // TODO: 여러 그룹일 경우 data에 넣을 teamId 설정 필요
     chrome.runtime.sendMessage({ message: 'fetchRanking', type: 'async', data: '1' }, (response) => {
       if (response.state === 'success') {
         setRanking(response.data);
@@ -20,12 +21,17 @@ const RankingView = () => {
 
   return (
     <div className='panel-contents'>
-      {ranking.map((user) => (
-        <ContentBox key={user.teamName + user.bojId} color='bronze'>
-          <div onClick={() => redirectUserInfo(user.bojId)}>
-            <div>{user.bojId}</div>
-            <div>{user.score}</div>
-          </div>
+      {ranking.map((user, index) => (
+        <ContentBox key={user.teamName + user.bojId} color={indexToTier(index)} type='border' pointer={true}>
+          <RankingBox onClick={() => redirectUserInfo(user.bojId)}>
+            <Flex direction='row' justify='space-between' gap='10px'>
+              <div>
+                <span className='ranking-index'>{index}. </span>
+                <span className='ranking-id'>{user.bojId}</span>
+              </div>
+              <span className='ranking-score'>ⓟ {user.score}</span>
+            </Flex>
+          </RankingBox>
         </ContentBox>
       ))}
     </div>
@@ -33,3 +39,17 @@ const RankingView = () => {
 };
 
 export default RankingView;
+
+const RankingBox = styled.div`
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  .ranking-id,
+  .ranking-score {
+    font-weight: 600;
+  }
+`;

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { ProblemResponse } from '../../../@types/Problem';
-import { ContentBox } from '../../common';
+import { ContentBox, Flex } from '../../common';
+import styled from '@emotion/styled';
+import { numberToTier } from '../../utils/numberToTier';
 
 const RecommandView = () => {
   const [recommand, setRecommand] = useState<ProblemResponse[]>([]);
@@ -9,14 +11,7 @@ const RecommandView = () => {
     chrome.runtime.sendMessage({ message: 'toRedirectProblem', type: 'sync', data: problemId });
   };
 
-  const submitPassedProblem = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    e.preventDefault();
-    console.log('문제 통과 제출');
-  };
-
   useEffect(() => {
-    // TODO: 추천 문제 갖고오는 message
     chrome.runtime.sendMessage({ message: 'fetchRecommand', type: 'async', data: { teamId: '1', tier: '1' } }, (response) => {
       if (response.state === 'success') {
         setRecommand(response.data);
@@ -26,27 +21,46 @@ const RecommandView = () => {
 
   return (
     <div className='panel-contents'>
-      {recommand.map((problem) => (
-        <ContentBox key={problem.problemId} color='bronze'>
-          <div
-            onClick={() => {
-              redirectProblemInfo(problem.problemId);
-            }}
-            style={{ display: 'flex', alignItems: 'center' }}
-          >
-            <div style={{ minWidth: '20px', backgroundColor: 'gray', borderRadius: '50%', textAlign: 'center' }}>{problem.tier}</div>
-            <div style={{ margin: '0 5px' }}>
-              <span style={{ display: 'block' }}>{problem.problemId}</span>
-              <span style={{ display: 'block', width: '180px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
-                {problem.problemTitle}
-              </span>
-            </div>
-            <button onClick={submitPassedProblem}>제출</button>
-          </div>
-        </ContentBox>
-      ))}
+      {recommand.map((problem) => {
+        const { problemId, problemTitle, tier } = problem;
+        const tierInfo = numberToTier(tier);
+        return (
+          <ContentBox key={problemId} color={tierInfo.tier} pointer={true}>
+            <ReccomandBox onClick={() => redirectProblemInfo(problemId)}>
+              <Flex direction='column' gap='0px' align='start'>
+                <Flex direction='row' justify='space-between'>
+                  <span className='problem-id'>No.{problemId}</span>
+                  <span className='problem-tier'>{tierInfo.tier + ' ' + tierInfo.level}</span>
+                </Flex>
+                <span className='problem-title'>{problemTitle}</span>
+              </Flex>
+            </ReccomandBox>
+          </ContentBox>
+        );
+      })}
     </div>
   );
 };
 
 export default RecommandView;
+
+const ReccomandBox = styled.div`
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  .problem-id,
+  .problem-tier {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 11px;
+  }
+  .problem-title {
+    width: 100%;
+    overflow: 'hidden';
+    white-space: 'nowrap';
+    text-overflow: 'ellipsis';
+  }
+`;
