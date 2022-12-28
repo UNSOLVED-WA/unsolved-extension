@@ -35,17 +35,26 @@ function setResponseType(response: Response, type = 'json') {
 }
 
 async function serviceInterface<T>(url: string, method: string, body?: any, type = 'json'): Promise<T> {
-  return fetch(url, {
-    method,
-    body,
-  })
-    .then(responseStatusCheck)
-    .then((response) => setResponseType(response, type));
+  if (method === 'POST')
+    return fetch(url, {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
+      .then(responseStatusCheck)
+      .then((response) => setResponseType(response, type));
+  else
+    return fetch(url, {
+      method,
+      body,
+    })
+      .then(responseStatusCheck)
+      .then((response) => setResponseType(response, type));
 }
 
 const UserService = {
-  getUnsolvedUsers: async (bojId: string) => {
-    return serviceInterface<UnsolvedUser[]>(convertURL([UNSOLVED_BASE_URL, 'users', bojId]), 'GET');
+  getUnsolvedUser: async (bojId: string) => {
+    return serviceInterface<UnsolvedUser>(convertURL([UNSOLVED_BASE_URL, 'users', bojId]), 'GET');
   },
 };
 
@@ -61,6 +70,7 @@ const ProblemService = {
       userId: userId,
       problemNumber: problemNumber,
     };
+    console.log(userId, problemNumber);
     return serviceInterface<ProblemResponse[]>(convertURL([UNSOLVED_BASE_URL, 'problems', 'solving']), 'POST', body);
   },
   /**

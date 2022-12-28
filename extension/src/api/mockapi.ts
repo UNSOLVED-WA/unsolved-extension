@@ -13,9 +13,9 @@ function objectToPromise<T>(obj: T): Promise<T> {
 }
 
 const UserService = {
-  getUnsolvedUsers: async (bojId: string): Promise<UnsolvedUser[]> => {
-    console.log('mockAPI: getUnsolvedUsers : ', bojId);
-    return objectToPromise([dummyUnsolvedUser]);
+  getUnsolvedUser: async (bojId: string): Promise<UnsolvedUser> => {
+    console.log('mockAPI: getUnsolvedUser : ', bojId);
+    return objectToPromise(dummyUnsolvedUser);
   },
 };
 
