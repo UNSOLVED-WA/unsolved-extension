@@ -3,9 +3,9 @@ import API from '../api/api';
 import { SolvedUser } from '../@types/SolvedUser';
 import { UnsolvedUser } from '../@types/UnsolvedUser';
 import { Scoring, Storage } from '../utils';
-import { STORAGE_KEY } from '../@types';
+import { STORAGE_VALUE } from '../@types';
 
-function fetchCachedData(_: Error, key: STORAGE_KEY) {
+function fetchCachedData(_: Error, key: keyof STORAGE_VALUE) {
   return Storage.get(key);
 }
 
