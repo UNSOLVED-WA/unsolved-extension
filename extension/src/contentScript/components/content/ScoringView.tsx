@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Scoring } from '../../../background/scoring';
+import { Scoring } from '../../../utils/scoring';
 import { ContentBox } from '../../common';
 
 const ScoringView = () => {

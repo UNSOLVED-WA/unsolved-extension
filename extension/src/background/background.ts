@@ -2,7 +2,7 @@ import { Request, SendResponse } from './types';
 import API from '../api/api';
 import { SolvedUser } from '../@types/SolvedUser';
 import { UnsolvedUser } from '../@types/UnsolvedUser';
-import { Scoring } from './scoring';
+import { Scoring } from '../utils/scoring';
 
 function fetchCachedData(_: Error, key: string) {
   return new Promise((resolve) => {
