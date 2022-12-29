@@ -22,7 +22,7 @@ const UnsolvedFloatButton = () => {
   useEffect(() => {
     function handleOutsideClick({ target }: MouseEvent) {
       if (panelElement.current && !panelElement.current.contains(target as Node)) {
-        setIsClicked(false);
+        handlePanelClose();
       }
     }
     window.addEventListener('click', handleOutsideClick, { capture: true });
