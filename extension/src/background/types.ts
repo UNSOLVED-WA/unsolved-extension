@@ -8,7 +8,9 @@ export type RequestMessage =
   | 'hideButton'
   | 'sendNotification'
   | 'toRedirectProblem'
-  | 'toRedirectUser';
+  | 'toRedirectUser'
+  | 'toRunning'
+  | 'toCorrect';
 
 export type Request = {
   message: RequestMessage;

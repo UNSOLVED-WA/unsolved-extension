@@ -2,6 +2,7 @@ import { Request, SendResponse } from './types';
 import API from '../api/api';
 import { SolvedUser } from '../@types/SolvedUser';
 import { UnsolvedUser } from '../@types/UnsolvedUser';
+import { Scoring } from './scoring';
 
 function fetchCachedData(_: Error, key: string) {
   return new Promise((resolve) => {
@@ -87,20 +88,8 @@ function asyncRequest(request: Request, sendResponse: SendResponse) {
     case 'fetchRecommand':
       fetchRecommand(sendResponse, request.data.teamId, request.data.tier);
       break;
+
     case 'submit':
-      chrome.storage.local.get(['solvedUser', 'submit'], (res: any) => {
-        const { solvedUser, submit } = res;
-        try {
-          // TODO: 'user2' -> solvedUser.id로 바꿀 것
-          API.UserService.getUnsolvedUser('user2').then((unsolvedUser: UnsolvedUser) => {
-            API.ProblemService.updateUnsolvedProblems(unsolvedUser.id, parseInt(submit)).then((res) => {
-              console.log(res);
-            });
-          });
-        } catch (e) {
-          console.log(e);
-        }
-      });
       break;
   }
 }
@@ -133,6 +122,24 @@ function syncRequest(request: Request) {
     case 'toRedirectUser':
       chrome.tabs.create({
         url: `https://www.acmicpc.net/user/${request.data}`,
+      });
+      break;
+    case 'toRunning':
+      Scoring.setState('RUNNING', request.data);
+      break;
+    case 'toCorrect':
+      chrome.storage.local.get(['solvedUser', 'problemId'], (res: any) => {
+        const { solvedUser, problemId } = res;
+        try {
+          // TODO: 'user2' -> solvedUser.id로 바꿀 것
+          API.UserService.getUnsolvedUser('user2').then((unsolvedUser: UnsolvedUser) => {
+            API.ProblemService.updateUnsolvedProblems(unsolvedUser.id, parseInt(problemId)).then((res) => {
+              Scoring.setState('CORRECT');
+            });
+          });
+        } catch (e) {
+          console.log(e);
+        }
       });
       break;
   }

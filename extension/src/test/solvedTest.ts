@@ -4,7 +4,7 @@ if (window.location.pathname.includes('/submit')) {
     button.addEventListener('click', () => {
       const splitedURL = window.location.href.split('/');
       const problemNumber = splitedURL[splitedURL.indexOf('submit') + 1];
-      chrome.storage.local.set({ submit: problemNumber });
+      chrome.runtime.sendMessage({ message: 'toRunning', type: 'sync', data: problemNumber });
     });
   }
 }
@@ -17,11 +17,7 @@ if (window.location.pathname.includes('/status')) {
 
   const checkPassed = () => {
     if (result.children[0].innerHTML === '맞았습니다!!') {
-      chrome.runtime.sendMessage({ message: 'submit', type: 'async' }, (response) => {
-        if (response.state === 'success') {
-          // TODO: insert re-rendering code
-        }
-      });
+      chrome.runtime.sendMessage({ message: 'toCorrect', type: 'sync' });
 
       clearInterval(monitoring);
       clearTimeout(limitTime);
