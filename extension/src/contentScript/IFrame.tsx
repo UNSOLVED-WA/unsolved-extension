@@ -33,6 +33,7 @@ export const IFrame = ({ children, title }: { children: React.ReactNode; title: 
       insertionTarget.appendChild(createWebIcon(icons.star));
       insertionTarget.appendChild(createWebIcon(icons.recommend));
       insertionTarget.appendChild(createWebIcon(icons.refresh));
+      insertionTarget.appendChild(createWebIcon(icons.edit_square));
     }
   }, [insertionTarget]);
 

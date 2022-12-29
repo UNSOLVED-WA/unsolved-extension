@@ -30,6 +30,7 @@ const ContentPanel = () => {
     { text: '내 정보', icon: 'face' },
     { text: '랭킹보기', icon: 'star' },
     { text: '문제추천', icon: 'recommend' },
+    { text: '채점하기', icon: 'edit_square' },
   ];
 
   const handleSelectedIndex = (index: number) => setSelectedIndex(index);
