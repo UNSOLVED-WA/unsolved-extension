@@ -62,7 +62,6 @@ const ProblemService = {
       userId: userId,
       problemNumber: problemNumber,
     };
-    console.log(userId, problemNumber);
     return serviceInterface<ProblemResponse[]>(convertURL([UNSOLVED_BASE_URL, 'problems', 'solving']), 'POST', body);
   },
   /**
