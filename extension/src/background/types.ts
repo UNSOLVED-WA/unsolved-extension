@@ -3,7 +3,6 @@ export type RequestMessage =
   | 'fetchBadge'
   | 'fetchRanking'
   | 'fetchRecommand'
-  | 'submit'
   | 'toLogin'
   | 'hideButton'
   | 'sendNotification'
