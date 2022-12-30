@@ -14,7 +14,7 @@ function handleHideInjectElement(element: HTMLElement, isHide: boolean) {
 }
 
 Storage.get('hideButton', (result) => {
-  if (result) {
+  if (!result) {
     handleHideInjectElement(root, result);
 
     document.body.appendChild(root);
