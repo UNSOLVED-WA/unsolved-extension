@@ -4,6 +4,7 @@ import { ContentBox, Flex } from '../../common';
 import { CircularProgress } from '@mui/material';
 import { useProfile } from '../../hooks/useProfile';
 import { useBadge } from '../../hooks/useBadge';
+import { Message } from '../../../utils/message';
 
 interface Props {
   refresh: () => void;
@@ -14,7 +15,7 @@ const ProfileView = ({ refresh }: Props) => {
   const { badge, isLoaded: isBadgeLoaded } = useBadge();
 
   const redirectUserInfo = (bojId: string) => {
-    chrome.runtime.sendMessage({ message: 'toRedirectUser', type: 'sync', data: bojId });
+    Message.send({ message: 'toRedirectUser', type: 'sync', data: bojId });
   };
 
   if (!isProfileLoaded || !isBadgeLoaded) {

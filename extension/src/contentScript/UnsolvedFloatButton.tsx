@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { LoginPanel, ContentPanel, UnsolvedHeader } from './components';
 import { IFrame } from './IFrame';
+import { Message } from '../utils/message';
 
 const UnsolvedFloatButton = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -12,7 +13,7 @@ const UnsolvedFloatButton = () => {
 
   // TODO : 로그인 상태 확인 로직 호출 시점 점검 필요( 현재는 페이지 로드 시점에 호출 )
   useEffect(() => {
-    chrome.runtime.sendMessage({ message: 'fetchUser', type: 'async' }, (response) => {
+    Message.send({ message: 'fetchUser', type: 'async' }, (response) => {
       if (response.state === 'success') {
         setIsLogin(!!response.data);
       }
