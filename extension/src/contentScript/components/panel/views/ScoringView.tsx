@@ -21,6 +21,13 @@ const ScoringView = () => {
     () => chrome.storage.onChanged.removeListener(ScoringStateHandler);
   }, []);
 
+  /**
+   * 필요한 정보
+   * 1. 현재 상태 message + icon
+   * 2. 재시도 버튼 (현재 상태가 'RUNNING' 이면 동작 안함)
+   * 3. 맞았을 때 오르는 점수? (<- 점수 있는지 확인하기)
+   * ㄴ 재시도 버튼과 점수는 같은 컴포넌트로 묶어서 둘 중 하나만 보이게 하기
+   */
   return (
     <div className='panel-contents' style={{ height: '100%' }}>
       <ContentBox fullHeight>
