@@ -1,4 +1,5 @@
 import { Scoring } from './scoring';
 import { Storage } from './storage';
+import { Message } from './message';
 
-export { Scoring, Storage };
+export { Scoring, Storage, Message };

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Ranking } from '../../../@types';
-import { ContentBox, Flex } from '../../common';
-import { indexToTier } from '../../utils/indexToTier';
+import { Ranking } from '../../../../@types';
+import { ContentBox, Flex } from '../../../common';
+import { indexToTier } from '../../../utils';
+import { Message } from '../../../../utils';
 import styled from '@emotion/styled';
-import { Message } from '../../../utils/message';
 
 const RankingView = () => {
   const [ranking, setRanking] = useState<Ranking[]>([]);

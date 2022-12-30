@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Scoring } from '../../../utils/scoring';
-import { ContentBox } from '../../common';
+import { Scoring } from '../../../../utils';
+import { ContentBox } from '../../../common';
 
 const ScoringView = () => {
   const [message, setMessage] = useState('');

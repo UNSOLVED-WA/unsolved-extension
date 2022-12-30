@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { ProblemResponse } from '../../../@types';
-import { ContentBox, Flex } from '../../common';
+import { ProblemResponse } from '../../../../@types';
+import { ContentBox, Flex } from '../../../common';
+import { numberToTier } from '../../../utils';
+import { Message } from '../../../../utils';
 import styled from '@emotion/styled';
-import { numberToTier } from '../../utils/numberToTier';
-import { Message } from '../../../utils/message';
 
 const RecommandView = () => {
   const [recommand, setRecommand] = useState<ProblemResponse[]>([]);

@@ -1,10 +1,10 @@
 import React from 'react';
 import SVG from 'react-inlinesvg';
-import { ContentBox, Flex } from '../../common';
+import { ContentBox, Flex } from '../../../common';
 import { CircularProgress } from '@mui/material';
-import { useProfile } from '../../hooks/useProfile';
-import { useBadge } from '../../hooks/useBadge';
-import { Message } from '../../../utils/message';
+import { useProfile } from '../../../hooks/useProfile';
+import { useBadge } from '../../../hooks/useBadge';
+import { Message } from '../../../../utils/message';
 
 interface Props {
   refresh: () => void;
