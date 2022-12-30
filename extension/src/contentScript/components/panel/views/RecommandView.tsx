@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { ProblemResponse } from '../../../@types/Problem';
-import { ContentBox, Flex } from '../../common';
+import { ProblemResponse } from '../../../../@types';
+import { ContentBox, Flex } from '../../../common';
+import { numberToTier } from '../../../utils';
+import { Message } from '../../../../utils';
 import styled from '@emotion/styled';
-import { numberToTier } from '../../utils/numberToTier';
 
 const RecommandView = () => {
   const [recommand, setRecommand] = useState<ProblemResponse[]>([]);
 
   const redirectProblemInfo = (problemId: number) => {
-    chrome.runtime.sendMessage({ message: 'toRedirectProblem', type: 'sync', data: problemId });
+    Message.send({ message: 'toRedirectProblem', type: 'sync', data: problemId });
   };
 
   useEffect(() => {
-    chrome.runtime.sendMessage({ message: 'fetchRecommand', type: 'async', data: { teamId: '1', tier: '1' } }, (response) => {
+    Message.send({ message: 'fetchRecommand', type: 'async', data: { teamId: '1', tier: '1' } }, (response) => {
       if (response.state === 'success') {
         setRecommand(response.data);
       }

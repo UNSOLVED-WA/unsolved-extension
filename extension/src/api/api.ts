@@ -1,7 +1,4 @@
-import { UnsolvedUser } from '../@types/UnsolvedUser';
-import { ProblemResponse, ProblemRequest } from '../@types/Problem';
-import { Ranking } from '../@types/Ranking';
-import { SolvedUser } from '../@types/SolvedUser';
+import { ProblemResponse, ProblemRequest, UnsolvedUser, Ranking, SolvedUser } from '../@types';
 import * as mockAPI from './mockapi';
 
 const UNSOLVED_BASE_URL = 'https://heyinsa.kr/unsolved';
@@ -62,7 +59,6 @@ const ProblemService = {
       userId: userId,
       problemNumber: problemNumber,
     };
-    console.log(userId, problemNumber);
     return serviceInterface<ProblemResponse[]>(convertURL([UNSOLVED_BASE_URL, 'problems', 'solving']), 'POST', body);
   },
   /**

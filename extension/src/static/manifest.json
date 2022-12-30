@@ -7,17 +7,7 @@
     "service_worker": "background.js"
   },
   "host_permissions": ["<all_urls>", "https://*/*"],
-  "permissions": [
-    "storage",
-    "activeTab",
-    "webRequest",
-    "contextMenus",
-    "cookies",
-    "webNavigation",
-    "tabs",
-    "alarms",
-    "notifications"
-  ],
+  "permissions": ["storage", "activeTab", "webRequest", "contextMenus", "cookies", "webNavigation", "tabs", "alarms", "notifications"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
@@ -37,7 +27,7 @@
     { "matches": ["<all_urls>"], "js": ["contentScript.js"], "exclude_matches": [], "run_at": "document_idle" },
     {
       "matches": ["https://www.acmicpc.net/*"],
-      "js": ["solvedTest.js"],
+      "js": ["autoScoring.js"],
       "exclude_matches": [],
       "run_at": "document_idle"
     }

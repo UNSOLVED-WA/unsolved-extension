@@ -1,6 +1,4 @@
-import { UnsolvedUser } from '../@types/UnsolvedUser';
-import { ProblemResponse } from '../@types/Problem';
-import { Ranking } from '../@types/Ranking';
+import { UnsolvedUser, ProblemResponse, Ranking } from '../@types';
 
 import { dummyUnsolvedUser } from '../test/dummy/dummyUser';
 import { dummyUpdateProblems, dummyProblems } from '../test/dummy/dummyProblem';

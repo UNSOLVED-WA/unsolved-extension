@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import RankingView from './RankingView';
-import RecommandView from './RecommandView';
-import ProfileView from './ProfileView';
-import ScoringView from './ScoringView';
+import { ProfileView, ScoringView, RecommandView, RankingView } from './views';
 import { fadeIn } from '../../style/animation.style';
 
 const Container = styled.div`

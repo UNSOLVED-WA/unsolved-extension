@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Message } from '../../utils/message';
 
 export const useBadge = () => {
   const [badge, setBadge] = useState('');
@@ -7,7 +8,7 @@ export const useBadge = () => {
   const [isFailed, setIsFailed] = useState(false);
 
   useEffect(() => {
-    chrome.runtime.sendMessage({ message: 'fetchBadge', type: 'async' }, (response) => {
+    Message.send({ message: 'fetchBadge', type: 'async' }, (response) => {
       switch (response.state) {
         case 'cached':
           setIsCached(true);

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { SolvedUser } from '../../@types/SolvedUser';
+import { SolvedUser } from '../../@types';
+import { Message } from '../../utils/message';
 
 export const useProfile = () => {
   const [profile, setProfile] = useState<SolvedUser>(null);
@@ -8,7 +9,7 @@ export const useProfile = () => {
   const [isFailed, setIsFailed] = useState(false);
 
   useEffect(() => {
-    chrome.runtime.sendMessage({ message: 'fetchUser', type: 'async' }, (response) => {
+    Message.send({ message: 'fetchUser', type: 'async' }, (response) => {
       switch (response.state) {
         case 'cached':
           setIsCached(true);

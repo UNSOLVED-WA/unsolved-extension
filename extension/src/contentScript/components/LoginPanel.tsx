@@ -1,6 +1,7 @@
-import React from "react";
-import styled from "@emotion/styled";
-import { fadeIn } from "../style/animation.style";
+import React from 'react';
+import styled from '@emotion/styled';
+import { fadeIn } from '../style/animation.style';
+import { Message } from '../../utils/message';
 
 const Container = styled.div`
   border-radius: 15px !important;
@@ -9,13 +10,13 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url("	https://static.solved.ac/site_main_graphic_1.png");
+  background: url('	https://static.solved.ac/site_main_graphic_1.png');
   background-size: center;
   background-position: center;
   animation: ${fadeIn} 0.75s ease-in-out forwards;
 
   &::before {
-    content: "";
+    content: '';
     position: absolute;
     border-radius: 15px !important;
     width: 100%;
@@ -61,12 +62,12 @@ const Container = styled.div`
 
 const LoginPanel = () => {
   function handleLoginButtonClick() {
-    chrome.runtime.sendMessage({ message: "toLogin", type: "sync" });
+    Message.send({ message: 'toLogin', type: 'sync' });
   }
   return (
     <Container>
       <button onClick={handleLoginButtonClick}>
-        <img src="https://static.solved.ac/res/logo-whitetext.svg" />
+        <img src='https://static.solved.ac/res/logo-whitetext.svg' />
         <span>로그인하기</span>
       </button>
     </Container>

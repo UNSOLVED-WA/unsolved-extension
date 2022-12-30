@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Ranking } from '../../../@types/Ranking';
-import { ContentBox, Flex } from '../../common';
-import { indexToTier } from '../../utils/indexToTier';
+import { Ranking } from '../../../../@types';
+import { ContentBox, Flex } from '../../../common';
+import { indexToTier } from '../../../utils';
+import { Message } from '../../../../utils';
 import styled from '@emotion/styled';
 
 const RankingView = () => {
   const [ranking, setRanking] = useState<Ranking[]>([]);
 
   const redirectUserInfo = (bojId: string) => {
-    chrome.runtime.sendMessage({ message: 'toRedirectUser', type: 'sync', data: bojId });
+    Message.send({ message: 'toRedirectUser', type: 'sync', data: bojId });
   };
 
   useEffect(() => {
-    chrome.runtime.sendMessage({ message: 'fetchRanking', type: 'async', data: '1' }, (response) => {
+    Message.send({ message: 'fetchRanking', type: 'async', data: '1' }, (response) => {
       if (response.state === 'success') {
         setRanking(response.data);
       }

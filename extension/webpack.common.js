@@ -9,7 +9,7 @@ module.exports = {
     popup: path.resolve('src/popup/popup.tsx'),
     background: path.resolve('src/background/background.ts'),
     contentScript: path.resolve('src/contentScript/contentScript.tsx'),
-    solvedTest: path.resolve('src/test/solvedTest.ts'),
+    autoScoring: path.resolve('src/contentScript_autoScoring/autoScoring.ts'),
   },
   module: {
     rules: [

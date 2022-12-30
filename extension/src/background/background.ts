@@ -1,14 +1,9 @@
-import { Request, SendResponse } from './types';
 import API from '../api/api';
-import { SolvedUser } from '../@types/SolvedUser';
-import { UnsolvedUser } from '../@types/UnsolvedUser';
+import { Scoring, Storage } from '../utils';
+import { STORAGE_VALUE, UnsolvedUser, Request, SendResponse } from '../@types';
 
-function fetchCachedData(_: Error, key: string) {
-  return new Promise((resolve) => {
-    chrome.storage.local.get(key, (result) => {
-      resolve(result[key]);
-    });
-  });
+function fetchCachedData(_: Error, key: keyof STORAGE_VALUE) {
+  return Storage.get(key);
 }
 
 function fetchRanking(sendResponse: SendResponse, teamId: string) {
@@ -34,16 +29,13 @@ function fetchRecommand(sendResponse: SendResponse, teamId: string, tier: string
 function fetchUser(sendResponse: SendResponse) {
   API.ExternalService.getSolvedUsers()
     .then((data) => {
-      chrome.storage.local.set({ solvedUser: data }, () => {
-        if (chrome.runtime.lastError) {
-          throw new Error('storage.local.set error');
-        }
-        sendResponse({ state: 'success', data });
+      Storage.set('solvedUser', data, (result) => {
+        sendResponse({ state: 'success', data: result });
       });
     })
     .catch(async (error) => {
       try {
-        const data = await fetchCachedData(error, 'user');
+        const data = await fetchCachedData(error, 'solvedUser');
         sendResponse({ state: 'cached', data });
       } catch {
         sendResponse({ state: 'fail', message: error.message });
@@ -52,13 +44,10 @@ function fetchUser(sendResponse: SendResponse) {
 }
 
 function fetchBadge(sendResponse: SendResponse) {
-  chrome.storage.local.get('solvedUser', (result) => {
-    API.ExternalService.getBojBadge(result.solvedUser.user.handle)
+  Storage.get('solvedUser', (result) => {
+    API.ExternalService.getBojBadge(result.user.handle)
       .then((data) => {
-        chrome.storage.local.set({ badge: data }, () => {
-          if (chrome.runtime.lastError) {
-            throw new Error('storage.local.set error');
-          }
+        Storage.set('badge', data, () => {
           sendResponse({ state: 'success', data });
         });
       })
@@ -87,21 +76,6 @@ function asyncRequest(request: Request, sendResponse: SendResponse) {
     case 'fetchRecommand':
       fetchRecommand(sendResponse, request.data.teamId, request.data.tier);
       break;
-    case 'submit':
-      chrome.storage.local.get(['solvedUser', 'submit'], (res: any) => {
-        const { solvedUser, submit } = res;
-        try {
-          // TODO: 'user2' -> solvedUser.id로 바꿀 것
-          API.UserService.getUnsolvedUser('user2').then((unsolvedUser: UnsolvedUser) => {
-            API.ProblemService.updateUnsolvedProblems(unsolvedUser.id, parseInt(submit)).then((res) => {
-              console.log(res);
-            });
-          });
-        } catch (e) {
-          console.log(e);
-        }
-      });
-      break;
   }
 }
 
@@ -113,8 +87,8 @@ function syncRequest(request: Request) {
       });
       break;
     case 'hideButton':
-      chrome.storage.local.get('hideButton', (data) => {
-        chrome.storage.local.set({ hideButton: !data.hideButton });
+      Storage.get('hideButton', (result) => {
+        Storage.set('hideButton', !result);
       });
       break;
     case 'sendNotification':
@@ -135,6 +109,26 @@ function syncRequest(request: Request) {
         url: `https://www.acmicpc.net/user/${request.data}`,
       });
       break;
+    case 'toRunning':
+      Scoring.setState('RUNNING', request.data);
+      break;
+    case 'CORRECT':
+      break;
+    case 'toCorrect':
+      Storage.gets(['solvedUser', 'problemId'], (res) => {
+        const { solvedUser, problemId } = res;
+        try {
+          // TODO: 'user2' -> solvedUser.id로 바꿀 것
+          API.UserService.getUnsolvedUser('user2').then((unsolvedUser: UnsolvedUser) => {
+            API.ProblemService.updateUnsolvedProblems(unsolvedUser.id, parseInt(problemId)).then((res) => {
+              Scoring.setState('CORRECT');
+            });
+          });
+        } catch (e) {
+          console.log(e);
+        }
+      });
+      break;
   }
 }
 
@@ -147,5 +141,9 @@ chrome.runtime.onMessage.addListener((request: Request, _, sendResponse: SendRes
 });
 
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.local.set({ hideButton: false, submit: '' });
+  Storage.sets({
+    hideButton: false,
+    problemId: '',
+    isClicked: false,
+  });
 });
