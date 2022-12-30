@@ -11,20 +11,22 @@ if (window.location.pathname.includes('/submit')) {
   }
 }
 
-if (window.location.pathname.includes('/status')) {
-  const MAX_CHECK_TIME = 30000;
-  const CHECK_INTERVAL = 1000;
+chrome.storage.onChanged.addListener((changes) => {
+  if (changes.scoringState.newValue === 'RUNNING') {
+    const MAX_CHECK_TIME = 30000;
+    const CHECK_INTERVAL = 1000;
 
-  const result = document.querySelector('.result');
+    const result = document.querySelector('.result');
 
-  const checkPassed = () => {
-    if (result.children[0].innerHTML === '맞았습니다!!') {
-      Message.send({ message: 'toCorrect', type: 'sync' });
+    const checkPassed = () => {
+      if (result.children[0].innerHTML === '맞았습니다!!') {
+        Message.send({ message: 'toCorrect', type: 'sync' });
 
-      clearInterval(monitoring);
-      clearTimeout(limitTime);
-    }
-  };
-  const limitTime = setTimeout(checkPassed, MAX_CHECK_TIME);
-  const monitoring = setInterval(checkPassed, CHECK_INTERVAL);
-}
+        clearInterval(monitoring);
+        clearTimeout(limitTime);
+      }
+    };
+    const limitTime = setTimeout(checkPassed, MAX_CHECK_TIME);
+    const monitoring = setInterval(checkPassed, CHECK_INTERVAL);
+  }
+});
