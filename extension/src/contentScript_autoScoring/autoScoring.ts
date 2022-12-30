@@ -1,10 +1,12 @@
+import { Message } from '../utils/message';
+
 if (window.location.pathname.includes('/submit')) {
   const button = document.querySelector('#submit_button');
   if (button) {
     button.addEventListener('click', () => {
       const splitedURL = window.location.href.split('/');
       const problemNumber = splitedURL[splitedURL.indexOf('submit') + 1];
-      chrome.runtime.sendMessage({ message: 'toRunning', type: 'sync', data: problemNumber });
+      Message.send({ message: 'toRunning', type: 'sync', data: problemNumber });
     });
   }
 }
@@ -17,7 +19,7 @@ if (window.location.pathname.includes('/status')) {
 
   const checkPassed = () => {
     if (result.children[0].innerHTML === '맞았습니다!!') {
-      chrome.runtime.sendMessage({ message: 'toCorrect', type: 'sync' });
+      Message.send({ message: 'toCorrect', type: 'sync' });
 
       clearInterval(monitoring);
       clearTimeout(limitTime);
