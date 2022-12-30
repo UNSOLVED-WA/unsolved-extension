@@ -7,9 +7,9 @@ export type URL = string;
 export type SCORING_STATE = 'DEFAULT' | 'RUNNING' | 'CORRECT' | 'WRONG' | 'TIMEOUT' | 'ERROR';
 
 export type STORAGE_VALUE = {
-  solvedUser: string;
-  badge: string;
-  hideButton: boolean;
-  problenNo: number;
-  isClicked: boolean;
+  solvedUser?: SolvedUser;
+  badge?: string;
+  hideButton?: boolean;
+  problemId?: string;
+  isClicked?: boolean;
 };
