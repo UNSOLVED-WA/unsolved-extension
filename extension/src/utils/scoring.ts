@@ -1,15 +1,15 @@
 import { SCORING_STATE } from '../@types';
-
+import { Storage } from './storage';
 interface SCORING {
   getState: () => Promise<SCORING_STATE>;
   getMessageByState: (state?: SCORING_STATE) => Promise<string>;
-  setState: (scoringState: SCORING_STATE, problemId?: number) => void;
+  setState: (scoringState: SCORING_STATE, problemId?: string) => void;
 }
 export const Scoring: SCORING = {
   getState: () => {
     return new Promise((resolve) => {
-      chrome.storage.local.get('scoringState', (result) => {
-        resolve(result.scoringState);
+      Storage.get('scoringState', (result) => {
+        resolve(result);
       });
     });
   },
@@ -31,7 +31,6 @@ export const Scoring: SCORING = {
     }
   },
   setState: (state, problemId) => {
-    // TODO: local.set 에러 처리
-    chrome.storage.local.set({ scoringState: state, problemId: problemId });
+    Storage.sets({ scoringState: state, problemId: problemId });
   },
 };

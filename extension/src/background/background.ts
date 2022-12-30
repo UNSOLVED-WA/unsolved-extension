@@ -88,8 +88,8 @@ function syncRequest(request: Request) {
       });
       break;
     case 'hideButton':
-      chrome.storage.local.get('hideButton', (data) => {
-        Storage.set('hideButton', !data.hideButton);
+      Storage.get('hideButton', (result) => {
+        Storage.set('hideButton', !result);
       });
       break;
     case 'sendNotification':

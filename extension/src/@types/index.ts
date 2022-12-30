@@ -10,6 +10,7 @@ export type STORAGE_VALUE = {
   hideButton?: boolean;
   problemId?: string;
   isClicked?: boolean;
+  scoringState?: SCORING_STATE;
 };
 
 export type ProblemResponse = {
