@@ -1,8 +1,7 @@
 import { Request, SendResponse } from './types';
 import API from '../api/api';
-import { UnsolvedUser } from '../@types/UnsolvedUser';
 import { Scoring, Storage } from '../utils';
-import { STORAGE_VALUE } from '../@types';
+import { STORAGE_VALUE, UnsolvedUser } from '../@types';
 
 function fetchCachedData(_: Error, key: keyof STORAGE_VALUE) {
   return Storage.get(key);
@@ -113,6 +112,8 @@ function syncRequest(request: Request) {
       break;
     case 'toRunning':
       Scoring.setState('RUNNING', request.data);
+      break;
+    case 'CORRECT':
       break;
     case 'toCorrect':
       Storage.gets(['solvedUser', 'problemId'], (res) => {

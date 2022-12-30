@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { ContentPanelNavigator, ContentPanelHeader, ContentPanelBody } from './content';
 import { fadeIn } from '../style/animation.style';
 import throttle from 'lodash/throttle';
-import { ScrollDirection } from '../types/types';
+import { ScrollDirection } from '../types';
 
 const Container = styled.div`
   width: 100%;

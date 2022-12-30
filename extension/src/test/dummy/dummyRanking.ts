@@ -1,4 +1,4 @@
-import { Ranking } from '../../@types/Ranking';
+import { Ranking } from '../../@types';
 
 export const dummyRanking1 = {
   teamName: '42Seoul',

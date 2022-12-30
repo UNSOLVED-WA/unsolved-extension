@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ProblemResponse } from '../../../@types/Problem';
+import { ProblemResponse } from '../../../@types';
 import { ContentBox, Flex } from '../../common';
 import styled from '@emotion/styled';
 import { numberToTier } from '../../utils/numberToTier';

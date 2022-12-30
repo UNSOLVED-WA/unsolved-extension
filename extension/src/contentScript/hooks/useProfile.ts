@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { SolvedUser } from '../../@types/SolvedUser';
+import { SolvedUser } from '../../@types';
 
 export const useProfile = () => {
   const [profile, setProfile] = useState<SolvedUser>(null);

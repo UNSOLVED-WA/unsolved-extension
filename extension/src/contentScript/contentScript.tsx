@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import UnsolvedFloatButton from './UnsolvedFloatButton';
+import { Storage } from '../utils';
 import './style/main.css';
 
 const App = () => <UnsolvedFloatButton />;
@@ -12,9 +13,9 @@ function handleHideInjectElement(element: HTMLElement, isHide: boolean) {
   element.style.display = isHide ? 'none' : 'block';
 }
 
-chrome.storage.local.get('hideButton', (data) => {
-  if (data) {
-    handleHideInjectElement(root, data.hideButton);
+Storage.get('hideButton', (result) => {
+  if (result) {
+    handleHideInjectElement(root, result);
 
     document.body.appendChild(root);
     ReactDOM.render(<App />, root);

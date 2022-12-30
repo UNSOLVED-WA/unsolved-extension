@@ -1,15 +1,20 @@
+import { SCORING_STATE } from '../@types';
+
 export type RequestMessage =
-  | 'fetchUser' //
-  | 'fetchBadge'
-  | 'fetchRanking'
-  | 'fetchRecommand'
-  | 'toLogin'
-  | 'hideButton'
-  | 'sendNotification'
-  | 'toRedirectProblem'
-  | 'toRedirectUser'
-  | 'toRunning'
-  | 'toCorrect';
+  | (
+      | 'fetchUser' //
+      | 'fetchBadge'
+      | 'fetchRanking'
+      | 'fetchRecommand'
+      | 'toLogin'
+      | 'hideButton'
+      | 'sendNotification'
+      | 'toRedirectProblem'
+      | 'toRedirectUser'
+      | 'toRunning'
+      | 'toCorrect'
+    ) &
+      SCORING_STATE;
 
 export type Request = {
   message: RequestMessage;

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { ScrollDirection } from '../../types/types';
+import { ScrollDirection } from '../../types';
 
 const Container = styled.div<{ scrollDirection: ScrollDirection }>`
   z-index: 100;

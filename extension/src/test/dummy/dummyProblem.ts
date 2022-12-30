@@ -1,4 +1,4 @@
-import { ProblemResponse } from '../../@types/Problem';
+import { ProblemResponse } from '../../@types';
 
 export const dummyProblem: ProblemResponse = {
   problemId: 1000,

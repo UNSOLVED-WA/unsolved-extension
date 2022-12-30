@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Ranking } from '../../../@types/Ranking';
+import { Ranking } from '../../../@types';
 import { ContentBox, Flex } from '../../common';
 import { indexToTier } from '../../utils/indexToTier';
 import styled from '@emotion/styled';

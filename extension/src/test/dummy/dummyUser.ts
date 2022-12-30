@@ -1,5 +1,4 @@
-import { SolvedUser } from '../../@types/SolvedUser';
-import { UnsolvedUser } from '../../@types/UnsolvedUser';
+import { SolvedUser, UnsolvedUser } from '../../@types';
 
 export const dummyUnsolvedUser: UnsolvedUser = {
   id: 1,

@@ -1,7 +1,4 @@
-import { UnsolvedUser } from '../@types/UnsolvedUser';
-import { ProblemResponse, ProblemRequest } from '../@types/Problem';
-import { Ranking } from '../@types/Ranking';
-import { SolvedUser } from '../@types/SolvedUser';
+import { ProblemResponse, ProblemRequest, UnsolvedUser, Ranking, SolvedUser } from '../@types';
 import * as mockAPI from './mockapi';
 
 const UNSOLVED_BASE_URL = 'https://heyinsa.kr/unsolved';
