@@ -1,6 +1,5 @@
 import { Request, SendResponse } from './types';
 import API from '../api/api';
-import { SolvedUser } from '../@types/SolvedUser';
 import { UnsolvedUser } from '../@types/UnsolvedUser';
 import { Scoring, Storage } from '../utils';
 import { STORAGE_VALUE } from '../@types';
@@ -116,7 +115,7 @@ function syncRequest(request: Request) {
       Scoring.setState('RUNNING', request.data);
       break;
     case 'toCorrect':
-      Storage.get(['solvedUser', 'problemId'], (res) => {
+      Storage.gets(['solvedUser', 'problemId'], (res) => {
         const { solvedUser, problemId } = res;
         try {
           // TODO: 'user2' -> solvedUser.id로 바꿀 것
@@ -134,7 +133,6 @@ function syncRequest(request: Request) {
 }
 
 chrome.runtime.onMessage.addListener((request: Request, _, sendResponse: SendResponse) => {
-  console.log(request.message);
   if (request.type === 'async') {
     asyncRequest(request, sendResponse);
     return true;
@@ -143,5 +141,9 @@ chrome.runtime.onMessage.addListener((request: Request, _, sendResponse: SendRes
 });
 
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.local.set({ hideButton: false, problemNo: '', isClicked: false });
+  Storage.sets({
+    hideButton: false,
+    problemId: '',
+    isClicked: false,
+  });
 });
