@@ -1,7 +1,6 @@
-import { Request, SendResponse } from './types';
 import API from '../api/api';
 import { Scoring, Storage } from '../utils';
-import { STORAGE_VALUE, UnsolvedUser } from '../@types';
+import { STORAGE_VALUE, UnsolvedUser, Request, SendResponse } from '../@types';
 
 function fetchCachedData(_: Error, key: keyof STORAGE_VALUE) {
   return Storage.get(key);
