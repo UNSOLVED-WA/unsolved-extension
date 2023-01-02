@@ -2,16 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { Scoring } from '../../../../utils';
 import { ContentBox, Flex } from '../../../common';
 import { SCORING_OBJECT, scorings } from '../../../../utils/scoring';
+import styled from '@emotion/styled';
 
 const ScoringView = () => {
   const [scoringState, setScoringState] = useState<SCORING_OBJECT>(scorings[0]);
 
+  const handleRetry = () => {
+    Scoring.setState('RUNNING');
+  };
+
   useEffect(() => {
-    Scoring.getMessageByState().then((result) => {
-      setScoringState(result);
-    });
+    if (window.location.href.includes('https://www.acmicpc.net/')) {
+      Scoring.getMessageByState().then((result) => {
+        setScoringState(result);
+      });
+    }
     const ScoringStateHandler = (changes: { [key: string]: chrome.storage.StorageChange }) => {
-      if (changes.scoringState) {
+      if (changes.scoringState && window.location.href.includes('https://www.acmicpc.net/')) {
         Scoring.getMessageByState(changes.scoringState.newValue).then((result) => {
           setScoringState(result);
         });
@@ -29,26 +36,52 @@ const ScoringView = () => {
    * ㄴ 재시도 버튼과 점수는 같은 컴포넌트로 묶어서 둘 중 하나만 보이게 하기
    */
   return (
-    <div className='panel-contents' style={{ height: '100%' }}>
+    <Container className='panel-contents'>
       <ContentBox fullHeight>
         <Flex direction='column' align='center' justify='center' height='100%' gap='30px'>
-          <div>{scoringState.message}</div>
-          <div>{scoringState.icon({ color: 'green' })}</div>
-          <div>
+          <div id='scoring-title'>{scoringState.message}</div>
+          <div id='scoring-icon'>{scoringState.icon({ width: '200px', height: '200px' })}</div>
+          <div id='scoring-description'>
             {
               {
-                DEFAULT: <button>재시도</button>,
+                DEFAULT: <div>문제를 제출하거나 백준 채점 페이지로 이동해주세요!</div>,
                 RUNNING: <div>random message</div>,
                 CORRECT: <div>+ 130pts</div>,
-                WRONG: <button>재시도</button>,
-                TIMEOUT: <button>재시도</button>,
+                WRONG: <button onClick={handleRetry}>재시도</button>,
+                TIMEOUT: <button onClick={handleRetry}>재시도</button>,
               }[scoringState.state]
             }
           </div>
         </Flex>
       </ContentBox>
-    </div>
+    </Container>
   );
 };
 
 export default ScoringView;
+
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+
+  #scoring-title {
+    width: 100%;
+    text-align: center;
+    font-size: 25px;
+    font-weight: 600;
+  }
+
+  #scoring-icon {
+    width: 200px;
+    height: 200px;
+  }
+
+  #scoring-description {
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+
+    white-space: normal;
+    word-break: break-all;
+  }
+`;
