@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Scoring } from '../../../../utils';
-import { ContentBox } from '../../../common';
-import { SCORING_STATE } from '../../../../@types';
+import { ContentBox, Flex } from '../../../common';
+import { SCORING_OBJECT, scorings } from '../../../../utils/scoring';
 
 const ScoringView = () => {
-  const [scoringState, setScoringState] = useState<{ key: SCORING_STATE; value: string }>({ key: 'DEFAULT', value: '' });
+  const [scoringState, setScoringState] = useState<SCORING_OBJECT>(scorings[0]);
 
   useEffect(() => {
     Scoring.getMessageByState().then((result) => {
@@ -31,7 +31,21 @@ const ScoringView = () => {
   return (
     <div className='panel-contents' style={{ height: '100%' }}>
       <ContentBox fullHeight>
-        <div>{scoringState.value}</div>
+        <Flex direction='column' align='center' justify='center' height='100%' gap='30px'>
+          <div>{scoringState.message}</div>
+          <div>{scoringState.icon({ color: 'green' })}</div>
+          <div>
+            {
+              {
+                DEFAULT: <button>재시도</button>,
+                RUNNING: <div>random message</div>,
+                CORRECT: <div>+ 130pts</div>,
+                WRONG: <button>재시도</button>,
+                TIMEOUT: <button>재시도</button>,
+              }[scoringState.state]
+            }
+          </div>
+        </Flex>
       </ContentBox>
     </div>
   );
