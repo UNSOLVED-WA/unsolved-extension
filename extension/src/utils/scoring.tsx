@@ -1,38 +1,39 @@
 import React from 'react';
-import { SCORING_STATE } from '../@types';
 import { Storage } from './storage';
 import { DefaultIcon, RunningIcon, CorrectIcon, WrongIcon, TimeoutIcon } from '../contentScript/common/icons';
+import { SCORING_STATE } from '../@types';
+import { IconComponentProps } from '../contentScript/common/icons/Icon';
 
 export type SCORING_OBJECT = {
   state: SCORING_STATE;
   message: string;
-  icon?: (_?: { color: string }) => JSX.Element;
+  icon?: (_?: IconComponentProps) => JSX.Element;
 };
 
 export const scorings: SCORING_OBJECT[] = [
   {
     state: 'DEFAULT',
     message: '채점을 시작하려면 문제를 풀어주세요.',
-    icon: ({ color }) => <DefaultIcon color={color} />,
+    icon: ({ color, width, height }) => <DefaultIcon color={color} width={width} height={height} />,
   },
   {
     state: 'RUNNING',
-    icon: ({ color }) => <RunningIcon color={color} />,
+    icon: ({ color, width, height }) => <RunningIcon color={color} width={width} height={height} />,
     message: '채점 중...',
   },
   {
     state: 'CORRECT',
-    icon: ({ color }) => <CorrectIcon color={color} />,
+    icon: ({ color, width, height }) => <CorrectIcon color={color} width={width} height={height} />,
     message: '정답입니다!!',
   },
   {
     state: 'WRONG',
-    icon: ({ color }) => <WrongIcon color={color} />,
+    icon: ({ color, width, height }) => <WrongIcon color={color} width={width} height={height} />,
     message: '틀렸습니다.',
   },
   {
     state: 'TIMEOUT',
-    icon: ({ color }) => <TimeoutIcon color={color} />,
+    icon: ({ color, width, height }) => <TimeoutIcon color={color} width={width} height={height} />,
     message: '채점 시간이 초과되었습니다.',
   },
 ];
