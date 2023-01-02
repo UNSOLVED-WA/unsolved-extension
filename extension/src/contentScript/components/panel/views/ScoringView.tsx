@@ -49,6 +49,8 @@ const ScoringView = () => {
                 CORRECT: <div>+ 130pts</div>,
                 WRONG: <button onClick={handleRetry}>재시도</button>,
                 TIMEOUT: <button onClick={handleRetry}>재시도</button>,
+                ERROR: <button onClick={handleRetry}>재시도</button>,
+                NETERROR: <button onClick={handleRetry}>재시도</button>,
               }[scoringState.state]
             }
           </div>
@@ -69,6 +71,9 @@ const Container = styled.div`
     text-align: center;
     font-size: 25px;
     font-weight: 600;
+
+    white-space: normal;
+    word-break: break-all;
   }
 
   #scoring-icon {
