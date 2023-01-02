@@ -52,7 +52,7 @@ const ContentBox = ({ children, ...props }: Props) => {
       pointer={props.pointer}
       fullHeight={props.fullHeight}
     >
-      <div>
+      <div style={{ height: props.fullHeight ? '100%' : 'auto' }}>
         {props.title && <h4 className='contentbox-title'>{props.title}</h4>}
         {children}
       </div>
