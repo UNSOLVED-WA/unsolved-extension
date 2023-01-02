@@ -13,7 +13,7 @@ export type SCORING_OBJECT = {
 export const scorings: SCORING_OBJECT[] = [
   {
     state: 'DEFAULT',
-    message: '채점을 시작하려면 문제를 풀어주세요.',
+    message: '문제를 풀어주세요!',
     icon: ({ color, width, height }) => <DefaultIcon color={color} width={width} height={height} />,
   },
   {
