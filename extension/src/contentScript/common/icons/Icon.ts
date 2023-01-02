@@ -1,1 +1,5 @@
-export type IconComponent = (props: { color: string }) => JSX.Element;
+export type IconComponentProps = {
+  color?: string;
+  width?: number;
+  height?: number;
+};
