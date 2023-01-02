@@ -1,5 +1,6 @@
-import { UWColor } from '../style/theme';
-export const numberToTier = (number: number): { tier: keyof UWColor; level?: number } => {
+import { COLORS } from '../style/theme';
+
+export const numberToTier = (number: number): { tier: keyof COLORS; level?: number } => {
   if (number <= 5) {
     return { tier: 'bronze', level: number };
   } else if (number <= 10) {
