@@ -3,24 +3,21 @@ import { SCORING_STATE } from '../@types';
 import { Storage } from './storage';
 import { DefaultIcon, RunningIcon, CorrectIcon, WrongIcon, TimeoutIcon } from '../contentScript/common/icons';
 
-type SCORING_ICON = {
-  color: string;
-};
 export type SCORING_OBJECT = {
   state: SCORING_STATE;
   message: string;
-  icon?: (icon?: SCORING_ICON) => JSX.Element;
+  icon?: (_?: { color: string }) => JSX.Element;
 };
 
 export const scorings: SCORING_OBJECT[] = [
   {
     state: 'DEFAULT',
     message: '채점을 시작하려면 문제를 풀어주세요.',
-    icon: () => <DefaultIcon />,
+    icon: ({ color }) => <DefaultIcon color={color} />,
   },
   {
     state: 'RUNNING',
-    icon: () => <RunningIcon />,
+    icon: ({ color }) => <RunningIcon color={color} />,
     message: '채점 중...',
   },
   {
@@ -30,12 +27,12 @@ export const scorings: SCORING_OBJECT[] = [
   },
   {
     state: 'WRONG',
-    icon: () => <WrongIcon />,
+    icon: ({ color }) => <WrongIcon color={color} />,
     message: '틀렸습니다.',
   },
   {
     state: 'TIMEOUT',
-    icon: () => <TimeoutIcon />,
+    icon: ({ color }) => <TimeoutIcon color={color} />,
     message: '채점 시간이 초과되었습니다.',
   },
 ];
