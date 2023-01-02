@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 
 type Direction = 'row' | 'column' | 'row-reverse' | 'column-reverse';
 type Divided = 'none' | 'two' | 'three';
+type Align = 'start' | 'center' | 'end';
+type Justify = 'space-between' | 'space-around' | 'space-evenly' | 'start' | 'center' | 'end';
 
 interface Props {
   className?: string;
@@ -11,8 +13,8 @@ interface Props {
   divided?: Divided;
   width?: string;
   height?: string;
-  align?: 'start' | 'center' | 'end';
-  justify?: 'space-between' | 'space-around' | 'space-evenly' | 'start' | 'center' | 'end';
+  align?: Align;
+  justify?: Justify;
   gap?: string;
   flexGrow?: number;
   flexShrink?: number;
