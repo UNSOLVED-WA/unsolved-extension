@@ -2,7 +2,7 @@ export const ICONS = ['face', 'star', 'recommend', 'close', 'refresh', 'edit_squ
 export type ICON = typeof ICONS[number];
 export type URL = string;
 
-export type SCORING_STATE = 'DEFAULT' | 'RUNNING' | 'CORRECT' | 'WRONG' | 'TIMEOUT' | 'ERROR';
+export type SCORING_STATE = 'DEFAULT' | 'RUNNING' | 'CORRECT' | 'WRONG' | 'TIMEOUT' | 'ERROR' | 'NETERROR';
 
 export type STORAGE_VALUE = {
   solvedUser?: SolvedUser;

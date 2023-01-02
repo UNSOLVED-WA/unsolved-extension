@@ -1,6 +1,6 @@
 import React from 'react';
 import { Storage } from './storage';
-import { DefaultIcon, RunningIcon, CorrectIcon, WrongIcon, TimeoutIcon } from '../contentScript/common/icons';
+import { DefaultIcon, RunningIcon, CorrectIcon, WrongIcon, TimeoutIcon, NeterrorIcon } from '../contentScript/common/icons';
 import { SCORING_STATE } from '../@types';
 import { IconComponentProps } from '../contentScript/common/icons/Icon';
 
@@ -34,7 +34,17 @@ export const scorings: SCORING_OBJECT[] = [
   {
     state: 'TIMEOUT',
     icon: ({ color, width, height }) => <TimeoutIcon color={color} width={width} height={height} />,
-    message: '채점 시간이 초과되었습니다.',
+    message: '채점 시간 초과',
+  },
+  {
+    state: 'ERROR',
+    icon: ({ color, width, height }) => <NeterrorIcon color={color} width={width} height={height} />,
+    message: '에러 발생!',
+  },
+  {
+    state: 'NETERROR',
+    icon: ({ color, width, height }) => <NeterrorIcon color={color} width={width} height={height} />,
+    message: '네트워크 에러 발생!',
   },
 ];
 

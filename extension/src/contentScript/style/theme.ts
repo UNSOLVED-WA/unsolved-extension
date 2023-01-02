@@ -66,8 +66,9 @@ const _theme = {
     RUNNING: 'orange',
     CORRECT: 'green',
     WRONG: 'red',
-    TIMEOUT: 'yellow',
+    TIMEOUT: 'purple',
     ERROR: 'red',
+    NETERROR: 'red',
   },
 };
 
