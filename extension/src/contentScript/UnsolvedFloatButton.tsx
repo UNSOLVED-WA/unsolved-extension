@@ -32,6 +32,7 @@ const UnsolvedFloatButton = () => {
       if (result) {
         setSelectedIndex(3);
         setIsClicked(result);
+        Storage.set('isClicked', false);
       }
     });
     return () => {
