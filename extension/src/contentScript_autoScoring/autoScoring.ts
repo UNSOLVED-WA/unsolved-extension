@@ -28,9 +28,9 @@ function autoScoring() {
   const checkPassed = () => {
     const result = document.querySelector('.result');
     if (result.children[0].innerHTML === '맞았습니다!!') {
-      Message.send({ message: 'toCorrect', type: 'sync' });
       clearInterval(intervalId);
       intervalId = null;
+      Message.send({ message: 'toCorrect', type: 'sync' });
     }
   };
   let intervalId = setInterval(checkPassed, CHECK_INTERVAL);
@@ -59,6 +59,7 @@ function scoringIfRunning(state: StorageChange | StorageGet | SCORING_STATE) {
 }
 
 if (window.location.pathname.includes('/status')) {
+  chrome.storage.local.set({ isClicked: true });
   chrome.storage.local.get('scoringState', scoringIfRunning);
   chrome.storage.onChanged.addListener(scoringIfRunning);
 }

@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { LoginPanel, ContentPanel, UnsolvedHeader } from './components';
 import { IFrame } from './IFrame';
-import { Message } from '../utils/message';
+import { Storage, Message } from '../utils';
 
 const UnsolvedFloatButton = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const panelElement = useRef(null);
 
   const handlePanelOpen = () => setIsClicked(true);
@@ -27,10 +28,14 @@ const UnsolvedFloatButton = () => {
       }
     }
     window.addEventListener('click', handleOutsideClick, { capture: true });
+    Storage.get('isClicked', (result) => {
+      if (result) {
+        setSelectedIndex(3);
+        setIsClicked(result);
+      }
+    });
     return () => {
-      window.removeEventListener('click', handleOutsideClick, {
-        capture: true,
-      });
+      window.removeEventListener('click', handleOutsideClick, { capture: true });
     };
   }, []);
 
@@ -39,7 +44,7 @@ const UnsolvedFloatButton = () => {
       {isClicked ? (
         <IFrame title='unsolved-content'>
           <UnsolvedHeader handlePanelClose={handlePanelClose} />
-          {isLogin ? <ContentPanel /> : <LoginPanel />}
+          {isLogin ? <ContentPanel selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} /> : <LoginPanel />}
         </IFrame>
       ) : (
         <button className='unsolved-wa-floatbtn' onClick={handlePanelOpen}>
