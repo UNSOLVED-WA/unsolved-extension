@@ -68,7 +68,7 @@ const ProblemService = {
    * @returns 문제 리스트
    */
   getUnsolvedProblems: async (teamId: string, tier: string) => {
-    return serviceInterface<ProblemResponse[]>(convertURL([UNSOLVED_BASE_URL, 'problems', teamId, tier]), 'GET');
+    return serviceInterface<ProblemResponse[]>(convertURL([UNSOLVED_BASE_URL, 'problems', 'unsolved', teamId, tier]), 'GET');
   },
   // 유저 점수 받아오는 api 추가 예정
 };
