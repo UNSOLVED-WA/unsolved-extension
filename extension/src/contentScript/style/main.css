@@ -84,13 +84,13 @@
 /* 중복 css 제거 */
 .unsolved-wa-logo-medium {
   border-radius: 5px !important;
-  background: #ffffff;
-  position: relative;
-  color: #ff0000;
+  background: #ffffff !important;
+  position: relative !important;
+  color: #ff0000 !important;
 
-  font-size: 12px;
-  font-weight: 900;
-  padding: 3px 7.5px;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+  padding: 3px 7.5px !important;
 }
 
 @keyframes border_pulse {

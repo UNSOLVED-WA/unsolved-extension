@@ -1,6 +1,6 @@
 import API from '../api/api';
 import { Scoring, Storage } from '../utils';
-import { STORAGE_VALUE, UnsolvedUser, Request, SendResponse } from '../@types';
+import { STORAGE_VALUE, Request, SendResponse } from '../@types';
 
 function fetchCachedData(_: Error, key: keyof STORAGE_VALUE) {
   return Storage.get(key);
@@ -112,20 +112,22 @@ function syncRequest(request: Request) {
     case 'toRunning':
       Scoring.setState('RUNNING', request.data);
       break;
-    case 'CORRECT':
+    case 'TIMEOUT':
+      Scoring.setState('TIMEOUT');
       break;
     case 'toCorrect':
-      Storage.gets(['solvedUser', 'problemId'], (res) => {
+      Storage.gets(['solvedUser', 'problemId'], async (res) => {
         const { solvedUser, problemId } = res;
         try {
           // TODO: 'user2' -> solvedUser.id로 바꿀 것
-          API.UserService.getUnsolvedUser('user2').then((unsolvedUser: UnsolvedUser) => {
-            API.ProblemService.updateUnsolvedProblems(unsolvedUser.id, parseInt(problemId)).then((res) => {
-              Scoring.setState('CORRECT');
-            });
-          });
+          const unsolvedUser = await API.UserService.getUnsolvedUser('user2');
+          const result = await API.ProblemService.updateUnsolvedProblems(unsolvedUser.id, parseInt(problemId));
+          if (result) {
+            console.log(result);
+            Scoring.setState('CORRECT');
+          }
         } catch (e) {
-          console.log(e);
+          Scoring.setState('NETERROR');
         }
       });
       break;
@@ -145,5 +147,6 @@ chrome.runtime.onInstalled.addListener(() => {
     hideButton: false,
     problemId: '',
     isClicked: false,
+    scoringState: 'DEFAULT',
   });
 });

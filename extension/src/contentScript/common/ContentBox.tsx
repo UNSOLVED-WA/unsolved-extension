@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import Flex from './Flex';
-import { UWColor } from '../style/theme';
+import { COLORS } from '../style/theme';
 import { useTheme } from '@mui/material';
 
 type DefinedContent = {
-  [K in keyof UWColor]?: {
+  [K in keyof COLORS]?: {
     title: string;
     icon: string;
   };
@@ -21,8 +21,8 @@ const definedContent: DefinedContent = {
 interface Props {
   children?: React.ReactNode;
   title?: string;
-  color?: keyof UWColor;
-  defined?: keyof UWColor;
+  color?: keyof COLORS;
+  defined?: keyof COLORS;
   type?: 'border' | 'background';
   pointer?: boolean;
   fullHeight?: boolean;
@@ -34,7 +34,7 @@ const ContentBox = ({ children, ...props }: Props) => {
 
   if (props.defined) {
     return (
-      <Container bgColor={theme.uwcolor[props.defined]?.bg} fgColor={theme.uwcolor[props.defined]?.fg} type={props.type}>
+      <Container bgColor={theme.colors[props.defined]?.bg} fgColor={theme.colors[props.defined]?.fg} type={props.type}>
         <Flex direction='row' divided='none'>
           <div>{definedContent[props.defined].title}</div>
           <span onClick={props.definedAction} className='material-symbols-outlined'>
@@ -46,13 +46,13 @@ const ContentBox = ({ children, ...props }: Props) => {
   }
   return (
     <Container
-      bgColor={theme.uwcolor[props.color]?.bg}
-      fgColor={theme.uwcolor[props.color]?.fg}
+      bgColor={theme.colors[props.color]?.bg}
+      fgColor={theme.colors[props.color]?.fg}
       type={props.type}
       pointer={props.pointer}
       fullHeight={props.fullHeight}
     >
-      <div>
+      <div style={{ height: props.fullHeight ? '100%' : 'auto' }}>
         {props.title && <h4 className='contentbox-title'>{props.title}</h4>}
         {children}
       </div>

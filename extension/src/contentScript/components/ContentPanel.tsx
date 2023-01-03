@@ -1,28 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
-import styled from '@emotion/styled';
-import { ContentPanelHeader, ContentPanelNavigator, ContentPanelBody } from './panel';
-import { fadeIn } from '../style/animation.style';
 import throttle from 'lodash/throttle';
+import { ContentPanelHeader, ContentPanelNavigator, ContentPanelBody } from './panel';
 import { ScrollDirection } from '../types';
+import { fadeIn } from '../style/animation.style';
+import styled from '@emotion/styled';
 
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  padding-left: 60px;
-
-  display: flex;
-  flex-direction: column;
-  overflow: scroll;
-
-  animation: ${fadeIn} 0.75s ease-in-out forwards;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`;
-
-const ContentPanel = () => {
-  const [selectedIndex, setSelectedIndex] = useState(0);
+interface Props {
+  selectedIndex: number;
+  setSelectedIndex: (index: number) => void;
+}
+const ContentPanel = ({ selectedIndex, setSelectedIndex }: Props) => {
   const [scrollDirection, setScrollDirection] = useState<ScrollDirection>('down');
   const containerElementRef = useRef(null);
 
@@ -65,3 +52,19 @@ const ContentPanel = () => {
 };
 
 export default ContentPanel;
+
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  padding-left: 60px;
+
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+
+  animation: ${fadeIn} 0.75s ease-in-out forwards;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;

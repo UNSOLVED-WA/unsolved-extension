@@ -1,6 +1,6 @@
-import { UWColor } from '../style/theme';
+import { COLORS } from '../style/theme';
 
-export const indexToTier = (index: number): keyof UWColor => {
+export const indexToTier = (index: number): keyof COLORS => {
   if (index === 0) {
     return 'master';
   } else if (index <= 2) {

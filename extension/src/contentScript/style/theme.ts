@@ -1,52 +1,48 @@
 import { createTheme } from '@mui/material';
+import { SCORING_STATE } from '../../@types';
 
-type UWFgBg = {
+type SVG_ICON = SCORING_STATE;
+type COLOR_PRESET =
+  | 'default'
+  | 'primary'
+  | 'secondary'
+  | 'error'
+  | 'warning'
+  | 'info'
+  | 'success'
+  | 'bronze'
+  | 'silver'
+  | 'gold'
+  | 'platinum'
+  | 'diamond'
+  | 'ruby'
+  | 'master';
+
+type FGBG = {
   bg: string;
   fg: string;
 };
 
-export type UWColor = {
-  default: UWFgBg;
-  primary: UWFgBg;
-  secondary: UWFgBg;
-  error: UWFgBg;
-  warning: UWFgBg;
-  info: UWFgBg;
-  success: UWFgBg;
-  bronze: UWFgBg;
-  silver: UWFgBg;
-  gold: UWFgBg;
-  platinum: UWFgBg;
-  diamond: UWFgBg;
-  ruby: UWFgBg;
-  master: UWFgBg;
+export type COLORS = {
+  [key in COLOR_PRESET]: FGBG;
+};
+export type COLORS_ICON = {
+  [key in SVG_ICON]: string;
 };
 
 declare module '@mui/material/styles' {
   interface Theme {
-    uwcolor: UWColor;
-    unwaLight: {
-      background: string;
-      color: UWColor;
-    };
-    unwaDark: {
-      background: string;
-      color: UWColor;
-    };
+    colors: COLORS;
+    icons: COLORS_ICON;
   }
   interface ThemeOptions {
-    uwcolor?: UWColor;
-    unwaLight?: {
-      background?: string;
-    };
-    unwaDark?: {
-      background?: string;
-    };
+    colors?: COLORS;
+    icons?: COLORS_ICON;
   }
 }
 
-export const theme = createTheme({
-  uwcolor: {
+const _theme = {
+  colors: {
     bronze: { bg: 'linear-gradient(130deg, #ef8037 0%, #592401 100%)', fg: '#fff' },
     silver: { bg: 'linear-gradient(130deg, #c5bdcb 0%, #263548 100%)', fg: '#fff' },
     gold: { bg: 'linear-gradient(130deg, #ffbf35 0%, #d46d1c 100%)', fg: '#fff' },
@@ -65,10 +61,15 @@ export const theme = createTheme({
     info: { bg: '#2196f3', fg: '#fff' },
     success: { bg: '#4caf50', fg: '#fff' },
   },
-  unwaLight: {
-    background: '#fff',
+  icons: {
+    DEFAULT: '#000000',
+    RUNNING: 'orange',
+    CORRECT: 'green',
+    WRONG: 'red',
+    TIMEOUT: 'purple',
+    ERROR: 'red',
+    NETERROR: 'red',
   },
-  unwaDark: {
-    background: '#000',
-  },
-});
+};
+
+export const theme = createTheme(_theme);
