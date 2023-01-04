@@ -15,15 +15,6 @@ function getSearchParam(key: string) {
   return searchParams.get(key);
 }
 
-if (window.location.pathname.includes('/submit')) {
-  const button = document.querySelector('#submit_button');
-  if (button) {
-    button.addEventListener('click', () => {
-      Message.send({ message: 'toRunning', type: 'sync', data: getSearchParam('problem_id') });
-    });
-  }
-}
-
 function autoScoring() {
   const MAX_CHECK_TIME = 4000;
   const CHECK_INTERVAL = 1000;
@@ -62,4 +53,13 @@ if (window.location.pathname.includes('/status')) {
   chrome.storage.local.set({ isClicked: true });
   chrome.storage.local.get('scoringState', scoringIfRunning);
   chrome.storage.onChanged.addListener(scoringIfRunning);
+}
+
+if (window.location.pathname.includes('/submit')) {
+  const button = document.querySelector('#submit_button');
+  if (button) {
+    button.addEventListener('click', () => {
+      Message.send({ message: 'toRunning', type: 'sync', data: getSearchParam('problem_id') });
+    });
+  }
 }
