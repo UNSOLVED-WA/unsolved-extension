@@ -127,12 +127,8 @@ function syncRequest(request: Request) {
         try {
           // TODO: 'user2' -> solvedUser.id로 바꿀 것
           const unsolvedUser = await API.UserService.getUnsolvedUser('user2');
-          console.log(unsolvedUser);
           const result = await API.ProblemService.updateUnsolvedProblems(unsolvedUser.bojId, parseInt(problemId));
-          if (result) {
-            console.log(result);
-            ScoringManager.set('CORRECT', null, result[0] ? result[0].score : 0);
-          }
+          ScoringManager.set('CORRECT', null, result[0] ? result[0].score : 0);
         } catch (e) {
           ScoringManager.set('NETERROR');
         }
