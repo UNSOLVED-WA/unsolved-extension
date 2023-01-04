@@ -42,7 +42,12 @@ const RecommandView = ({ refresh }: Props) => {
   }, []);
 
   if (!isLoaded) return <CircularProgress />;
-  if (isFailed) return <ContentBox defined='error' definedAction={refresh} />;
+  if (isFailed)
+    return (
+      <div className='panel-contents'>
+        <ContentBox defined='error' definedAction={refresh} />
+      </div>
+    );
 
   return (
     <div className='panel-contents'>
