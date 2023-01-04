@@ -20,7 +20,7 @@ const definedContent: DefinedContent = {
 
 interface Props {
   children?: React.ReactNode;
-  title?: string;
+  title?: string | React.ReactNode;
   color?: keyof COLORS;
   defined?: keyof COLORS;
   type?: 'border' | 'background';
