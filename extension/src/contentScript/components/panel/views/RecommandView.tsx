@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { ProblemResponse } from '../../../../@types';
 import { ContentBox, Flex } from '../../../common';
 import { Message, Storage } from '../../../../utils';
 import { numberToTier } from '../../../utils';
 import { tiers } from '../../../utils/numberToTier';
 import styled from '@emotion/styled';
+import { useRecommandProblems } from '../../../hooks/useRecommandProblem';
+import { CircularProgress } from '@mui/material';
 
-const RecommandView = () => {
-  const [recommand, setRecommand] = useState<ProblemResponse[]>([]);
+interface Props {
+  refresh: () => void;
+}
+
+const RecommandView = ({ refresh }: Props) => {
+  const { recommand, isLoaded, isFailed } = useRecommandProblems();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [selectedTiers, setSelectedTiers] = useState<number[]>([]);
 
   const handleFilter = () => setIsFilterOpen((prev) => !prev);
-
   const redirectProblemInfo = (problemId: number) => {
     Message.send({ message: 'toRedirectProblem', type: 'sync', data: problemId });
   };
@@ -32,15 +36,13 @@ const RecommandView = () => {
   };
 
   useEffect(() => {
-    Message.send({ message: 'fetchRecommand', type: 'async', data: { teamId: '1', tier: '1' } }, (response) => {
-      if (response.state === 'success') {
-        setRecommand(response.data);
-      }
-    });
     Storage.get('selectedTiers', (result) => {
       if (result) setSelectedTiers(result);
     });
   }, []);
+
+  if (!isLoaded) return <CircularProgress />;
+  if (isFailed) return <ContentBox defined='error' definedAction={refresh} />;
 
   return (
     <div className='panel-contents'>
