@@ -1,5 +1,5 @@
 import API from '../api/api';
-import { Scoring, Storage } from '../utils';
+import { ScoringManager, Storage } from '../utils';
 import { STORAGE_VALUE, Request, SendResponse } from '../@types';
 
 function fetchCachedData(_: Error, key: keyof STORAGE_VALUE) {
@@ -110,27 +110,31 @@ function syncRequest(request: Request) {
       });
       break;
     case 'toRunning':
-      Scoring.setState('RUNNING', request.data);
+      ScoringManager.set('RUNNING', request.data, -1);
       break;
     case 'WRONG':
-      Scoring.setState('WRONG');
+      ScoringManager.set('WRONG');
       break;
     case 'TIMEOUT':
-      Scoring.setState('TIMEOUT');
+      ScoringManager.set('TIMEOUT');
       break;
     case 'toCorrect':
-      Storage.gets(['solvedUser', 'problemId'], async (res) => {
-        const { solvedUser, problemId } = res;
+      Storage.gets(['solvedUser', 'scoring'], async (res) => {
+        const {
+          solvedUser,
+          scoring: { problemId },
+        } = res;
         try {
           // TODO: 'user2' -> solvedUser.id로 바꿀 것
           const unsolvedUser = await API.UserService.getUnsolvedUser('user2');
-          const result = await API.ProblemService.updateUnsolvedProblems(unsolvedUser.id, parseInt(problemId));
+          console.log(unsolvedUser);
+          const result = await API.ProblemService.updateUnsolvedProblems(unsolvedUser.bojId, parseInt(problemId));
           if (result) {
             console.log(result);
-            Scoring.setState('CORRECT');
+            ScoringManager.set('CORRECT', null, result[0] ? result[0].score : 0);
           }
         } catch (e) {
-          Scoring.setState('NETERROR');
+          ScoringManager.set('NETERROR');
         }
       });
       break;
@@ -148,8 +152,11 @@ chrome.runtime.onMessage.addListener((request: Request, _, sendResponse: SendRes
 chrome.runtime.onInstalled.addListener(() => {
   Storage.sets({
     hideButton: false,
-    problemId: '',
     isClicked: false,
-    scoringState: 'DEFAULT',
+    scoring: {
+      problemId: '',
+      state: 'DEFAULT',
+      score: -1,
+    },
   });
 });

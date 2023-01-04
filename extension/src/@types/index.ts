@@ -5,12 +5,15 @@ export type URL = string;
 export type SCORING_STATE = 'DEFAULT' | 'RUNNING' | 'CORRECT' | 'WRONG' | 'TIMEOUT' | 'ERROR' | 'NETERROR';
 
 export type STORAGE_VALUE = {
+  // system value
+  hideButton?: boolean;
+  isClicked?: boolean;
+  // profile view
   solvedUser?: SolvedUser;
   badge?: string;
-  hideButton?: boolean;
-  problemId?: string;
-  isClicked?: boolean;
-  scoringState?: SCORING_STATE;
+  // scoring view
+  scoring: { state?: SCORING_STATE; problemId?: string; score?: number };
+  // recommend view
   selectedTiers?: number[];
 };
 
@@ -23,7 +26,7 @@ export type ProblemResponse = {
 };
 
 export type ProblemRequest = {
-  userId: number;
+  bojId: string;
   problemNumber: number;
 };
 

@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { Scoring } from '../../../../utils';
+import { ScoringManager } from '../../../../utils';
 import { ContentBox, Flex } from '../../../common';
-import { SCORING_OBJECT, scorings } from '../../../../utils/scoring';
+import { SCORING_OBJECT } from '../../../../utils/scoring';
 import styled from '@emotion/styled';
 
 const ScoringView = () => {
-  const [scoringState, setScoringState] = useState<SCORING_OBJECT>(scorings[0]);
+  const [scoring, setScoring] = useState<SCORING_OBJECT>(ScoringManager.getByState());
 
   const handleRetry = () => {
-    Scoring.setState('RUNNING');
+    ScoringManager.set('RUNNING');
   };
 
   useEffect(() => {
     if (window.location.href.includes('https://www.acmicpc.net/')) {
-      Scoring.getMessageByState().then((result) => {
-        setScoringState(result);
+      ScoringManager.get().then((result) => {
+        setScoring(result);
       });
     }
     const ScoringStateHandler = (changes: { [key: string]: chrome.storage.StorageChange }) => {
       if (changes.scoringState && window.location.href.includes('https://www.acmicpc.net/')) {
-        Scoring.getMessageByState(changes.scoringState.newValue).then((result) => {
-          setScoringState(result);
+        ScoringManager.get().then((result) => {
+          setScoring(result);
         });
       }
     };
@@ -39,19 +39,19 @@ const ScoringView = () => {
     <Container className='panel-contents'>
       <ContentBox fullHeight>
         <Flex direction='column' align='center' justify='center' height='100%' gap='30px'>
-          <div id='scoring-title'>{scoringState.message}</div>
-          <div id='scoring-icon'>{scoringState.icon({ width: '200px', height: '200px' })}</div>
+          <div id='scoring-title'>{scoring.message}</div>
+          <div id='scoring-icon'>{scoring.icon({ width: '200px', height: '200px' })}</div>
           <div id='scoring-description'>
             {
               {
                 DEFAULT: <div>문제를 제출하거나 백준 채점 페이지로 이동해주세요!</div>,
                 RUNNING: <div>random message</div>,
-                CORRECT: <div>+ 130pts</div>,
+                CORRECT: <div>+ {scoring.score}pts</div>,
                 WRONG: <button onClick={handleRetry}>재시도</button>,
                 TIMEOUT: <button onClick={handleRetry}>재시도</button>,
                 ERROR: <button onClick={handleRetry}>재시도</button>,
                 NETERROR: <button onClick={handleRetry}>재시도</button>,
-              }[scoringState.state]
+              }[scoring.state ?? 'DEFAULT']
             }
           </div>
         </Flex>
