@@ -9,14 +9,17 @@ type StorageGet = {
   [key: string]: any;
 };
 
+function getSearchParam(key: string) {
+  const url = new URL(window.location.href);
+  const searchParams = new URLSearchParams(url.search);
+  return searchParams.get(key);
+}
+
 if (window.location.pathname.includes('/submit')) {
   const button = document.querySelector('#submit_button');
   if (button) {
     button.addEventListener('click', () => {
-      const url = new URL(window.location.href);
-      const searchParams = new URLSearchParams(url.search);
-      const problemId = searchParams.get('problem_id');
-      Message.send({ message: 'toRunning', type: 'sync', data: problemId });
+      Message.send({ message: 'toRunning', type: 'sync', data: getSearchParam('problem_id') });
     });
   }
 }
@@ -44,10 +47,7 @@ function autoScoring() {
 
 function scoringIfRunning(state: StorageChange | StorageGet | SCORING_STATE) {
   if (typeof state === 'object' && state?.scoringState === 'DEFAULT') {
-    const url = new URL(window.location.href);
-    const searchParams = new URLSearchParams(url.search);
-    const problemId = searchParams.get('problem_id');
-    Message.send({ message: 'toRunning', type: 'sync', data: problemId });
+    Message.send({ message: 'toRunning', type: 'sync', data: getSearchParam('problem_id') });
     return;
   }
   if (
