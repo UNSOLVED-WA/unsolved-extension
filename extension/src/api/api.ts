@@ -54,9 +54,9 @@ const ProblemService = {
    * @param problemNumber
    * @returns 그룹랭킹 상승에 기여한 score
    */
-  updateUnsolvedProblems: async (userId: number, problemNumber: number) => {
+  updateUnsolvedProblems: async (userId: string, problemNumber: number) => {
     const body: ProblemRequest = {
-      userId: userId,
+      bojId: userId,
       problemNumber: problemNumber,
     };
     return serviceInterface<ProblemResponse[]>(convertURL([UNSOLVED_BASE_URL, 'problems', 'solving']), 'POST', body);
