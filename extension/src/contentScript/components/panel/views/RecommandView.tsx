@@ -9,7 +9,7 @@ import styled from '@emotion/styled';
 const RecommandView = () => {
   const [recommand, setRecommand] = useState<ProblemResponse[]>([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [selectedTiers, setSelectedTier] = useState<number[]>([]);
+  const [selectedTiers, setSelectedTiers] = useState<number[]>([]);
 
   const handleFilter = () => setIsFilterOpen((prev) => !prev);
 
@@ -24,7 +24,7 @@ const RecommandView = () => {
       _selectedTiers = [...selectedTiers, tier];
     }
     Storage.set('selectedTiers', _selectedTiers, (result) => {
-      setSelectedTier(result);
+      setSelectedTiers(result);
     });
   };
   const sortTier = (tiers: number[]) => {
@@ -38,7 +38,7 @@ const RecommandView = () => {
       }
     });
     Storage.get('selectedTiers', (result) => {
-      if (result) setSelectedTier(result);
+      if (result) setSelectedTiers(result);
     });
   }, []);
 
