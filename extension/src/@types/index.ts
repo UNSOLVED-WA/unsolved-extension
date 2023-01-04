@@ -11,6 +11,7 @@ export type STORAGE_VALUE = {
   problemId?: string;
   isClicked?: boolean;
   scoringState?: SCORING_STATE;
+  selectedTiers?: number[];
 };
 
 export type ProblemResponse = {
