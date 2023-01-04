@@ -16,7 +16,7 @@ function getSearchParam(key: string) {
 }
 
 function autoScoring() {
-  const MAX_CHECK_TIME = 4000;
+  const MAX_CHECK_TIME = 30000;
   const CHECK_INTERVAL = 1000;
 
   const checkPassed = () => {
