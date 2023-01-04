@@ -11,6 +11,13 @@ const ScoringView = () => {
     ScoringManager.set('RUNNING');
   };
 
+  function messageByScore(score: number) {
+    if (score === -1 || score === 0) {
+      return '이미 채점이 완료된 문제입니다.';
+    }
+    return '+ ' + score + 'pts';
+  }
+
   useEffect(() => {
     if (window.location.href.includes('https://www.acmicpc.net/')) {
       ScoringManager.get().then((result) => {
@@ -46,7 +53,7 @@ const ScoringView = () => {
               {
                 DEFAULT: <div>문제를 제출하거나 백준 채점 페이지로 이동해주세요!</div>,
                 RUNNING: <div>random message</div>,
-                CORRECT: <div>+ {scoring.score}pts</div>,
+                CORRECT: <div>{messageByScore(scoring.score)}</div>,
                 WRONG: <button onClick={handleRetry}>재시도</button>,
                 TIMEOUT: <button onClick={handleRetry}>재시도</button>,
                 ERROR: <button onClick={handleRetry}>재시도</button>,
