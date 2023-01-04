@@ -1,15 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import { ProblemResponse } from '../../../../@types';
 import { ContentBox, Flex } from '../../../common';
+import { Message, Storage } from '../../../../utils';
 import { numberToTier } from '../../../utils';
-import { Message } from '../../../../utils';
+import { tiers } from '../../../utils/numberToTier';
 import styled from '@emotion/styled';
 
 const RecommandView = () => {
   const [recommand, setRecommand] = useState<ProblemResponse[]>([]);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [selectedTiers, setSelectedTiers] = useState<number[]>([]);
+
+  const handleFilter = () => setIsFilterOpen((prev) => !prev);
 
   const redirectProblemInfo = (problemId: number) => {
     Message.send({ message: 'toRedirectProblem', type: 'sync', data: problemId });
+  };
+  const handleTierClick = (tier: number, selectedTiers: number[]) => {
+    let _selectedTiers = selectedTiers;
+    if (selectedTiers.includes(tier)) {
+      _selectedTiers = selectedTiers.filter((t) => t !== tier);
+    } else {
+      _selectedTiers = [...selectedTiers, tier];
+    }
+    Storage.set('selectedTiers', _selectedTiers, (result) => {
+      setSelectedTiers(result);
+    });
+  };
+  const sortTier = (tiers: number[]) => {
+    return tiers.sort((a, b) => a - b);
   };
 
   useEffect(() => {
@@ -18,12 +37,44 @@ const RecommandView = () => {
         setRecommand(response.data);
       }
     });
+    Storage.get('selectedTiers', (result) => {
+      if (result) setSelectedTiers(result);
+    });
   }, []);
 
   return (
     <div className='panel-contents'>
-      {recommand.map((problem) => {
-        const { problemId, problemTitle, tier } = problem;
+      <ContentBox
+        title={
+          <Flex direction='row'>
+            <div>
+              <Flex>
+                {sortTier(selectedTiers).map((selectedTier) => {
+                  const st = numberToTier(selectedTier);
+                  return <div key={'selectedTier-' + selectedTier}>{st.tier.substring(0, 1).toUpperCase() + st.level?.toString()}</div>;
+                })}
+              </Flex>
+            </div>
+            <button onClick={handleFilter}>{isFilterOpen ? '-' : '+'}</button>
+          </Flex>
+        }
+      >
+        <FilterBox isFilterOpen={isFilterOpen}>
+          {sortTier(tiers).map((tier) => {
+            const t = numberToTier(tier);
+            return (
+              <button
+                className={'tiers'.concat(selectedTiers.includes(tier) ? ' selected' : '')}
+                key={'tier-' + tier}
+                onClick={() => handleTierClick(tier, selectedTiers)}
+              >
+                {t.tier.substring(0, 1).toUpperCase() + t.level?.toString()}
+              </button>
+            );
+          })}
+        </FilterBox>
+      </ContentBox>
+      {recommand.map(({ problemId, problemTitle, tier }) => {
         const tierInfo = numberToTier(tier);
         return (
           <ContentBox key={problemId} color={tierInfo.tier} pointer={true}>
@@ -60,8 +111,31 @@ const ReccomandBox = styled.div`
   }
   .problem-title {
     width: 100%;
-    overflow: 'hidden';
-    white-space: 'nowrap';
-    text-overflow: 'ellipsis';
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+`;
+
+const FilterBox = styled.div<{ isFilterOpen: boolean }>`
+  overflow: hidden;
+  max-height: ${(props) => (props.isFilterOpen ? '100px' : '0px')};
+  transition: max-height 0.25s linear;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  .tiers {
+    cursor: pointer;
+    background: #ffffff;
+    color: red;
+
+    border-radius: 100px;
+    border: 0px;
+  }
+
+  .selected {
+    background: red;
+    color: #ffffff;
   }
 `;

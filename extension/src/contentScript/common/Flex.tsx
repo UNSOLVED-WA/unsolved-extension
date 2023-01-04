@@ -19,6 +19,8 @@ interface Props {
   flexGrow?: number;
   flexShrink?: number;
   flexBasis?: string;
+  overflow?: string;
+  scrollable?: boolean;
 }
 
 const Flex = ({ children, ...props }: Props) => {
@@ -35,8 +37,9 @@ const Flex = ({ children, ...props }: Props) => {
       flexGrow={props.flexGrow}
       flexShrink={props.flexShrink}
       flexBasis={props.flexBasis}
+      overflow={props.overflow}
     >
-      {children}
+      {props.scrollable ? <div style={{ width: '100%', height: '100%', overflow: 'hidden' }}>{children}</div> : children}
     </Container>
   );
 };
@@ -59,6 +62,8 @@ const Container = styled.div<Props>`
 
   font-size: 0.9rem;
 
+  overflow: ${(props) => props.overflow ?? 'hidden'};
+
   ${(props) =>
     props.divided === 'two' &&
     `
@@ -76,5 +81,9 @@ const Container = styled.div<Props>`
   .material-symbols-outlined {
     font-size: 1.2rem;
     cursor: pointer;
+  }
+
+  &&::-webkit-scrollbar {
+    width: 0%;
   }
 `;
