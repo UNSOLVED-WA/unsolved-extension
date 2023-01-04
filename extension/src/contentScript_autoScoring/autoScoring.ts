@@ -41,13 +41,13 @@ function autoScoring() {
 }
 
 function scoringIfRunning(state: StorageChange | StorageGet | SCORING_STATE) {
-  if (typeof state === 'object' && state?.scoringState === 'DEFAULT') {
+  if (typeof state === 'object' && state?.scoring?.state === 'DEFAULT') {
     Message.send({ message: 'toRunning', type: 'sync', data: getSearchParam('problem_id') });
     return;
   }
   if (
     (typeof state === 'string' && state === 'RUNNING') ||
-    (typeof state !== 'string' && (state?.scoringState?.newValue === 'RUNNING' || state?.scoringState === 'RUNNING'))
+    (typeof state !== 'string' && (state?.scoring?.newValue.state === 'RUNNING' || state?.scoring?.state === 'RUNNING'))
   ) {
     autoScoring();
   }
@@ -55,7 +55,7 @@ function scoringIfRunning(state: StorageChange | StorageGet | SCORING_STATE) {
 
 if (window.location.pathname.includes('/status')) {
   chrome.storage.local.set({ isClicked: true });
-  chrome.storage.local.get('scoringState', scoringIfRunning);
+  chrome.storage.local.get('scoring', scoringIfRunning);
   chrome.storage.onChanged.addListener(scoringIfRunning);
 }
 

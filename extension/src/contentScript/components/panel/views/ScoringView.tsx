@@ -18,7 +18,7 @@ const ScoringView = () => {
       });
     }
     const ScoringStateHandler = (changes: { [key: string]: chrome.storage.StorageChange }) => {
-      if (changes.scoringState && window.location.href.includes('https://www.acmicpc.net/')) {
+      if (changes.scoring && window.location.href.includes('https://www.acmicpc.net/')) {
         ScoringManager.get().then((result) => {
           setScoring(result);
         });

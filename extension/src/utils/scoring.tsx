@@ -60,7 +60,7 @@ export const ScoringManager: ScoringManager = {
     });
   },
   getByState: (state = 'DEFAULT') => {
-    return { scoringState: state, message: findMessage(state), icon: findIcon(state) };
+    return { state: state, message: findMessage(state), icon: findIcon(state) };
   },
   set: (state, problemId, score) => {
     Storage.set('scoring', { state: state, problemId: problemId, score: score });
