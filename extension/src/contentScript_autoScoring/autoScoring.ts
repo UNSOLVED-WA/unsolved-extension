@@ -59,7 +59,7 @@ if (window.location.pathname.includes('/status')) {
   chrome.storage.onChanged.addListener(scoringIfRunning);
 }
 
-if (window.location.pathname.includes('/submit')) {
+if (window.location.pathname.includes('/submit') && getSearchParam('from_mine') === '1') {
   const button = document.querySelector('#submit_button');
   if (button) {
     button.addEventListener('click', () => {
