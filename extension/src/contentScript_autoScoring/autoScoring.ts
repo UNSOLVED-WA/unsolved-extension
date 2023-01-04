@@ -25,6 +25,10 @@ function autoScoring() {
       clearInterval(intervalId);
       intervalId = null;
       Message.send({ message: 'toCorrect', type: 'sync' });
+    } else if (!result.children[0].innerHTML.includes('채점') && !result.children[0].innerHTML.includes('기다')) {
+      clearInterval(intervalId);
+      intervalId = null;
+      Message.send({ message: 'WRONG', type: 'sync' });
     }
   };
   let intervalId = setInterval(checkPassed, CHECK_INTERVAL);

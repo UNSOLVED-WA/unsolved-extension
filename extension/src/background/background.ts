@@ -112,6 +112,9 @@ function syncRequest(request: Request) {
     case 'toRunning':
       Scoring.setState('RUNNING', request.data);
       break;
+    case 'WRONG':
+      Scoring.setState('WRONG');
+      break;
     case 'TIMEOUT':
       Scoring.setState('TIMEOUT');
       break;
