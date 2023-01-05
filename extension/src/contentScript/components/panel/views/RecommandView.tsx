@@ -83,6 +83,20 @@ const RecommandView = ({ refresh }: Props) => {
           })}
         </FilterBox>
       </ContentBox>
+      {/* TODO: 랜덤 문제 1개 디자인, 포지션 */}
+      {/* TODO: numberToTier를 recommand custom hook 2개에 default로 장착 고려 */}
+      <ContentBox key={randomRecommand.problemId} color={numberToTier(randomRecommand.tier).tier} pointer={true}>
+        <ReccomandBox onClick={() => redirectProblemInfo(randomRecommand.problemId)}>
+          <Flex direction='column' gap='0px' align='start'>
+            <Flex direction='row' justify='space-between'>
+              <span className='problem-id'>No.{randomRecommand.problemId}</span>
+              <span className='problem-tier'>{randomRecommand.tier + ' ' + numberToTier(randomRecommand.tier).level}</span>
+            </Flex>
+            <span className='problem-title'>{randomRecommand.problemTitle}</span>
+          </Flex>
+        </ReccomandBox>
+      </ContentBox>
+      <br />
       {recommand.map(({ problemId, problemTitle, tier }) => {
         const tierInfo = numberToTier(tier);
         return (
