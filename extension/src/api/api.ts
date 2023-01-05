@@ -75,10 +75,10 @@ const ProblemService = {
 
 const RankingService = {
   getAllRanking: async (teamId: string) => {
-    return serviceInterface<Ranking[]>(convertURL([UNSOLVED_BASE_URL, 'ranking', teamId]), 'GET');
+    return serviceInterface<Ranking[]>(convertURL([UNSOLVED_BASE_URL, 'rankings', teamId]), 'GET');
   },
   getMonthRanking: async (teamId: string) => {
-    return serviceInterface<Ranking[]>(convertURL([UNSOLVED_BASE_URL, 'ranking', teamId, 'month']), 'GET');
+    return serviceInterface<Ranking[]>(convertURL([UNSOLVED_BASE_URL, 'rankings', teamId, 'month']), 'GET');
   },
 };
 
