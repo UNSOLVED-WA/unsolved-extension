@@ -1,7 +1,7 @@
 import { UnsolvedUser, ProblemResponse, Ranking } from '../@types';
 
 import { dummyUnsolvedUser } from '../test/dummy/dummyUser';
-import { dummyUpdateProblems, dummyProblems } from '../test/dummy/dummyProblem';
+import { dummyUpdateProblems, dummyProblems, dummyProblem } from '../test/dummy/dummyProblem';
 import { dummyAllRanking, dummyMonthRanking } from '../test/dummy/dummyRanking';
 
 function objectToPromise<T>(obj: T): Promise<T> {
@@ -25,6 +25,10 @@ const ProblemService = {
   getUnsolvedProblems: async (bojId: string, tier: string): Promise<ProblemResponse[]> => {
     console.log('mockAPI: getUnsolvedProblems : ', bojId, tier);
     return objectToPromise(dummyProblems);
+  },
+  getRecommandUnsolvedProblem: async (bojId: string, tier: string) => {
+    console.log('mockAPI: getRecommandUnsolvedProblem : ', bojId, tier);
+    return objectToPromise(dummyProblem);
   },
 };
 
