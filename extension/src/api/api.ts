@@ -74,12 +74,23 @@ const ProblemService = {
 };
 
 const RankingService = {
+  /**
+   * 랭킹 전체 조회
+   * @param teamId
+   * @returns
+   */
   getAllRanking: async (teamId: string) => {
     return serviceInterface<Ranking[]>(convertURL([UNSOLVED_BASE_URL, 'rankings', teamId]), 'GET');
   },
+  /**
+   * 월간 랭킹
+   * @param teamId
+   * @returns
+   */
   getMonthRanking: async (teamId: string) => {
-    return serviceInterface<Ranking[]>(convertURL([UNSOLVED_BASE_URL, 'rankings', teamId, 'month']), 'GET');
+    return serviceInterface<Ranking[]>(convertURL([UNSOLVED_BASE_URL, 'rankings', 'month', teamId]), 'GET');
   },
+  // TODO: 월간 랭킹 히스토리 조회 api 추가 예정??
 };
 
 const ExternalService = {
