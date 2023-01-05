@@ -16,8 +16,18 @@ function fetchRanking(sendResponse: SendResponse, teamId: string) {
     });
 }
 
-function fetchRecommand(sendResponse: SendResponse, teamId: string, tier: string) {
+function fetchRecommands(sendResponse: SendResponse, teamId: string, tier: string) {
   API.ProblemService.getUnsolvedProblems(teamId, tier)
+    .then((data) => {
+      sendResponse({ state: 'success', data });
+    })
+    .catch((error) => {
+      sendResponse({ state: 'fail', message: error.message });
+    });
+}
+
+function fetchRandomRecommand(sendResponse: SendResponse, teamId: string, tier: string) {
+  API.ProblemService.getRecommandUnsolvedProblem(teamId, tier)
     .then((data) => {
       sendResponse({ state: 'success', data });
     })
@@ -73,8 +83,11 @@ function asyncRequest(request: Request, sendResponse: SendResponse) {
     case 'fetchRanking':
       fetchRanking(sendResponse, request.data);
       break;
-    case 'fetchRecommand':
-      fetchRecommand(sendResponse, request.data.teamId, request.data.tier);
+    case 'fetchRecommands':
+      fetchRecommands(sendResponse, request.data.teamId, request.data.tier);
+      break;
+    case 'fetchRandomRecommand':
+      fetchRandomRecommand(sendResponse, request.data.teamId, request.data.tier);
       break;
   }
 }

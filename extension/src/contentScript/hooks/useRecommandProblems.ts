@@ -9,7 +9,7 @@ export const useRecommandProblems = () => {
 
   useEffect(() => {
     // TODO: teamId, tier 값은 추후 유저한테서 받아와야함 + default 값
-    Message.send({ message: 'fetchRecommand', type: 'async', data: { teamId: '1', tier: '1' } }, (response) => {
+    Message.send({ message: 'fetchRecommands', type: 'async', data: { teamId: '1', tier: '1' } }, (response) => {
       switch (response.state) {
         case 'success':
           setRecommand(response.data);
