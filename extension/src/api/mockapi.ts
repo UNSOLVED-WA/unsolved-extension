@@ -18,7 +18,7 @@ const UserService = {
 };
 
 const ProblemService = {
-  updateUnsolvedProblems: async (userId: number, problemNumber: number): Promise<ProblemResponse[]> => {
+  updateUnsolvedProblems: async (userId: string, problemNumber: number): Promise<ProblemResponse[]> => {
     console.log('mockAPI: updateUnsolvedProblems : ', userId, problemNumber);
     return objectToPromise(dummyUpdateProblems);
   },

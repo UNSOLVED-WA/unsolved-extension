@@ -9,20 +9,14 @@ type StorageGet = {
   [key: string]: any;
 };
 
-if (window.location.pathname.includes('/submit')) {
-  const button = document.querySelector('#submit_button');
-  if (button) {
-    button.addEventListener('click', () => {
-      const url = new URL(window.location.href);
-      const searchParams = new URLSearchParams(url.search);
-      const problemId = searchParams.get('problem_id');
-      Message.send({ message: 'toRunning', type: 'sync', data: problemId });
-    });
-  }
+function getSearchParam(key: string) {
+  const url = new URL(window.location.href);
+  const searchParams = new URLSearchParams(url.search);
+  return searchParams.get(key);
 }
 
 function autoScoring() {
-  const MAX_CHECK_TIME = 4000;
+  const MAX_CHECK_TIME = 30000;
   const CHECK_INTERVAL = 1000;
 
   const checkPassed = () => {
@@ -31,6 +25,10 @@ function autoScoring() {
       clearInterval(intervalId);
       intervalId = null;
       Message.send({ message: 'toCorrect', type: 'sync' });
+    } else if (!result.children[0].innerHTML.includes('채점') && !result.children[0].innerHTML.includes('기다')) {
+      clearInterval(intervalId);
+      intervalId = null;
+      Message.send({ message: 'WRONG', type: 'sync' });
     }
   };
   let intervalId = setInterval(checkPassed, CHECK_INTERVAL);
@@ -43,16 +41,13 @@ function autoScoring() {
 }
 
 function scoringIfRunning(state: StorageChange | StorageGet | SCORING_STATE) {
-  if (typeof state === 'object' && state?.scoringState === 'DEFAULT') {
-    const url = new URL(window.location.href);
-    const searchParams = new URLSearchParams(url.search);
-    const problemId = searchParams.get('problem_id');
-    Message.send({ message: 'toRunning', type: 'sync', data: problemId });
+  if (typeof state === 'object' && state?.scoring?.state === 'DEFAULT') {
+    Message.send({ message: 'toRunning', type: 'sync', data: getSearchParam('problem_id') });
     return;
   }
   if (
     (typeof state === 'string' && state === 'RUNNING') ||
-    (typeof state !== 'string' && (state?.scoringState?.newValue === 'RUNNING' || state?.scoringState === 'RUNNING'))
+    (typeof state !== 'string' && (state?.scoring?.newValue.state === 'RUNNING' || state?.scoring?.state === 'RUNNING'))
   ) {
     autoScoring();
   }
@@ -60,6 +55,15 @@ function scoringIfRunning(state: StorageChange | StorageGet | SCORING_STATE) {
 
 if (window.location.pathname.includes('/status')) {
   chrome.storage.local.set({ isClicked: true });
-  chrome.storage.local.get('scoringState', scoringIfRunning);
+  chrome.storage.local.get('scoring', scoringIfRunning);
   chrome.storage.onChanged.addListener(scoringIfRunning);
+}
+
+if (window.location.pathname.includes('/submit') && getSearchParam('from_mine') === '1') {
+  const button = document.querySelector('#submit_button');
+  if (button) {
+    button.addEventListener('click', () => {
+      Message.send({ message: 'toRunning', type: 'sync', data: getSearchParam('problem_id') });
+    });
+  }
 }

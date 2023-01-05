@@ -1,71 +1,68 @@
-import React from 'react';
 import { Storage } from './storage';
 import { DefaultIcon, RunningIcon, CorrectIcon, WrongIcon, TimeoutIcon, NeterrorIcon } from '../contentScript/common/icons';
-import { SCORING_STATE } from '../@types';
+import { SCORING_STATE, STORAGE_VALUE } from '../@types';
 import { IconComponentProps } from '../contentScript/common/icons/Icon';
 
 export type SCORING_OBJECT = {
-  state: SCORING_STATE;
   message: string;
   icon?: (_?: IconComponentProps) => JSX.Element;
-};
+} & STORAGE_VALUE['scoring'];
 
-export const scorings: SCORING_OBJECT[] = [
-  {
-    state: 'DEFAULT',
-    message: '문제를 풀어주세요!',
-    icon: ({ color, width, height }) => <DefaultIcon color={color} width={width} height={height} />,
-  },
-  {
-    state: 'RUNNING',
-    icon: ({ color, width, height }) => <RunningIcon color={color} width={width} height={height} />,
-    message: '채점 중...',
-  },
-  {
-    state: 'CORRECT',
-    icon: ({ color, width, height }) => <CorrectIcon color={color} width={width} height={height} />,
-    message: '정답입니다!!',
-  },
-  {
-    state: 'WRONG',
-    icon: ({ color, width, height }) => <WrongIcon color={color} width={width} height={height} />,
-    message: '틀렸습니다.',
-  },
-  {
-    state: 'TIMEOUT',
-    icon: ({ color, width, height }) => <TimeoutIcon color={color} width={width} height={height} />,
-    message: '채점 시간 초과',
-  },
-  {
-    state: 'ERROR',
-    icon: ({ color, width, height }) => <NeterrorIcon color={color} width={width} height={height} />,
-    message: '에러 발생!',
-  },
-  {
-    state: 'NETERROR',
-    icon: ({ color, width, height }) => <NeterrorIcon color={color} width={width} height={height} />,
-    message: '네트워크 에러 발생!',
-  },
-];
-
-interface SCORING {
-  getState: () => Promise<SCORING_STATE>;
-  getMessageByState: (state?: SCORING_STATE) => Promise<SCORING_OBJECT>;
-  setState: (scoringState: SCORING_STATE, problemId?: string) => void;
+function findMessage(state: SCORING_STATE): string {
+  switch (state) {
+    case 'DEFAULT':
+      return '문제를 풀어주세요!';
+    case 'RUNNING':
+      return '채점 중...';
+    case 'CORRECT':
+      return '정답입니다!!';
+    case 'WRONG':
+      return '틀렸습니다.';
+    case 'TIMEOUT':
+      return '채점 시간 초과';
+    case 'NETERROR':
+      return '네트워크 에러 발생!';
+    default:
+      return '문제를 풀어주세요!';
+  }
 }
-export const Scoring: SCORING = {
-  getState: () => {
+
+function findIcon(state: SCORING_STATE) {
+  switch (state) {
+    case 'DEFAULT':
+      return DefaultIcon;
+    case 'RUNNING':
+      return RunningIcon;
+    case 'CORRECT':
+      return CorrectIcon;
+    case 'WRONG':
+      return WrongIcon;
+    case 'TIMEOUT':
+      return TimeoutIcon;
+    case 'NETERROR':
+      return NeterrorIcon;
+    default:
+      return DefaultIcon;
+  }
+}
+
+interface ScoringManager {
+  get: () => Promise<SCORING_OBJECT>;
+  getByState: (state?: SCORING_STATE) => SCORING_OBJECT;
+  set: (state?: SCORING_STATE, problemId?: string, score?: number) => void;
+}
+export const ScoringManager: ScoringManager = {
+  get: () => {
     return new Promise((resolve) => {
-      Storage.get('scoringState', (result) => {
-        resolve(result);
+      Storage.get('scoring').then((result) => {
+        resolve({ ...result, message: findMessage(result.state), icon: findIcon(result.state) });
       });
     });
   },
-  getMessageByState: async (state?: SCORING_STATE) => {
-    const _state = state ?? (await Scoring.getState());
-    return scorings.find((scoring) => scoring.state === _state);
+  getByState: (state = 'DEFAULT') => {
+    return { state: state, message: findMessage(state), icon: findIcon(state) };
   },
-  setState: (state, problemId) => {
-    Storage.sets({ scoringState: state, problemId: problemId });
+  set: (state, problemId, score) => {
+    Storage.set('scoring', { state: state, problemId: problemId, score: score });
   },
 };

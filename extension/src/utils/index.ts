@@ -1,5 +1,5 @@
-import { Scoring } from './scoring';
+import { ScoringManager } from './scoring';
 import { Storage } from './storage';
 import { Message } from './message';
 
-export { Scoring, Storage, Message };
+export { ScoringManager, Storage, Message };
