@@ -132,7 +132,8 @@ export type RequestMessage =
       | 'fetchUser' //
       | 'fetchBadge'
       | 'fetchRanking'
-      | 'fetchRecommand'
+      | 'fetchRecommands'
+      | 'fetchRandomRecommand'
       | 'toLogin'
       | 'hideButton'
       | 'sendNotification'
