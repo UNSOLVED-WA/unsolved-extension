@@ -1,24 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { Ranking } from '../../../../@types';
+import React from 'react';
 import { ContentBox, Flex } from '../../../common';
 import { indexToTier } from '../../../utils';
 import { Message } from '../../../../utils';
 import styled from '@emotion/styled';
+import { useRanking } from '../../../hooks/useRanking';
+import { CircularProgress } from '@mui/material';
 
-const RankingView = () => {
-  const [ranking, setRanking] = useState<Ranking[]>([]);
+interface Props {
+  refresh: () => void;
+}
+
+const RankingView = ({ refresh }: Props) => {
+  const { ranking, isLoaded, isFailed } = useRanking();
 
   const redirectUserInfo = (bojId: string) => {
     Message.send({ message: 'toRedirectUser', type: 'sync', data: bojId });
   };
 
-  useEffect(() => {
-    Message.send({ message: 'fetchRanking', type: 'async', data: '1' }, (response) => {
-      if (response.state === 'success') {
-        setRanking(response.data);
-      }
-    });
-  }, []);
+  if (!isLoaded) return <CircularProgress />;
+  if (isFailed)
+    return (
+      <div className='panel-contents'>
+        <ContentBox defined='error' definedAction={refresh} />
+      </div>
+    );
 
   return (
     <div className='panel-contents'>
