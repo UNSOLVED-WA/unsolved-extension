@@ -14,7 +14,6 @@ function autoScoring() {
   const checkPassed = () => {
     const result = document.querySelector('.result');
     if (result.children[0].innerHTML === '맞았습니다!!') {
-      console.log('here?');
       Message.send({ message: 'CORRECT', type: 'sync', data: getSearchParam('problem_id') });
       clearInterval(intervalId);
       intervalId = null;
