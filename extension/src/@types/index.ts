@@ -139,8 +139,6 @@ export type RequestMessage =
       | 'sendNotification'
       | 'toRedirectProblem'
       | 'toRedirectUser'
-      | 'toRunning'
-      | 'toCorrect'
     )
   | SCORING_STATE;
 
