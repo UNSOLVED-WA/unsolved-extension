@@ -38,7 +38,7 @@ const ContentPanelBody = ({ selectedIndex }: Props) => {
       {
         {
           0: <ProfileView refresh={toggleAction} />,
-          1: <RankingView />,
+          1: <RankingView refresh={toggleAction} />,
           2: <RecommandView refresh={toggleAction} />,
           3: <ScoringView />,
         }[selectedIndex]
