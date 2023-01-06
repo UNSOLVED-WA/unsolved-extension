@@ -54,10 +54,10 @@ const ScoringView = () => {
                 DEFAULT: <div>문제를 제출하거나 백준 채점 페이지로 이동해주세요!</div>,
                 RUNNING: <div>random message</div>,
                 CORRECT: <div>{messageByScore(scoring.score)}</div>,
-                WRONG: <button onClick={handleRetry}>재시도</button>,
-                TIMEOUT: <button onClick={handleRetry}>재시도</button>,
-                ERROR: <button onClick={handleRetry}>재시도</button>,
-                NETERROR: <button onClick={handleRetry}>재시도</button>,
+                WRONG: <button onClick={handleRetry}>재시도!</button>,
+                TIMEOUT: <button onClick={handleRetry}>재시도!</button>,
+                ERROR: <button onClick={handleRetry}>재시도!</button>,
+                NETERROR: <button onClick={handleRetry}>재시도!</button>,
               }[scoring.state ?? 'DEFAULT']
             }
           </div>
@@ -95,5 +95,16 @@ const Container = styled.div`
 
     white-space: normal;
     word-break: break-all;
+
+    > * {
+      font-size: 17px;
+    }
+
+    button {
+      background: none;
+      border: none;
+      color: #3f51b5;
+      cursor: pointer;
+    }
   }
 `;
