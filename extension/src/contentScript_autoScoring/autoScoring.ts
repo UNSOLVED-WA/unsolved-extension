@@ -1,15 +1,10 @@
 import { Message } from '../utils/message';
-import { Storage } from '../utils'; // 이거 왜 안됨?
+// import { Storage } from '../utils'; // 이거 왜 안됨?
 
 function getSearchParam(key: string) {
   const url = new URL(window.location.href);
   const searchParams = new URLSearchParams(url.search);
   return searchParams.get(key);
-}
-
-function getProblemIdInPathname() {
-  const url = new URL(window.location.href);
-  return url.pathname.split('/')[2];
 }
 
 function autoScoring() {
