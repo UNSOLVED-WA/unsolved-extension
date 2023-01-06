@@ -28,7 +28,6 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   padding-top: 50px;
-  // TODO : flex gap, ContentBox margin 중 하나로 통일
   gap: 10px;
 
   .panel-contents {

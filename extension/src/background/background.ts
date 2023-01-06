@@ -133,6 +133,7 @@ function syncRequest(request: Request) {
       break;
     case 'CORRECT':
       Storage.get('solvedUser', async (solvedUser) => {
+        // TODO : <high> 'user2' -> solvedUser.user.handle
         API.ProblemService.updateUnsolvedProblems('user2', parseInt(request.data))
           .then((result) => {
             ScoringManager.set('CORRECT', null, result[0] ? result[0].score : 0);

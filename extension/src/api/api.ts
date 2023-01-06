@@ -62,7 +62,7 @@ const ProblemService = {
     return serviceInterface<ProblemResponse[]>(convertURL([UNSOLVED_BASE_URL, 'problems', 'solving']), 'POST', body);
   },
   /**
-   * unsolved 리스트 조회(?) // TODO: backend에서 어떤 문제 리스트를 보내주는지 알려줘야함(티어에 맞는 문제만 보내주는건지)
+   * unsolved 리스트 조회(?) // TODO: <low> backend에서 어떤 문제 리스트를 보내주는지 알려줘야함(티어에 맞는 문제만 보내주는건지)
    * @param teamId
    * @param tier
    * @returns 문제 리스트
@@ -99,7 +99,7 @@ const RankingService = {
   getMonthRanking: async (teamId: string) => {
     return serviceInterface<Ranking[]>(convertURL([UNSOLVED_BASE_URL, 'rankings', 'month', teamId]), 'GET');
   },
-  // TODO: 월간 랭킹 히스토리 조회 api 추가 예정??
+  // TODO: <low> 월간 랭킹 히스토리 조회 api 추가 예정??
 };
 
 const ExternalService = {

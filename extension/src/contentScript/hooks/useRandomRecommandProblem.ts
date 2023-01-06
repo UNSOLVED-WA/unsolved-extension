@@ -9,7 +9,7 @@ export const useRandomRecommandProblem = (isRefresh: boolean) => {
   const [isFailed, setIsFailed] = useState<boolean>(false);
 
   useEffect(() => {
-    // TODO: teamId, tier 값은 추후 유저한테서 받아와야함 + default 값
+    // TODO: <high> teamId, tier 값은 추후 유저한테서 받아와야함 + default 값
     Message.send({ message: 'fetchRandomRecommand', type: 'async', data: { teamId: '1', tier: '1' } }, (response) => {
       switch (response.state) {
         case 'success':

@@ -12,7 +12,6 @@ const UnsolvedFloatButton = () => {
   const handlePanelOpen = () => setIsClicked(true);
   const handlePanelClose = () => setIsClicked(false);
 
-  // TODO : 로그인 상태 확인 로직 호출 시점 점검 필요( 현재는 페이지 로드 시점에 호출 )
   useEffect(() => {
     Message.send({ message: 'fetchUser', type: 'async' }, (response) => {
       if (response.state === 'success') {

@@ -1,6 +1,6 @@
 import { Request } from '../@types';
 
-// TODO : response type 정의
+// TODO : <low> response type 정의
 interface MESSAGE {
   send: (message: Request, callback?: (response: any) => void) => void;
 }
