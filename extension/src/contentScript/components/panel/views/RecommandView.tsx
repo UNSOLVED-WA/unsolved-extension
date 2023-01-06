@@ -4,15 +4,17 @@ import { Message, Storage } from '../../../../utils';
 import { numberToTier } from '../../../utils';
 import { tiers } from '../../../utils/numberToTier';
 import styled from '@emotion/styled';
-import { useRecommandProblems } from '../../../hooks/useRecommandProblem';
+import { useRecommandProblems } from '../../../hooks/useRecommandProblems';
 import { CircularProgress } from '@mui/material';
+import { useRandomRecommandProblem } from '../../../hooks/useRandomRecommandProblem';
 
 interface Props {
   refresh: () => void;
 }
 
 const RecommandView = ({ refresh }: Props) => {
-  const { recommand, isLoaded, isFailed } = useRecommandProblems();
+  const { recommand, isLoaded: isLoadedProblems, isFailed: isFailedProblems } = useRecommandProblems();
+  const { randomRecommand, isLoaded: isLoadedProblem, isFailed: isFailedProblem } = useRandomRecommandProblem();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [selectedTiers, setSelectedTiers] = useState<number[]>([]);
 
@@ -41,14 +43,14 @@ const RecommandView = ({ refresh }: Props) => {
     });
   }, []);
 
-  if (!isLoaded) return <CircularProgress />;
-  if (isFailed)
+  if (!isLoadedProblems || !isLoadedProblem) return <CircularProgress />;
+  if (isFailedProblems || isFailedProblem) {
     return (
       <div className='panel-contents'>
         <ContentBox defined='error' definedAction={refresh} />
       </div>
     );
-
+  }
   return (
     <div className='panel-contents'>
       <ContentBox
@@ -81,6 +83,20 @@ const RecommandView = ({ refresh }: Props) => {
           })}
         </FilterBox>
       </ContentBox>
+      {/* TODO: 랜덤 문제 1개 디자인, 포지션 */}
+      {/* TODO: numberToTier를 recommand custom hook 2개에 default로 장착 고려 */}
+      <ContentBox key={randomRecommand.problemId} color={numberToTier(randomRecommand.tier).tier} pointer={true}>
+        <ReccomandBox onClick={() => redirectProblemInfo(randomRecommand.problemId)}>
+          <Flex direction='column' gap='0px' align='start'>
+            <Flex direction='row' justify='space-between'>
+              <span className='problem-id'>No.{randomRecommand.problemId}</span>
+              <span className='problem-tier'>{randomRecommand.tier + ' ' + numberToTier(randomRecommand.tier).level}</span>
+            </Flex>
+            <span className='problem-title'>{randomRecommand.problemTitle}</span>
+          </Flex>
+        </ReccomandBox>
+      </ContentBox>
+      <br />
       {recommand.map(({ problemId, problemTitle, tier }) => {
         const tierInfo = numberToTier(tier);
         return (
