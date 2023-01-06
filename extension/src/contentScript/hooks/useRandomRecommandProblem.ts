@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { ProblemResponse } from '../../@types';
 import { Message } from '../../utils';
 
-export const useRandomRecommandProblem = () => {
+export const useRandomRecommandProblem = (isRefresh: boolean) => {
   const [randomRecommand, setRandomRecommand] = useState<ProblemResponse>(null);
+
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [isFailed, setIsFailed] = useState<boolean>(false);
 
@@ -22,6 +23,7 @@ export const useRandomRecommandProblem = () => {
       }
       setIsLoaded(true);
     });
-  }, []);
+  }, [isRefresh]);
+
   return { randomRecommand, isLoaded, isFailed };
 };

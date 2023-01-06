@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Message } from '../../utils/message';
 
-export const useBadge = () => {
+export const useBadge = (isRefresh: boolean) => {
   const [badge, setBadge] = useState('');
   const [isLoaded, setIsLoaded] = useState(false);
   const [isCached, setIsCached] = useState(false);
@@ -25,7 +25,7 @@ export const useBadge = () => {
       }
       setIsLoaded(true);
     });
-  }, []);
+  }, [isRefresh]);
 
   return { badge, isLoaded, isCached, isFailed };
 };

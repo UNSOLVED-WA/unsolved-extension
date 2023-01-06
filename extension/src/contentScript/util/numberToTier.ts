@@ -1,6 +1,6 @@
 import { COLORS } from '../style/theme';
 
-export const tiers = Array.from(Array(15).keys());
+export const tiers = Array.from({ length: 30 }, (_, i) => i + 1);
 
 export const numberToTier = (number: number): { tier: keyof COLORS; level?: number } => {
   if (number <= 5) {
