@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import SVG from 'react-inlinesvg';
 import { CircularProgress } from '@mui/material';
-import { ContentBox, ReccomandBox, Flex } from '../../../common';
+import { ContentBox, RecommandBox, Flex } from '../../../common';
 import { useProfile, useBadge, useRandomRecommandProblem } from '../../../hooks';
 import { Message } from '../../../../utils';
 import { numberToTier } from '../../../util';
@@ -75,7 +75,7 @@ const ProfileView = () => {
         </Flex>
       </ContentBox>
       <ContentBox key={randomRecommand.problemId} color={numberToTier(randomRecommand.tier).tier} pointer={true}>
-        <ReccomandBox onClick={() => redirectProblemInfo(randomRecommand.problemId)}>
+        <RecommandBox onClick={() => redirectProblemInfo(randomRecommand.problemId)}>
           <Flex direction='column' gap='0px' align='start'>
             <Flex direction='row' justify='space-between'>
               <span className='problem-id'>No.{randomRecommand.problemId}</span>
@@ -85,7 +85,7 @@ const ProfileView = () => {
             </Flex>
             <span className='problem-title'>{randomRecommand.problemTitle}</span>
           </Flex>
-        </ReccomandBox>
+        </RecommandBox>
       </ContentBox>
       <SVG width={270} height={135} viewBox='0 0 350 170' src={badge} />
     </div>
