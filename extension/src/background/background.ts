@@ -122,8 +122,8 @@ function syncRequest(request: Request) {
         url: `https://www.acmicpc.net/user/${request.data}`,
       });
       break;
-    case 'toRunning':
-      ScoringManager.set('RUNNING', request.data, -1);
+    case 'RUNNING':
+      ScoringManager.set('RUNNING');
       break;
     case 'WRONG':
       ScoringManager.set('WRONG');
@@ -131,20 +131,17 @@ function syncRequest(request: Request) {
     case 'TIMEOUT':
       ScoringManager.set('TIMEOUT');
       break;
-    case 'toCorrect':
-      Storage.gets(['solvedUser', 'scoring'], async (res) => {
-        const {
-          solvedUser,
-          scoring: { problemId },
-        } = res;
-        try {
-          // TODO: 'user2' -> solvedUser.id로 바꿀 것
-          const unsolvedUser = await API.UserService.getUnsolvedUser('user2');
-          const result = await API.ProblemService.updateUnsolvedProblems(unsolvedUser.bojId, parseInt(problemId));
-          ScoringManager.set('CORRECT', null, result[0] ? result[0].score : 0);
-        } catch (e) {
-          ScoringManager.set('NETERROR');
-        }
+    case 'CORRECT':
+      Storage.get('solvedUser', async (solvedUser) => {
+        // TODO : <high> 'user2' -> solvedUser.user.handle
+        API.ProblemService.updateUnsolvedProblems('user2', parseInt(request.data))
+          .then((result) => {
+            ScoringManager.set('CORRECT', null, result[0] ? result[0].score : 0);
+          })
+          .catch((error) => {
+            console.log(error);
+            ScoringManager.set('NETERROR', request.data, -1);
+          });
       });
       break;
   }
@@ -168,4 +165,12 @@ chrome.runtime.onInstalled.addListener(() => {
       score: -1,
     },
   });
+});
+
+chrome.commands.onCommand.addListener((command) => {
+  if (command === 'toggle-buttom') {
+    Storage.get('hideButton', (result) => {
+      Storage.set('hideButton', !result);
+    });
+  }
 });

@@ -31,5 +31,15 @@
       "exclude_matches": [],
       "run_at": "document_idle"
     }
-  ]
+  ],
+  "commands": {
+    "toggle-buttom": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+L",
+        "mac": "Command+Shift+L"
+      },
+      "description": "toggle Unsolved.wa button",
+      "global": true
+    }
+  }
 }

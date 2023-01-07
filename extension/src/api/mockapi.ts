@@ -28,7 +28,7 @@ const ProblemService = {
   },
   getRecommandUnsolvedProblem: async (bojId: string, tier: string) => {
     console.log('mockAPI: getRecommandUnsolvedProblem : ', bojId, tier);
-    return objectToPromise(dummyProblem);
+    return objectToPromise([dummyProblem]);
   },
 };
 

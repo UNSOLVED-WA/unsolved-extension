@@ -1,13 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import { ProfileView, ScoringView, RecommandView, RankingView } from './views';
 import { fadeIn } from '../../style/animation.style';
+
+interface Props {
+  selectedIndex: number;
+}
+
+const ContentPanelBody = ({ selectedIndex }: Props) => {
+  return (
+    <Container>
+      {
+        {
+          0: <ProfileView />,
+          1: <RankingView />,
+          2: <RecommandView />,
+          3: <ScoringView />,
+        }[selectedIndex]
+      }
+    </Container>
+  );
+};
+
+export default React.memo(ContentPanelBody);
 
 const Container = styled.div`
   width: 100%;
   height: 100%;
   padding-top: 50px;
-  // TODO : flex gap, ContentBox margin 중 하나로 통일
   gap: 10px;
 
   .panel-contents {
@@ -20,31 +40,3 @@ const Container = styled.div`
     padding-bottom: 9px;
   }
 `;
-
-interface Props {
-  selectedIndex: number;
-}
-
-const ContentPanelBody = ({ selectedIndex }: Props) => {
-  const [toggle, setToggle] = useState(false);
-  const toggleAction = () => setToggle((prev) => !prev);
-
-  useEffect(() => {
-    console.log(toggle);
-  }, [toggle]);
-
-  return (
-    <Container>
-      {
-        {
-          0: <ProfileView refresh={toggleAction} />,
-          1: <RankingView refresh={toggleAction} />,
-          2: <RecommandView refresh={toggleAction} />,
-          3: <ScoringView />,
-        }[selectedIndex]
-      }
-    </Container>
-  );
-};
-
-export default React.memo(ContentPanelBody);

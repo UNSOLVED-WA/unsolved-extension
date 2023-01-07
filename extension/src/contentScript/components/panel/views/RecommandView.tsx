@@ -1,50 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { ContentBox, Flex } from '../../../common';
-import { Message, Storage } from '../../../../utils';
-import { numberToTier } from '../../../utils';
-import { tiers } from '../../../utils/numberToTier';
-import styled from '@emotion/styled';
-import { useRecommandProblems } from '../../../hooks/useRecommandProblems';
+import React, { useState } from 'react';
 import { CircularProgress } from '@mui/material';
-import { useRandomRecommandProblem } from '../../../hooks/useRandomRecommandProblem';
+import { ContentBox, RecommandBox, Flex } from '../../../common';
+import { ExpandLessIcon, ExpandMoreIcon } from '../../../common/icons';
+import { Message } from '../../../../utils';
+import { numberToTier, tiers } from '../../../util';
+import { useRecommandProblems } from '../../../hooks';
+import styled from '@emotion/styled';
 
-interface Props {
-  refresh: () => void;
-}
-
-const RecommandView = ({ refresh }: Props) => {
-  const { recommand, isLoaded: isLoadedProblems, isFailed: isFailedProblems } = useRecommandProblems();
-  const { randomRecommand, isLoaded: isLoadedProblem, isFailed: isFailedProblem } = useRandomRecommandProblem();
+const RecommandView = () => {
+  const { recommand, selectedTiers, changeTiers, refresh, isLoaded, isFailed } = useRecommandProblems();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [selectedTiers, setSelectedTiers] = useState<number[]>([]);
 
-  const handleFilter = () => setIsFilterOpen((prev) => !prev);
+  const handleExpandButtonTabbed = () => setIsFilterOpen((prev) => !prev);
+  const handleFilterClose = () => setIsFilterOpen(false);
+  const sortTier = (tiers: number[]) => tiers.sort((a, b) => a - b);
   const redirectProblemInfo = (problemId: number) => {
     Message.send({ message: 'toRedirectProblem', type: 'sync', data: problemId });
   };
-  const handleTierClick = (tier: number, selectedTiers: number[]) => {
-    let _selectedTiers = selectedTiers;
-    if (selectedTiers.includes(tier)) {
-      _selectedTiers = selectedTiers.filter((t) => t !== tier);
-    } else {
-      _selectedTiers = [...selectedTiers, tier];
-    }
-    Storage.set('selectedTiers', _selectedTiers, (result) => {
-      setSelectedTiers(result);
-    });
-  };
-  const sortTier = (tiers: number[]) => {
-    return tiers.sort((a, b) => a - b);
-  };
 
-  useEffect(() => {
-    Storage.get('selectedTiers', (result) => {
-      if (result) setSelectedTiers(result);
-    });
-  }, []);
-
-  if (!isLoadedProblems || !isLoadedProblem) return <CircularProgress />;
-  if (isFailedProblems || isFailedProblem) {
+  if (isFailed) {
     return (
       <div className='panel-contents'>
         <ContentBox defined='error' definedAction={refresh} />
@@ -53,112 +27,147 @@ const RecommandView = ({ refresh }: Props) => {
   }
   return (
     <div className='panel-contents'>
-      <ContentBox
-        title={
-          <Flex direction='row'>
-            <div>
-              <Flex>
+      <ContentBox>
+        <Filter isFilterOpen={isFilterOpen}>
+          <div id='filter-title'>
+            <Flex direction='row'>
+              <div>
+                <span className='title'>선택한 티어 :</span>
                 {sortTier(selectedTiers).map((selectedTier) => {
                   const st = numberToTier(selectedTier);
-                  return <div key={'selectedTier-' + selectedTier}>{st.tier.substring(0, 1).toUpperCase() + st.level?.toString()}</div>;
+                  return (
+                    <span key={'filter-title-' + st.tier} className={'title ' + st.tier}>
+                      {' ' + st.tier.toLocaleUpperCase() + ' ' + st.level?.toString()}
+                    </span>
+                  );
                 })}
-              </Flex>
-            </div>
-            <button onClick={handleFilter}>{isFilterOpen ? '-' : '+'}</button>
-          </Flex>
-        }
-      >
-        <FilterBox isFilterOpen={isFilterOpen}>
-          {sortTier(tiers).map((tier) => {
-            const t = numberToTier(tier);
-            return (
-              <button
-                className={'tiers'.concat(selectedTiers.includes(tier) ? ' selected' : '')}
-                key={'tier-' + tier}
-                onClick={() => handleTierClick(tier, selectedTiers)}
-              >
-                {t.tier.substring(0, 1).toUpperCase() + t.level?.toString()}
+              </div>
+              <button className='expand' onClick={handleExpandButtonTabbed}>
+                {isFilterOpen ? <ExpandLessIcon height='20' width='20' /> : <ExpandMoreIcon height='20' width='20' />}
               </button>
-            );
-          })}
-        </FilterBox>
-      </ContentBox>
-      {/* TODO: 랜덤 문제 1개 디자인, 포지션 */}
-      {/* TODO: numberToTier를 recommand custom hook 2개에 default로 장착 고려 */}
-      <ContentBox key={randomRecommand.problemId} color={numberToTier(randomRecommand.tier).tier} pointer={true}>
-        <ReccomandBox onClick={() => redirectProblemInfo(randomRecommand.problemId)}>
-          <Flex direction='column' gap='0px' align='start'>
-            <Flex direction='row' justify='space-between'>
-              <span className='problem-id'>No.{randomRecommand.problemId}</span>
-              <span className='problem-tier'>{randomRecommand.tier + ' ' + numberToTier(randomRecommand.tier).level}</span>
             </Flex>
-            <span className='problem-title'>{randomRecommand.problemTitle}</span>
-          </Flex>
-        </ReccomandBox>
+          </div>
+          <div id='filter-selector'>
+            <div id='filter-padding' />
+            {sortTier(tiers).map((tier) => {
+              const t = numberToTier(tier);
+              return (
+                <button
+                  className={`tiers ${t.tier}`.concat(selectedTiers.includes(tier) ? ' selected' : '')}
+                  key={'tier-' + tier}
+                  onClick={() => {
+                    handleFilterClose();
+                    changeTiers(tier);
+                  }}
+                >
+                  {t.tier.substring(0, 1).toUpperCase() + t.level?.toString()}
+                </button>
+              );
+            })}
+          </div>
+        </Filter>
       </ContentBox>
-      <br />
-      {recommand.map(({ problemId, problemTitle, tier }) => {
-        const tierInfo = numberToTier(tier);
-        return (
-          <ContentBox key={problemId} color={tierInfo.tier} pointer={true}>
-            <ReccomandBox onClick={() => redirectProblemInfo(problemId)}>
-              <Flex direction='column' gap='0px' align='start'>
-                <Flex direction='row' justify='space-between'>
-                  <span className='problem-id'>No.{problemId}</span>
-                  <span className='problem-tier'>{tierInfo.tier + ' ' + tierInfo.level}</span>
+      {!isLoaded ? (
+        <ContentBox>
+          <CircularProgress />
+        </ContentBox>
+      ) : (
+        recommand.map(({ problemId, problemTitle, tier }) => {
+          const tierInfo = numberToTier(tier);
+          return (
+            <ContentBox key={problemId} color={tierInfo.tier} pointer={true}>
+              <RecommandBox onClick={() => redirectProblemInfo(problemId)}>
+                <Flex direction='column' gap='0px' align='start'>
+                  <Flex direction='row' justify='space-between'>
+                    <span className='problem-id'>No.{problemId}</span>
+                    <span className='problem-tier'>{tierInfo.tier + ' ' + tierInfo.level}</span>
+                  </Flex>
+                  <span className='problem-title'>{problemTitle}</span>
                 </Flex>
-                <span className='problem-title'>{problemTitle}</span>
-              </Flex>
-            </ReccomandBox>
-          </ContentBox>
-        );
-      })}
+              </RecommandBox>
+            </ContentBox>
+          );
+        })
+      )}
     </div>
   );
 };
 
 export default RecommandView;
 
-const ReccomandBox = styled.div`
-  display: flex;
-
-  align-items: center;
-  justify-content: space-between;
-
-  gap: 10px;
-
-  .problem-id,
-  .problem-tier {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 11px;
+const Filter = styled.div<{ isFilterOpen: boolean }>`
+  #filter-title {
+    .title {
+      font-weight: 600;
+      margin: 0;
+      padding: 0;
+    }
+    .expand {
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
   }
-  .problem-title {
+  #filter-padding {
     width: 100%;
+    height: 10px;
+  }
+  #filter-selector {
     overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    max-height: ${(props) => (props.isFilterOpen ? '300px' : '0px')};
+    transition: max-height 0.25s linear;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    /* gap: 10px 10px; */
+
+    .tiers {
+      margin: 4px 8px;
+      padding: 1px 8px;
+      cursor: pointer;
+
+      border-radius: 100px;
+      border: 0px;
+      box-shadow: rgb(0 0 0 / 10%) 0px 2px 4px 1px;
+    }
   }
-`;
-
-const FilterBox = styled.div<{ isFilterOpen: boolean }>`
-  overflow: hidden;
-  max-height: ${(props) => (props.isFilterOpen ? '100px' : '0px')};
-  transition: max-height 0.25s linear;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-
-  .tiers {
-    cursor: pointer;
-    background: #ffffff;
-    color: red;
-
-    border-radius: 100px;
-    border: 0px;
+  .bronze {
+    color: #592401;
   }
-
+  .bronze.selected {
+    background: #592401;
+  }
+  .silver {
+    color: #263548;
+  }
+  .silver.selected {
+    background: #263548;
+  }
+  .gold {
+    color: #d46d1c;
+  }
+  .gold.selected {
+    background: #d46d1c;
+  }
+  .platinum {
+    color: #439983;
+  }
+  .platinum.selected {
+    background: #439983;
+  }
+  .diamond {
+    color: #3c95d2;
+  }
+  .diamond.selected {
+    background: #3c95d2;
+  }
+  .ruby {
+    color: #bb0047;
+  }
+  .ruby.selected {
+    background: #bb0047;
+  }
   .selected {
-    background: red;
     color: #ffffff;
   }
 `;

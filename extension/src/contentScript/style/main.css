@@ -1,11 +1,10 @@
-/* TODO : fallback font 적용, font loading문제 확인해보기 */
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 #unsolved-wa * {
   font-family: 'Roboto', sans-serif;
   line-height: 16px;
   box-sizing: border-box;
-  /* background: transparent; */
+  /* background: transparent !important; */
 }
 
 .unsolved-wa-container {
@@ -35,7 +34,7 @@
   z-index: 10000000;
   width: 100%;
   height: 100%;
-  background: transparent;
+  background: transparent !important;
   border: 0px;
 }
 
