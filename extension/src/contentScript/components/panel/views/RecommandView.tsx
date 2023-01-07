@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { CircularProgress } from '@mui/material';
-import { ContentBox, ReccomandBox, Flex } from '../../../common';
+import { ContentBox, RecommandBox, Flex } from '../../../common';
 import { ExpandLessIcon, ExpandMoreIcon } from '../../../common/icons';
 import { Message } from '../../../../utils';
 import { numberToTier, tiers } from '../../../util';
@@ -76,7 +76,7 @@ const RecommandView = () => {
           const tierInfo = numberToTier(tier);
           return (
             <ContentBox key={problemId} color={tierInfo.tier} pointer={true}>
-              <ReccomandBox onClick={() => redirectProblemInfo(problemId)}>
+              <RecommandBox onClick={() => redirectProblemInfo(problemId)}>
                 <Flex direction='column' gap='0px' align='start'>
                   <Flex direction='row' justify='space-between'>
                     <span className='problem-id'>No.{problemId}</span>
@@ -84,7 +84,7 @@ const RecommandView = () => {
                   </Flex>
                   <span className='problem-title'>{problemTitle}</span>
                 </Flex>
-              </ReccomandBox>
+              </RecommandBox>
             </ContentBox>
           );
         })
