@@ -1,6 +1,22 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
+const ContentPanelFooter = () => {
+  return (
+    <Container>
+      <h1>@unsolved.wa</h1>
+      <div className='links'>
+        <a href='https://github.com/unsolved-wa'>Github</a>
+        <span> | </span>
+        <a href='https://google.com'>blog</a>
+        <span> | </span>
+      </div>
+    </Container>
+  );
+};
+
+export default ContentPanelFooter;
+
 const Container = styled.div`
   width: 100%;
 
@@ -22,19 +38,3 @@ const Container = styled.div`
     font-size: 8px;
   }
 `;
-
-const ContentPanelFooter = () => {
-  return (
-    <Container>
-      <h1>@unsolved.wa</h1>
-      <div className="links">
-        <a href="https://github.com/unsolved-wa">Github</a>
-        <span> | </span>
-        <a href="https://google.com">blog</a>
-        <span> | </span>
-      </div>
-    </Container>
-  );
-};
-
-export default ContentPanelFooter;
