@@ -22,13 +22,13 @@ const ProblemService = {
     console.log('mockAPI: updateUnsolvedProblems : ', userId, problemNumber);
     return objectToPromise(dummyUpdateProblems);
   },
-  getUnsolvedProblems: async (bojId: string, tier: string): Promise<ProblemResponse[]> => {
+  getUnsolvedProblems: async (bojId: string, tier: number): Promise<ProblemResponse[]> => {
     console.log('mockAPI: getUnsolvedProblems : ', bojId, tier);
     return objectToPromise(dummyProblems);
   },
   getRecommandUnsolvedProblem: async (bojId: string, tier: string) => {
     console.log('mockAPI: getRecommandUnsolvedProblem : ', bojId, tier);
-    return objectToPromise([dummyProblem]);
+    return objectToPromise(dummyProblem);
   },
 };
 

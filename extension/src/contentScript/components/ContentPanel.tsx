@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import throttle from 'lodash/throttle';
-import { ContentPanelHeader, ContentPanelNavigator, ContentPanelBody } from './panel';
-import { ScrollDirection } from '../types';
-import { fadeIn } from '../style/animation.style';
 import styled from '@emotion/styled';
+import { ContentPanelHeader, ContentPanelNavigator, ContentPanelBody } from './panel';
+import { fadeIn } from '../style/animation.style';
+import { SolvedUser } from '../../@types';
+import { ScrollDirection } from '../types';
 
 interface Props {
+  profile: SolvedUser;
   selectedIndex: number;
   setSelectedIndex: (index: number) => void;
 }
-const ContentPanel = ({ selectedIndex, setSelectedIndex }: Props) => {
+const ContentPanel = ({ profile, selectedIndex, setSelectedIndex }: Props) => {
   const [scrollDirection, setScrollDirection] = useState<ScrollDirection>('down');
   const containerElementRef = useRef(null);
 
@@ -35,7 +37,6 @@ const ContentPanel = ({ selectedIndex, setSelectedIndex }: Props) => {
       }
       lastScrollTop = scrollTop;
     }
-
     containerElement.addEventListener('scroll', throttle(handleScroll, 100));
     return () => {
       containerElement.removeEventListener('scroll', throttle(handleScroll, 100));
@@ -46,7 +47,7 @@ const ContentPanel = ({ selectedIndex, setSelectedIndex }: Props) => {
     <Container ref={containerElementRef}>
       <ContentPanelHeader title={contents[selectedIndex].text} scrollDirection={scrollDirection} />
       <ContentPanelNavigator contents={contents} handleSelectedIndex={handleSelectedIndex} />
-      <ContentPanelBody selectedIndex={selectedIndex} />
+      <ContentPanelBody profile={profile} selectedIndex={selectedIndex} />
     </Container>
   );
 };

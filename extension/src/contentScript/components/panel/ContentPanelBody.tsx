@@ -2,17 +2,19 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { ProfileView, ScoringView, RecommandView, RankingView } from './views';
 import { fadeIn } from '../../style/animation.style';
+import { SolvedUser } from '../../../@types';
 
 interface Props {
+  profile: SolvedUser;
   selectedIndex: number;
 }
 
-const ContentPanelBody = ({ selectedIndex }: Props) => {
+const ContentPanelBody = ({ profile, selectedIndex }: Props) => {
   return (
     <Container>
       {
         {
-          0: <ProfileView />,
+          0: <ProfileView profile={profile} />,
           1: <RankingView />,
           2: <RecommandView />,
           3: <ScoringView />,

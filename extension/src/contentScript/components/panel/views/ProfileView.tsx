@@ -2,26 +2,29 @@ import React, { useState } from 'react';
 import SVG from 'react-inlinesvg';
 import { CircularProgress } from '@mui/material';
 import { ContentBox, RecommandBox, Flex } from '../../../common';
-import { useProfile, useBadge, useRandomRecommandProblem } from '../../../hooks';
+import { useBadge, useRandomRecommandProblem } from '../../../hooks';
 import { Message } from '../../../../utils';
 import { numberToTier } from '../../../util';
+import { SolvedUser } from '../../../../@types';
 
-const ProfileView = () => {
+interface Props {
+  profile: SolvedUser;
+}
+const ProfileView = ({ profile }: Props) => {
   const [isRefresh, setIsRefresh] = useState<boolean>(false);
   const { randomRecommand, isLoaded: isProblemLoaded, isFailed: isProblemFailed } = useRandomRecommandProblem(isRefresh);
-  const { profile, isLoaded: isProfileLoaded, isFailed: isProfileFailed } = useProfile(isRefresh);
   const { badge, isLoaded: isBadgeLoaded, isFailed: isBadgeFailed } = useBadge(isRefresh);
 
   const refresh = () => setIsRefresh((prev) => !prev);
   const redirectUserInfo = (bojId: string) => {
-    Message.send({ message: 'toRedirectUser', type: 'sync', data: bojId });
+    Message.send({ message: 'toRedirectUser', type: 'sync', requestData: { bojId } });
   };
   const redirectProblemInfo = (problemId: number) => {
-    Message.send({ message: 'toRedirectProblem', type: 'sync', data: problemId });
+    Message.send({ message: 'toRedirectProblem', type: 'sync', requestData: { problemId } });
   };
 
-  if (!isProblemLoaded || !isProfileLoaded || !isBadgeLoaded) return <CircularProgress />;
-  if (isProblemFailed || isProfileFailed || isBadgeFailed) {
+  if (!isProblemLoaded || !isBadgeLoaded) return <CircularProgress />;
+  if (isProblemFailed || isBadgeFailed) {
     return (
       <div className='panel-contents'>
         <ContentBox defined='error' definedAction={refresh} />

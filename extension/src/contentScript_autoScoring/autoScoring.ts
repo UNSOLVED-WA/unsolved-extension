@@ -14,7 +14,7 @@ function autoScoring() {
   const checkPassed = () => {
     const result = document.querySelector('.result');
     if (result.children[0].innerHTML === '맞았습니다!!') {
-      Message.send({ message: 'CORRECT', type: 'sync', data: getSearchParam('problem_id') });
+      Message.send({ message: 'CORRECT', type: 'sync', requestData: { problemId: getSearchParam('problem_id') } });
       clearInterval(intervalId);
       intervalId = null;
     } else if (!result.children[0].innerHTML.includes('채점') && !result.children[0].innerHTML.includes('기다')) {
@@ -36,7 +36,7 @@ if (window.location.pathname.includes('/status') && getSearchParam('from_mine') 
   chrome.storage.local.set({ isClicked: true });
   chrome.storage.local.get('scoring', (result) => {
     if (result.scoring.state === 'DEFAULT') {
-      Message.send({ message: 'RUNNING', type: 'sync', data: getSearchParam('problem_id') });
+      Message.send({ message: 'RUNNING', type: 'sync' });
     }
     if (result.scoring.state === 'RUNNING') {
       autoScoring();

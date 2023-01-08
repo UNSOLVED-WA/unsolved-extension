@@ -1,24 +1,20 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { LoginPanel, ContentPanel, UnsolvedHeader } from './components';
+import { CircularProgress } from '@mui/material';
+import { Novice, ContentPanel, UnsolvedHeader } from './components';
 import { IFrame } from './IFrame';
-import { Storage, Message } from '../utils';
+import { useProfile } from './hooks';
+import { Storage } from '../utils';
 
 const UnsolvedFloatButton = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isRefresh, setIsRefresh] = useState<boolean>(false);
+  const { profile, state } = useProfile(isRefresh);
   const [isClicked, setIsClicked] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const panelElement = useRef(null);
 
+  const refresh = () => setIsRefresh((prev) => !prev);
   const handlePanelOpen = () => setIsClicked(true);
   const handlePanelClose = () => setIsClicked(false);
-
-  useEffect(() => {
-    Message.send({ message: 'fetchUser', type: 'async' }, (response) => {
-      if (response.state === 'success') {
-        setIsLogin(!!response.data);
-      }
-    });
-  }, []);
 
   useEffect(() => {
     function handleOutsideClick({ target }: MouseEvent) {
@@ -44,7 +40,14 @@ const UnsolvedFloatButton = () => {
       {isClicked ? (
         <IFrame title='unsolved-content'>
           <UnsolvedHeader handlePanelClose={handlePanelClose} />
-          {isLogin ? <ContentPanel selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} /> : <LoginPanel />}
+          {
+            {
+              loading: <CircularProgress />,
+              success: <ContentPanel profile={profile} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} />,
+              error: <Novice type='error' />,
+              noOrganization: <Novice type='noOrganization' />,
+            }[state]
+          }
         </IFrame>
       ) : (
         <button className='unsolved-wa-floatbtn' onClick={handlePanelOpen}>

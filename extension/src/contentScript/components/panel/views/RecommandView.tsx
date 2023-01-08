@@ -15,7 +15,7 @@ const RecommandView = () => {
   const handleFilterClose = () => setIsFilterOpen(false);
   const sortTier = (tiers: number[]) => tiers.sort((a, b) => a - b);
   const redirectProblemInfo = (problemId: number) => {
-    Message.send({ message: 'toRedirectProblem', type: 'sync', data: problemId });
+    Message.send({ message: 'toRedirectProblem', type: 'sync', requestData: { problemId } });
   };
 
   if (isFailed) {

@@ -1,11 +1,8 @@
-import { Request } from '../@types';
+import { Request, ResponseByRequest } from '../@types';
 
-// TODO : <low> response type 정의
-interface MESSAGE {
-  send: (message: Request, callback?: (response: any) => void) => void;
-}
-export const Message: MESSAGE = {
-  send: (message, callback) => {
-    chrome.runtime.sendMessage(message, callback);
+// TODO: <high> 제네릭 타입이 원하는 결과를 내지 못함 이유 찾아보기
+export const Message = {
+  send: <T extends Request>(request: T, callback?: (response: ResponseByRequest<T>) => void) => {
+    chrome.runtime.sendMessage(request, callback);
   },
 };

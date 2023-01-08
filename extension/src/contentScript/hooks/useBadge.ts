@@ -12,10 +12,10 @@ export const useBadge = (isRefresh: boolean) => {
       switch (response.state) {
         case 'cached':
           setIsCached(true);
-          setBadge(response.data);
+          setBadge(response.responseData.badge);
           break;
         case 'success':
-          setBadge(response.data);
+          setBadge(response.responseData.badge);
           break;
         case 'fail':
           setIsFailed(true);
