@@ -1,3 +1,3 @@
-import LoginPanel from './Novice';
+import Novice from './Novice';
 
-export default LoginPanel;
+export default Novice;
