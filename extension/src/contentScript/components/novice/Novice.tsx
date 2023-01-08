@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { fadeIn } from '../../style/animation.style';
-import { Message } from '../../../utils';
+import { MessageManager } from '../../../utils';
 
 interface Props {
   type: keyof typeof novices;
@@ -10,11 +10,11 @@ interface Props {
 const novices = {
   error: {
     message: '로그인하기',
-    action: () => Message.send({ message: 'toLogin', type: 'sync' }),
+    action: () => MessageManager.send({ message: 'toLogin', type: 'sync' }),
   },
   noOrganization: {
     message: '그룹 가입하기',
-    action: () => Message.send({ message: 'toLogin', type: 'sync' }),
+    action: () => MessageManager.send({ message: 'toLogin', type: 'sync' }),
   },
 };
 

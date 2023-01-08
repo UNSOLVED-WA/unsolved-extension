@@ -1,3 +1,3 @@
-import LoginPanel from './LoginPanel';
+import LoginPanel from './Novice';
 
 export default LoginPanel;

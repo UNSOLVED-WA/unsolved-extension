@@ -1,4 +1,4 @@
-import Novice from './novice/LoginPanel';
+import Novice from './novice/Novice';
 import ContentPanel from './ContentPanel';
 import UnsolvedHeader from './UnsolvedHeader';
 

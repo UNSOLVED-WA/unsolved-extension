@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { CircularProgress } from '@mui/material';
+import styled from '@emotion/styled';
 import { ContentBox, RecommandBox, Flex } from '../../../common';
 import { ExpandLessIcon, ExpandMoreIcon } from '../../../common/icons';
-import { Message } from '../../../../utils';
-import { numberToTier, tiers } from '../../../util';
 import { useRecommandProblems } from '../../../hooks';
-import styled from '@emotion/styled';
+import { MessageManager } from '../../../../utils';
+import { numberToTier, tiers } from '../../../util';
 
 const RecommandView = () => {
   const { recommand, selectedTiers, changeTiers, refresh, isLoaded, isFailed } = useRecommandProblems();
@@ -15,7 +15,7 @@ const RecommandView = () => {
   const handleFilterClose = () => setIsFilterOpen(false);
   const sortTier = (tiers: number[]) => tiers.sort((a, b) => a - b);
   const redirectProblemInfo = (problemId: number) => {
-    Message.send({ message: 'toRedirectProblem', type: 'sync', requestData: { problemId } });
+    MessageManager.send({ message: 'toRedirectProblem', type: 'sync', requestData: { problemId } });
   };
 
   if (isFailed) {

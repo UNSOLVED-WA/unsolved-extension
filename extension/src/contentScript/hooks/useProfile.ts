@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { SolvedUser } from '../../@types';
-import { Message } from '../../utils/message';
+import { MessageManager } from '../../utils';
 
 export const useProfile = (isRefresh: boolean) => {
   const [profile, setProfile] = useState<SolvedUser>(null);
@@ -10,7 +10,7 @@ export const useProfile = (isRefresh: boolean) => {
   const [state, setState] = useState<'loading' | 'success' | 'fail' | 'noOrganization'>('loading');
 
   useEffect(() => {
-    Message.send({ message: 'fetchUser', type: 'async' }, (response) => {
+    MessageManager.send({ message: 'fetchUser', type: 'async' }, (response) => {
       if (response.state === 'fail') {
         setState('fail');
         return;

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import styled from '@emotion/styled';
 import { ScoringManager } from '../../../../utils';
 import { ContentBox, Flex } from '../../../common';
 import { SCORING_OBJECT } from '../../../../utils/scoring';
-import styled from '@emotion/styled';
 
 const ScoringView = () => {
   const [scoring, setScoring] = useState<SCORING_OBJECT>(ScoringManager.getByState());

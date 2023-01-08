@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ProblemResponse } from '../../@types';
-import { Message, Storage } from '../../utils';
+import { MessageManager, Storage } from '../../utils';
 
 export const useRecommandProblems = () => {
   const [recommand, setRecommand] = useState<ProblemResponse[]>([]);
@@ -31,7 +31,7 @@ export const useRecommandProblems = () => {
   useEffect(() => {
     if (selectedTiers.length === 0) return;
     setIsLoaded(false);
-    Message.send({ message: 'fetchRecommands', type: 'async', requestData: { teamId: '1', tier: selectedTiers[0] } }, (response) => {
+    MessageManager.send({ message: 'fetchRecommands', type: 'async', requestData: { teamId: '1', tier: selectedTiers[0] } }, (response) => {
       switch (response.state) {
         case 'success':
           setRecommand(response.responseData.problems);

@@ -1,16 +1,16 @@
 import React from 'react';
-import { ContentBox, Flex } from '../../../common';
-import { indexToTier } from '../../../util';
-import { Message } from '../../../../utils';
-import styled from '@emotion/styled';
-import { useRanking } from '../../../hooks/useRanking';
 import { CircularProgress } from '@mui/material';
+import styled from '@emotion/styled';
+import { ContentBox, Flex } from '../../../common';
+import { useRanking } from '../../../hooks';
+import { indexToTier } from '../../../util';
+import { MessageManager } from '../../../../utils';
 
 const RankingView = () => {
   const { ranking, refresh, isLoaded, isFailed } = useRanking();
 
   const redirectUserInfo = (bojId: string) => {
-    Message.send({ message: 'toRedirectUser', type: 'sync', requestData: { bojId } });
+    MessageManager.send({ message: 'toRedirectUser', type: 'sync', requestData: { bojId } });
   };
 
   if (!isLoaded) return <CircularProgress />;

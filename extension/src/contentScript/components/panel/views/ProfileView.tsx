@@ -3,7 +3,7 @@ import SVG from 'react-inlinesvg';
 import { CircularProgress } from '@mui/material';
 import { ContentBox, RecommandBox, Flex } from '../../../common';
 import { useBadge, useRandomRecommandProblem } from '../../../hooks';
-import { Message } from '../../../../utils';
+import { MessageManager } from '../../../../utils';
 import { numberToTier } from '../../../util';
 import { SolvedUser } from '../../../../@types';
 
@@ -17,10 +17,10 @@ const ProfileView = ({ profile }: Props) => {
 
   const refresh = () => setIsRefresh((prev) => !prev);
   const redirectUserInfo = (bojId: string) => {
-    Message.send({ message: 'toRedirectUser', type: 'sync', requestData: { bojId } });
+    MessageManager.send({ message: 'toRedirectUser', type: 'sync', requestData: { bojId } });
   };
   const redirectProblemInfo = (problemId: number) => {
-    Message.send({ message: 'toRedirectProblem', type: 'sync', requestData: { problemId } });
+    MessageManager.send({ message: 'toRedirectProblem', type: 'sync', requestData: { problemId } });
   };
 
   if (!isProblemLoaded || !isBadgeLoaded) return <CircularProgress />;
