@@ -20,7 +20,6 @@ const RankingView = () => {
         <ContentBox defined='error' definedAction={refresh} />
       </div>
     );
-
   return (
     <div className='panel-contents'>
       {ranking.map((user, index) => (
