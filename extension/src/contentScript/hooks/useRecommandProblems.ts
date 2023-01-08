@@ -31,10 +31,10 @@ export const useRecommandProblems = () => {
   useEffect(() => {
     if (selectedTiers.length === 0) return;
     setIsLoaded(false);
-    Message.send({ message: 'fetchRecommands', type: 'async', data: { teamId: '1', tier: selectedTiers[0] } }, (response) => {
+    Message.send({ message: 'fetchRecommands', type: 'async', requestData: { teamId: '1', tier: selectedTiers[0] } }, (response) => {
       switch (response.state) {
         case 'success':
-          setRecommand(response.data);
+          setRecommand(response.responseData.problems);
           break;
         case 'fail':
           setIsFailed(true);

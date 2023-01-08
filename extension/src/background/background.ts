@@ -1,72 +1,72 @@
 import API from '../api/api';
 import { ScoringManager, Storage } from '../utils';
-import { STORAGE_VALUE, Request, SendResponse } from '../@types';
+import { STORAGE_VALUE, Request, SendResponse, SolvedUser, Message, ResponseByRequest } from '../@types';
 
 function fetchCachedData(_: Error, key: keyof STORAGE_VALUE) {
   return Storage.get(key);
 }
 
-function fetchRanking(sendResponse: SendResponse, teamId: string) {
+function fetchRanking(sendResponse: SendResponse<'fetchRanking'>, teamId: string) {
   API.RankingService.getAllRanking(teamId)
-    .then((data) => {
-      sendResponse({ state: 'success', data });
+    .then((rankings) => {
+      sendResponse({ state: 'success', responseData: { rankings } });
     })
     .catch((error) => {
-      sendResponse({ state: 'fail', message: error.message });
+      sendResponse({ state: 'fail', errorMessage: error.message });
     });
 }
 
-function fetchRecommands(sendResponse: SendResponse, teamId: string, tier: string) {
+function fetchRecommands(sendResponse: SendResponse<'fetchRecommands'>, teamId: string, tier: number) {
   API.ProblemService.getUnsolvedProblems(teamId, tier)
-    .then((data) => {
-      sendResponse({ state: 'success', data });
+    .then((problems) => {
+      sendResponse({ state: 'success', responseData: { problems } });
     })
     .catch((error) => {
-      sendResponse({ state: 'fail', message: error.message });
+      sendResponse({ state: 'fail', errorMessage: error.message });
     });
 }
 
-function fetchRandomRecommand(sendResponse: SendResponse, teamId: string, tier: string) {
+function fetchRandomRecommand(sendResponse: SendResponse<'fetchRandomRecommand'>, teamId: string, tier: string) {
   API.ProblemService.getRecommandUnsolvedProblem(teamId, tier)
-    .then((data) => {
-      sendResponse({ state: 'success', data });
+    .then((problems) => {
+      sendResponse({ state: 'success', responseData: { problems } });
     })
     .catch((error) => {
-      sendResponse({ state: 'fail', message: error.message });
+      sendResponse({ state: 'fail', errorMessage: error.message });
     });
 }
 
-function fetchUser(sendResponse: SendResponse) {
+function fetchUser(sendResponse: SendResponse<'fetchUser'>) {
   API.ExternalService.getSolvedUsers()
     .then((data) => {
       Storage.set('solvedUser', data, (result) => {
-        sendResponse({ state: 'success', data: result });
+        sendResponse({ state: 'success', responseData: { solvedUser: result } });
       });
     })
     .catch(async (error) => {
       try {
-        const data = await fetchCachedData(error, 'solvedUser');
-        sendResponse({ state: 'cached', data });
+        const data = (await fetchCachedData(error, 'solvedUser')) as SolvedUser;
+        sendResponse({ state: 'cached', responseData: { solvedUser: data } });
       } catch {
-        sendResponse({ state: 'fail', message: error.message });
+        sendResponse({ state: 'fail', errorMessage: error.message });
       }
     });
 }
 
-function fetchBadge(sendResponse: SendResponse) {
+function fetchBadge(sendResponse: SendResponse<'fetchBadge'>) {
   Storage.get('solvedUser', (result) => {
     API.ExternalService.getBojBadge(result.user.handle)
-      .then((data) => {
-        Storage.set('badge', data, () => {
-          sendResponse({ state: 'success', data });
+      .then((badge) => {
+        Storage.set('badge', badge, () => {
+          sendResponse({ state: 'success', responseData: { badge } });
         });
       })
       .catch(async (error) => {
         try {
-          const data = await fetchCachedData(error, 'badge');
-          sendResponse({ state: 'cached', data });
+          const badge = (await fetchCachedData(error, 'badge')) as string;
+          sendResponse({ state: 'cached', responseData: { badge } });
         } catch {
-          sendResponse({ state: 'fail', message: error.message });
+          sendResponse({ state: 'fail', errorMessage: error.message });
         }
       });
   });
@@ -81,13 +81,13 @@ function asyncRequest(request: Request, sendResponse: SendResponse) {
       fetchBadge(sendResponse);
       break;
     case 'fetchRanking':
-      fetchRanking(sendResponse, request.data);
+      fetchRanking(sendResponse, request.requestData.teamId);
       break;
     case 'fetchRecommands':
-      fetchRecommands(sendResponse, request.data.teamId, request.data.tier);
+      fetchRecommands(sendResponse, request.requestData.teamId, request.requestData.tier);
       break;
     case 'fetchRandomRecommand':
-      fetchRandomRecommand(sendResponse, request.data.teamId, request.data.tier);
+      fetchRandomRecommand(sendResponse, request.requestData.teamId, request.requestData.tier);
       break;
   }
 }
@@ -114,12 +114,12 @@ function syncRequest(request: Request) {
       break;
     case 'toRedirectProblem':
       chrome.tabs.create({
-        url: `https://www.acmicpc.net/problem/${request.data}`,
+        url: `https://www.acmicpc.net/problem/${request.requestData.problemId}`,
       });
       break;
     case 'toRedirectUser':
       chrome.tabs.create({
-        url: `https://www.acmicpc.net/user/${request.data}`,
+        url: `https://www.acmicpc.net/user/${request.requestData.bojId}`,
       });
       break;
     case 'RUNNING':
@@ -134,13 +134,12 @@ function syncRequest(request: Request) {
     case 'CORRECT':
       Storage.get('solvedUser', async (solvedUser) => {
         // TODO : <high> 'user2' -> solvedUser.user.handle
-        API.ProblemService.updateUnsolvedProblems('user2', parseInt(request.data))
+        API.ProblemService.updateUnsolvedProblems('user2', parseInt(request.requestData.problemId))
           .then((result) => {
             ScoringManager.set('CORRECT', null, result[0] ? result[0].score : 0);
           })
           .catch((error) => {
-            console.log(error);
-            ScoringManager.set('NETERROR', request.data, -1);
+            ScoringManager.set('NETERROR', request.requestData.problemId, -1);
           });
       });
       break;
