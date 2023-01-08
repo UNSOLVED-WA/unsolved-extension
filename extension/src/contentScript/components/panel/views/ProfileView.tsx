@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import SVG from 'react-inlinesvg';
 import { CircularProgress } from '@mui/material';
 import { ContentBox, RecommandBox, Flex } from '../../../common';
-import { useBadge, useRandomRecommandProblem } from '../../../hooks';
+import { useBadge, useRandomRecommandProblem, useRefresh } from '../../../hooks';
 import { MessageManager } from '../../../../utils';
 import { numberToTier } from '../../../util';
 import { SolvedUser } from '../../../../@types';
@@ -11,11 +11,10 @@ interface Props {
   profile: SolvedUser;
 }
 const ProfileView = ({ profile }: Props) => {
-  const [isRefresh, setIsRefresh] = useState<boolean>(false);
+  const { isRefresh, refresh } = useRefresh();
   const { randomRecommand, isLoaded: isProblemLoaded, isFailed: isProblemFailed } = useRandomRecommandProblem(isRefresh);
   const { badge, isLoaded: isBadgeLoaded, isFailed: isBadgeFailed } = useBadge(isRefresh);
 
-  const refresh = () => setIsRefresh((prev) => !prev);
   const redirectUserInfo = (bojId: string) => {
     MessageManager.send({ message: 'toRedirectUser', type: 'sync', requestData: { bojId } });
   };

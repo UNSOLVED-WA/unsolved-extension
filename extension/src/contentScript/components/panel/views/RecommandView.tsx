@@ -8,7 +8,7 @@ import { MessageManager } from '../../../../utils';
 import { numberToTier, tiers } from '../../../util';
 
 const RecommandView = () => {
-  const { recommand, selectedTiers, changeTiers, refresh, isLoaded, isFailed } = useRecommandProblems();
+  const { recommand, selectedTiers, refresh, changeTiers, isLoaded, isFailed } = useRecommandProblems();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const handleExpandButtonTabbed = () => setIsFilterOpen((prev) => !prev);

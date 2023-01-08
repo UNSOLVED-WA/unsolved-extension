@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import { ProblemResponse } from '../../@types';
 import { MessageManager, StorageManager } from '../../utils';
+import { useRefresh } from './useRefresh';
 
 export const useRecommandProblems = () => {
+  const { isRefresh, refresh } = useRefresh();
   const [recommand, setRecommand] = useState<ProblemResponse[]>([]);
   const [selectedTiers, setSelectedTiers] = useState<number[]>([]);
-  const [isRefresh, setIsRefresh] = useState<boolean>(false);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [isFailed, setIsFailed] = useState<boolean>(false);
 
-  const refresh = () => setIsRefresh((prev) => !prev);
   const changeTiers = (tier: number) => {
     // let _selectedTiers = selectedTiers;
     // if (selectedTiers.includes(tier)) {
@@ -46,5 +46,5 @@ export const useRecommandProblems = () => {
     });
   }, [isRefresh, selectedTiers]);
 
-  return { recommand, selectedTiers, changeTiers, isLoaded, isFailed, refresh };
+  return { recommand, selectedTiers, refresh, changeTiers, isLoaded, isFailed };
 };
