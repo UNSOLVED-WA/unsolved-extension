@@ -1,56 +1,40 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CircularProgress } from '@mui/material';
 import { Novice, ContentPanel } from '..';
 import { IFrame, UWHeader } from '.';
-import { useProfile } from '../../hooks';
-import { StorageManager } from '../../../utils';
+import { useProfile, useRefresh, useShow } from '../../hooks';
 
 const UnsolvedWaButton = () => {
-  const [isRefresh, setIsRefresh] = useState<boolean>(false);
+  const { isRefresh } = useRefresh();
+  const { isShow, isScoring, containerRef, show, close, reset } = useShow();
   const { profile, state } = useProfile(isRefresh);
-  const [isClicked, setIsClicked] = useState(false);
+  // TODO: selectedIndex 위치 고민..
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const panelElement = useRef(null);
-
-  const refresh = () => setIsRefresh((prev) => !prev);
-  const handlePanelOpen = () => setIsClicked(true);
-  const handlePanelClose = () => setIsClicked(false);
+  const handleSelectedIndex = (index: number) => setSelectedIndex(index);
 
   useEffect(() => {
-    function handleOutsideClick({ target }: MouseEvent) {
-      if (panelElement.current && !panelElement.current.contains(target as Node)) {
-        handlePanelClose();
-      }
+    if (isScoring) {
+      setSelectedIndex(3);
+      reset();
     }
-    window.addEventListener('click', handleOutsideClick, { capture: true });
-    StorageManager.get('isClicked', (result) => {
-      if (result) {
-        setSelectedIndex(3);
-        setIsClicked(result);
-        StorageManager.set('isClicked', false);
-      }
-    });
-    return () => {
-      window.removeEventListener('click', handleOutsideClick, { capture: true });
-    };
-  }, []);
+  }, [isScoring]);
 
   return (
-    <div className={'unsolved-wa-container ' + (isClicked ? 'unsolved-wa-clicked' : 'unsolved-wa-default')} ref={panelElement}>
-      {isClicked ? (
+    <div className={'unsolved-wa-container ' + (isShow ? 'unsolved-wa-clicked' : 'unsolved-wa-default')} ref={containerRef}>
+      {isShow ? (
         <IFrame title='unsolved-content'>
-          <UWHeader handlePanelClose={handlePanelClose} />
+          <UWHeader handlePanelClose={close} />
           {
             {
               loading: <CircularProgress />,
-              success: <ContentPanel profile={profile} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} />,
+              success: <ContentPanel profile={profile} selectedIndex={selectedIndex} handleSelectedIndex={handleSelectedIndex} />,
               error: <Novice type='error' />,
               noOrganization: <Novice type='noOrganization' />,
             }[state]
           }
         </IFrame>
       ) : (
-        <button className='unsolved-wa-floatbtn' onClick={handlePanelOpen}>
+        <button className='unsolved-wa-floatbtn' onClick={show}>
           <span className='unsolved-wa-logo-medium'>wa</span>
         </button>
       )}

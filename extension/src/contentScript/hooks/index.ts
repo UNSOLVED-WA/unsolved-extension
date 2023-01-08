@@ -5,5 +5,7 @@ import { useRanking } from './useRanking';
 import { useRecommandProblems } from './useRecommandProblems';
 import { useRefresh } from './useRefresh';
 import { useScoring } from './useScoring';
+import { useScroll } from './useScroll';
+import { useShow } from './useShow';
 
-export { useBadge, useProfile, useRandomRecommandProblem, useRanking, useRecommandProblems, useRefresh, useScoring };
+export { useBadge, useProfile, useRandomRecommandProblem, useRanking, useRecommandProblems, useRefresh, useScoring, useScroll, useShow };
