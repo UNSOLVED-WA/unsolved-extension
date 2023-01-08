@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import UnsolvedFloatButton from './UnsolvedFloatButton';
+import UnsolvedFloatButton from './components/UnsolvedFloatButton';
 import { StorageManager } from '../utils';
 import './style/main.css';
 
