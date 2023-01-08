@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { CircularProgress } from '@mui/material';
 import { Novice, ContentPanel, UnsolvedHeader } from '.';
-import { IFrame } from '../IFrame';
+import { IFrame } from './IFrame';
 import { useProfile } from '../hooks';
 import { StorageManager } from '../../utils';
 
