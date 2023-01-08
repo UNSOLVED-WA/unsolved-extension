@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import UnsolvedFloatButton from './components/UnsolvedFloatButton';
+import { UnsolvedWaButton } from './components';
 import { StorageManager } from '../utils';
 import './style/main.css';
 
-const App = () => <UnsolvedFloatButton />;
+const App = () => <UnsolvedWaButton />;
 
 const root = document.createElement('div');
 root.id = 'unsolved-wa';

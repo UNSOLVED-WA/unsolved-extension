@@ -1,16 +1,7 @@
-import ContentPanelNavigator from './ContentPanelNavigator';
-import ContentPanelHeader from './ContentPanelHeader';
-import ContentPanelBody from './ContentPanelBody';
-import ContentPanelFooter from './ContentPanelFooter';
-import { ProfileView, RankingView, RecommandView, ScoringView } from './views';
+import ContentPanel from './ContentPanel';
+import CPNavigator from './CPNavigator';
+import CPHeader from './CPHeader';
+import CPBody from './CPBody';
+import CPFooter from './CPFooter';
 
-export {
-  ContentPanelNavigator,
-  ContentPanelHeader,
-  ContentPanelFooter,
-  ContentPanelBody,
-  ProfileView,
-  RankingView,
-  RecommandView,
-  ScoringView,
-};
+export { ContentPanel, CPNavigator, CPHeader, CPFooter, CPBody };

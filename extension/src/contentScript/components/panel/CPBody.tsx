@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { ProfileView, ScoringView, RecommandView, RankingView } from './views';
-import { fadeIn } from '../../style/animation.style';
+import { fadeIn } from '../../style/animation';
 import { SolvedUser } from '../../../@types';
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
   selectedIndex: number;
 }
 
-const ContentPanelBody = ({ profile, selectedIndex }: Props) => {
+const CPBody = ({ profile, selectedIndex }: Props) => {
   return (
     <Container>
       {
@@ -24,7 +24,7 @@ const ContentPanelBody = ({ profile, selectedIndex }: Props) => {
   );
 };
 
-export default React.memo(ContentPanelBody);
+export default React.memo(CPBody);
 
 const Container = styled.div`
   width: 100%;

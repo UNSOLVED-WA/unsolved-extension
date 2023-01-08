@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { CircularProgress } from '@mui/material';
-import { Novice, ContentPanel, UnsolvedHeader } from '.';
-import { IFrame } from './IFrame';
-import { useProfile } from '../hooks';
-import { StorageManager } from '../../utils';
+import { Novice, ContentPanel } from '..';
+import { IFrame, UWHeader } from '.';
+import { useProfile } from '../../hooks';
+import { StorageManager } from '../../../utils';
 
-const UnsolvedFloatButton = () => {
+const UnsolvedWaButton = () => {
   const [isRefresh, setIsRefresh] = useState<boolean>(false);
   const { profile, state } = useProfile(isRefresh);
   const [isClicked, setIsClicked] = useState(false);
@@ -39,7 +39,7 @@ const UnsolvedFloatButton = () => {
     <div className={'unsolved-wa-container ' + (isClicked ? 'unsolved-wa-clicked' : 'unsolved-wa-default')} ref={panelElement}>
       {isClicked ? (
         <IFrame title='unsolved-content'>
-          <UnsolvedHeader handlePanelClose={handlePanelClose} />
+          <UWHeader handlePanelClose={handlePanelClose} />
           {
             {
               loading: <CircularProgress />,
@@ -58,4 +58,4 @@ const UnsolvedFloatButton = () => {
   );
 };
 
-export default UnsolvedFloatButton;
+export default UnsolvedWaButton;

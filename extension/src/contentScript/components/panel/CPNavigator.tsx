@@ -10,7 +10,7 @@ interface NavigatorProps {
   handleSelectedIndex: (index: number) => void;
 }
 
-const ContentPanelNavigator = ({ contents, handleSelectedIndex }: NavigatorProps) => {
+const CPNavigator = ({ contents, handleSelectedIndex }: NavigatorProps) => {
   const navigatorRef = useRef<HTMLDivElement>(null);
   const navigatorTextsRef = useRef<HTMLDivElement>(null);
 
@@ -59,4 +59,4 @@ const ContentPanelNavigator = ({ contents, handleSelectedIndex }: NavigatorProps
   );
 };
 
-export default React.memo(ContentPanelNavigator);
+export default React.memo(CPNavigator);

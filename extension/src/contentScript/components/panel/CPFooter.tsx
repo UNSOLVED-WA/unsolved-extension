@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
-const ContentPanelFooter = () => {
+const CPFooter = () => {
   return (
     <Container>
       <h1>@unsolved.wa</h1>
@@ -15,7 +15,7 @@ const ContentPanelFooter = () => {
   );
 };
 
-export default ContentPanelFooter;
+export default CPFooter;
 
 const Container = styled.div`
   width: 100%;

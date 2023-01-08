@@ -7,7 +7,7 @@ interface Props {
   scrollDirection: ScrollDirection;
 }
 
-const ContentPanelHeader = ({ title, scrollDirection }: Props) => {
+const CPHeader = ({ title, scrollDirection }: Props) => {
   return (
     <Container scrollDirection={scrollDirection}>
       <h1>{title}</h1>
@@ -15,7 +15,7 @@ const ContentPanelHeader = ({ title, scrollDirection }: Props) => {
   );
 };
 
-export default ContentPanelHeader;
+export default CPHeader;
 
 const Container = styled.div<{ scrollDirection: ScrollDirection }>`
   z-index: 100;

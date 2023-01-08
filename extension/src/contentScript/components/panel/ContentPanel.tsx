@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import throttle from 'lodash/throttle';
 import styled from '@emotion/styled';
-import { ContentPanelHeader, ContentPanelNavigator, ContentPanelBody } from './panel';
-import { fadeIn } from '../style/animation.style';
-import { SolvedUser } from '../../@types';
-import { ScrollDirection } from '../types';
+import { CPBody, CPHeader, CPNavigator } from '.';
+import { fadeIn } from '../../style/animation';
+import { SolvedUser } from '../../../@types';
+import { ScrollDirection } from '../../types';
 
 interface Props {
   profile: SolvedUser;
@@ -45,9 +45,9 @@ const ContentPanel = ({ profile, selectedIndex, setSelectedIndex }: Props) => {
 
   return (
     <Container ref={containerElementRef}>
-      <ContentPanelHeader title={contents[selectedIndex].text} scrollDirection={scrollDirection} />
-      <ContentPanelNavigator contents={contents} handleSelectedIndex={handleSelectedIndex} />
-      <ContentPanelBody profile={profile} selectedIndex={selectedIndex} />
+      <CPHeader title={contents[selectedIndex].text} scrollDirection={scrollDirection} />
+      <CPNavigator contents={contents} handleSelectedIndex={handleSelectedIndex} />
+      <CPBody profile={profile} selectedIndex={selectedIndex} />
     </Container>
   );
 };

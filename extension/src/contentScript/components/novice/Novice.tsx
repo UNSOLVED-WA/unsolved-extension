@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { fadeIn } from '../../style/animation.style';
+import { fadeIn } from '../../style/animation';
 import { MessageManager } from '../../../utils';
 
 interface Props {

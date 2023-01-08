@@ -1,5 +1,5 @@
-import Novice from './novice/Novice';
-import ContentPanel from './ContentPanel';
-import UnsolvedHeader from './UnsolvedHeader';
+import Novice from './novice';
+import { ContentPanel } from './panel';
+import { UnsolvedWaButton } from './uwbutton';
 
-export { Novice, ContentPanel, UnsolvedHeader };
+export { ContentPanel, Novice, UnsolvedWaButton };

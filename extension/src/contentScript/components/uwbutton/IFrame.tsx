@@ -3,9 +3,9 @@ import { CacheProvider, Global, css } from '@emotion/react';
 import { ThemeProvider, useTheme } from '@mui/material';
 import createCache from '@emotion/cache';
 import weakMemoize from '@emotion/weak-memoize';
-import { createWebIcon, icons } from '../style/icons';
+import { createWebIcon, icons } from '../../style/icons';
 import { createPortal } from 'react-dom';
-import { theme } from '../style/theme';
+import { theme } from '../../style/theme';
 
 const memoizedCreateCacheWithContainer = weakMemoize((container: Node) => {
   const newCache = createCache({
@@ -15,7 +15,7 @@ const memoizedCreateCacheWithContainer = weakMemoize((container: Node) => {
   return newCache;
 });
 
-export const IFrame = ({ children, title }: { children: React.ReactNode; title: string }) => {
+const IFrame = ({ children, title }: { children: React.ReactNode; title: string }) => {
   const [contentRef, setContentRef] = useState(null);
   const doc = contentRef?.contentWindow?.document;
   const mountNode = doc?.body;
@@ -81,3 +81,5 @@ export const IFrame = ({ children, title }: { children: React.ReactNode; title: 
     </iframe>
   );
 };
+
+export default IFrame;
