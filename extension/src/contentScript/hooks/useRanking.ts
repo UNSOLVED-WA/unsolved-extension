@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Ranking } from '../../@types';
-import { Message } from '../../utils/message';
+import { MessageManager } from '../../utils/message';
 
 export const useRanking = () => {
   const [ranking, setRanking] = useState<Ranking[]>([]);
@@ -12,7 +12,7 @@ export const useRanking = () => {
 
   useEffect(() => {
     // TODO: <high> 해당 그룹의 teamId(data)를 받아와야함
-    Message.send({ message: 'fetchRanking', type: 'async', requestData: { teamId: '1' } }, (response) => {
+    MessageManager.send({ message: 'fetchRanking', type: 'async', requestData: { teamId: '1' } }, (response) => {
       switch (response.state) {
         case 'success':
           setRanking(response.responseData.rankings);

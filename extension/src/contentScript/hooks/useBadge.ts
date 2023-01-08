@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Message } from '../../utils/message';
+import { MessageManager } from '../../utils/message';
 
 export const useBadge = (isRefresh: boolean) => {
   const [badge, setBadge] = useState('');
@@ -8,7 +8,7 @@ export const useBadge = (isRefresh: boolean) => {
   const [isFailed, setIsFailed] = useState(false);
 
   useEffect(() => {
-    Message.send({ message: 'fetchBadge', type: 'async' }, (response) => {
+    MessageManager.send({ message: 'fetchBadge', type: 'async' }, (response) => {
       switch (response.state) {
         case 'cached':
           setIsCached(true);
