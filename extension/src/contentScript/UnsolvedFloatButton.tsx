@@ -3,7 +3,7 @@ import { CircularProgress } from '@mui/material';
 import { Novice, ContentPanel, UnsolvedHeader } from './components';
 import { IFrame } from './IFrame';
 import { useProfile } from './hooks';
-import { Storage } from '../utils';
+import { StorageManager } from '../utils';
 
 const UnsolvedFloatButton = () => {
   const [isRefresh, setIsRefresh] = useState<boolean>(false);
@@ -23,11 +23,11 @@ const UnsolvedFloatButton = () => {
       }
     }
     window.addEventListener('click', handleOutsideClick, { capture: true });
-    Storage.get('isClicked', (result) => {
+    StorageManager.get('isClicked', (result) => {
       if (result) {
         setSelectedIndex(3);
         setIsClicked(result);
-        Storage.set('isClicked', false);
+        StorageManager.set('isClicked', false);
       }
     });
     return () => {

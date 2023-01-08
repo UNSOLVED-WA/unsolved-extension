@@ -1,9 +1,9 @@
 import API from '../api/api';
-import { ScoringManager, Storage } from '../utils';
-import { STORAGE_VALUE, Request, SendResponse, SolvedUser, Message, ResponseByRequest } from '../@types';
+import { ScoringManager, StorageManager } from '../utils';
+import { STORAGE_VALUE, Request, SendResponse, SolvedUser } from '../@types';
 
 function fetchCachedData(_: Error, key: keyof STORAGE_VALUE) {
-  return Storage.get(key);
+  return StorageManager.get(key);
 }
 
 function fetchRanking(sendResponse: SendResponse<'fetchRanking'>, teamId: string) {
@@ -39,7 +39,7 @@ function fetchRandomRecommand(sendResponse: SendResponse<'fetchRandomRecommand'>
 function fetchUser(sendResponse: SendResponse<'fetchUser'>) {
   API.ExternalService.getSolvedUsers()
     .then((data) => {
-      Storage.set('solvedUser', data, (result) => {
+      StorageManager.set('solvedUser', data, (result) => {
         sendResponse({ state: 'success', responseData: { solvedUser: result } });
       });
     })
@@ -54,10 +54,10 @@ function fetchUser(sendResponse: SendResponse<'fetchUser'>) {
 }
 
 function fetchBadge(sendResponse: SendResponse<'fetchBadge'>) {
-  Storage.get('solvedUser', (result) => {
+  StorageManager.get('solvedUser', (result) => {
     API.ExternalService.getBojBadge(result.user.handle)
       .then((badge) => {
-        Storage.set('badge', badge, () => {
+        StorageManager.set('badge', badge, () => {
           sendResponse({ state: 'success', responseData: { badge } });
         });
       })
@@ -100,8 +100,8 @@ function syncRequest(request: Request) {
       });
       break;
     case 'hideButton':
-      Storage.get('hideButton', (result) => {
-        Storage.set('hideButton', !result);
+      StorageManager.get('hideButton', (result) => {
+        StorageManager.set('hideButton', !result);
       });
       break;
     case 'sendNotification':
@@ -132,7 +132,7 @@ function syncRequest(request: Request) {
       ScoringManager.set('TIMEOUT');
       break;
     case 'CORRECT':
-      Storage.get('solvedUser', async (solvedUser) => {
+      StorageManager.get('solvedUser', async (solvedUser) => {
         // TODO : <high> 'user2' -> solvedUser.user.handle
         API.ProblemService.updateUnsolvedProblems('user2', parseInt(request.requestData.problemId))
           .then((result) => {
@@ -155,7 +155,7 @@ chrome.runtime.onMessage.addListener((request: Request, _, sendResponse: SendRes
 });
 
 chrome.runtime.onInstalled.addListener(() => {
-  Storage.sets({
+  StorageManager.sets({
     hideButton: false,
     isClicked: false,
     scoring: {
@@ -168,8 +168,8 @@ chrome.runtime.onInstalled.addListener(() => {
 
 chrome.commands.onCommand.addListener((command) => {
   if (command === 'toggle-buttom') {
-    Storage.get('hideButton', (result) => {
-      Storage.set('hideButton', !result);
+    StorageManager.get('hideButton', (result) => {
+      StorageManager.set('hideButton', !result);
     });
   }
 });

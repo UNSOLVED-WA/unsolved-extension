@@ -12,14 +12,14 @@ type setStorageByKey = <K extends keyof STORAGE_VALUE>(
 ) => void;
 type setStorageByKeyArray = (keys: STORAGE_VALUE, callback?: (result: STORAGE_VALUE) => void) => void;
 
-interface STORAGE {
+interface StorageManager {
   get: getStorageByKey;
   gets: getStorageByKeyArray;
   set: setStorageByKey;
   sets: setStorageByKeyArray;
 }
 
-export const Storage: STORAGE = {
+export const StorageManager: StorageManager = {
   get: (key, callback?) => {
     return new Promise((resolve) => {
       chrome.storage.local.get(key, (result) => {

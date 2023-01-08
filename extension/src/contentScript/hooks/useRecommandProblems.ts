@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ProblemResponse } from '../../@types';
-import { MessageManager, Storage } from '../../utils';
+import { MessageManager, StorageManager } from '../../utils';
 
 export const useRecommandProblems = () => {
   const [recommand, setRecommand] = useState<ProblemResponse[]>([]);
@@ -17,13 +17,13 @@ export const useRecommandProblems = () => {
     // } else {
     //   _selectedTiers = [tier];
     // }
-    Storage.set('selectedTiers', [tier], (result) => {
+    StorageManager.set('selectedTiers', [tier], (result) => {
       setSelectedTiers(result);
     });
   };
 
   useEffect(() => {
-    Storage.get('selectedTiers', (result) => {
+    StorageManager.get('selectedTiers', (result) => {
       if (result) setSelectedTiers(result);
     });
   }, []);

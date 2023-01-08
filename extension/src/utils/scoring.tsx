@@ -1,4 +1,4 @@
-import { Storage } from './storage';
+import { StorageManager } from './storage';
 import { DefaultIcon, RunningIcon, CorrectIcon, WrongIcon, TimeoutIcon, NeterrorIcon } from '../contentScript/common/icons';
 import { SCORING_STATE, STORAGE_VALUE } from '../@types';
 import { IconComponentProps } from '../contentScript/common/icons/Icon';
@@ -54,7 +54,7 @@ interface ScoringManager {
 export const ScoringManager: ScoringManager = {
   get: () => {
     return new Promise((resolve) => {
-      Storage.get('scoring').then((result) => {
+      StorageManager.get('scoring').then((result) => {
         resolve({ ...result, message: findMessage(result.state), icon: findIcon(result.state) });
       });
     });
@@ -63,6 +63,6 @@ export const ScoringManager: ScoringManager = {
     return { state: state, message: findMessage(state), icon: findIcon(state) };
   },
   set: (state, problemId, score) => {
-    Storage.set('scoring', { state: state, problemId: problemId, score: score });
+    StorageManager.set('scoring', { state: state, problemId: problemId, score: score });
   },
 };
