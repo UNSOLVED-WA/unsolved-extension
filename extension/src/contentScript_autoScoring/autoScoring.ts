@@ -1,4 +1,4 @@
-import { MessageManager } from '../utils/message';
+import { MessageManager } from '../utils';
 // import { Storage } from '../utils'; // 이거 왜 안됨?
 
 function getSearchParam(key: string) {

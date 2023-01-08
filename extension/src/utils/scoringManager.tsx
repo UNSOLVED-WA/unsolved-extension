@@ -1,9 +1,9 @@
-import { StorageManager } from './storage';
+import { StorageManager } from './storageManager';
 import { DefaultIcon, RunningIcon, CorrectIcon, WrongIcon, TimeoutIcon, NeterrorIcon } from '../contentScript/common/icons';
 import { SCORING_STATE, STORAGE_VALUE } from '../@types';
 import { IconComponentProps } from '../contentScript/common/icons/Icon';
 
-export type SCORING_OBJECT = {
+export type ScoringObject = {
   message: string;
   icon?: (_?: IconComponentProps) => JSX.Element;
 } & STORAGE_VALUE['scoring'];
@@ -47,8 +47,8 @@ function findIcon(state: SCORING_STATE) {
 }
 
 interface ScoringManager {
-  get: () => Promise<SCORING_OBJECT>;
-  getByState: (state?: SCORING_STATE) => SCORING_OBJECT;
+  get: () => Promise<ScoringObject>;
+  getByState: (state?: SCORING_STATE) => ScoringObject;
   set: (state?: SCORING_STATE, problemId?: string, score?: number) => void;
 }
 export const ScoringManager: ScoringManager = {

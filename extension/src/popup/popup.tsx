@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { MessageManager } from '../utils/message';
+import { MessageManager } from '../utils';
 
 // TODO : <high> 자동 열기 제어 기능 추가
 const App = () => {

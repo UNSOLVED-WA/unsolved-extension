@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { ScoringManager } from '../../../../utils';
+import { ScoringManager, ScoringObject } from '../../../../utils';
 import { ContentBox, Flex } from '../../../common';
-import { SCORING_OBJECT } from '../../../../utils/scoring';
 
 const ScoringView = () => {
-  const [scoring, setScoring] = useState<SCORING_OBJECT>(ScoringManager.getByState());
+  const [scoring, setScoring] = useState<ScoringObject>(ScoringManager.getByState());
 
   const handleRetry = () => {
     ScoringManager.set('RUNNING');
