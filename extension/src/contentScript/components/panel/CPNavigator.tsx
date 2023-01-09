@@ -10,30 +10,30 @@ interface NavigatorProps {
   handleSelectedIndex: (index: number) => void;
 }
 
-const ContentPanelNavigator = ({ contents, handleSelectedIndex }: NavigatorProps) => {
+const CPNavigator = ({ contents, handleSelectedIndex }: NavigatorProps) => {
   const navigatorRef = useRef<HTMLDivElement>(null);
   const navigatorTextsRef = useRef<HTMLDivElement>(null);
 
-  const handleMouseEnter = () => {
+  function handleMouseEnter() {
     if (navigatorRef.current && navigatorTextsRef.current) {
       navigatorRef.current.style.width = '160px';
       navigatorTextsRef.current.style.opacity = '1';
       navigatorTextsRef.current.style.marginLeft = '60px';
     }
-  };
+  }
 
-  const handleMouseLeave = () => {
+  function handleMouseLeave() {
     if (navigatorRef.current && navigatorTextsRef.current) {
       navigatorRef.current.style.width = '60px';
       navigatorTextsRef.current.style.opacity = '0';
       navigatorTextsRef.current.style.width = '0px';
     }
-  };
+  }
 
-  const handleClick = (index: number) => {
+  function handleClick(index: number) {
     handleMouseLeave();
     handleSelectedIndex(index);
-  };
+  }
 
   return (
     <NavigatorContainer ref={navigatorRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
@@ -59,4 +59,4 @@ const ContentPanelNavigator = ({ contents, handleSelectedIndex }: NavigatorProps
   );
 };
 
-export default React.memo(ContentPanelNavigator);
+export default React.memo(CPNavigator);

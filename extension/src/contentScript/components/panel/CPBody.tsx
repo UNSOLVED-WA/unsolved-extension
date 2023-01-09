@@ -1,18 +1,20 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { ProfileView, ScoringView, RecommandView, RankingView } from './views';
-import { fadeIn } from '../../style/animation.style';
+import { fadeIn } from '../../style/animation';
+import { SolvedUser } from '../../../@types';
 
 interface Props {
+  profile: SolvedUser;
   selectedIndex: number;
 }
 
-const ContentPanelBody = ({ selectedIndex }: Props) => {
+const CPBody = ({ profile, selectedIndex }: Props) => {
   return (
     <Container>
       {
         {
-          0: <ProfileView />,
+          0: <ProfileView profile={profile} />,
           1: <RankingView />,
           2: <RecommandView />,
           3: <ScoringView />,
@@ -22,7 +24,7 @@ const ContentPanelBody = ({ selectedIndex }: Props) => {
   );
 };
 
-export default React.memo(ContentPanelBody);
+export default React.memo(CPBody);
 
 const Container = styled.div`
   width: 100%;

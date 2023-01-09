@@ -1,40 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import styled from '@emotion/styled';
+import { useScoring } from '../../../hooks';
 import { ScoringManager } from '../../../../utils';
 import { ContentBox, Flex } from '../../../common';
-import { SCORING_OBJECT } from '../../../../utils/scoring';
-import styled from '@emotion/styled';
 
 const ScoringView = () => {
-  const [scoring, setScoring] = useState<SCORING_OBJECT>(ScoringManager.getByState());
+  const { scoring, retry, messageByScore } = useScoring();
 
-  const handleRetry = () => {
-    ScoringManager.set('RUNNING');
-  };
-
-  function messageByScore(score: number) {
-    if (score === -1 || score === 0) {
-      return '이미 채점이 완료된 문제입니다.';
-    }
-    return '+ ' + score + 'pts';
-  }
-
-  useEffect(() => {
-    if (window.location.href.includes('https://www.acmicpc.net/')) {
-      ScoringManager.get().then((result) => {
-        setScoring(result);
-      });
-    }
-    const ScoringStateHandler = (changes: { [key: string]: chrome.storage.StorageChange }) => {
-      if (changes.scoring && window.location.href.includes('https://www.acmicpc.net/')) {
-        ScoringManager.get().then((result) => {
-          setScoring(result);
-        });
-      }
-    };
-    chrome.storage.onChanged.addListener(ScoringStateHandler);
-    return () => chrome.storage.onChanged.removeListener(ScoringStateHandler);
-  }, []);
-
+  // unmout 시 scoring 초기화
   useEffect(() => () => ScoringManager.set('DEFAULT', null, -1), []);
 
   return (
@@ -48,11 +21,11 @@ const ScoringView = () => {
               {
                 DEFAULT: <div>문제를 제출하거나 백준 채점 페이지로 이동해주세요!</div>,
                 RUNNING: <div>random message</div>,
-                CORRECT: <div>{messageByScore(scoring.score)}</div>,
-                WRONG: <button onClick={handleRetry}>재시도!</button>,
-                TIMEOUT: <button onClick={handleRetry}>재시도!</button>,
-                ERROR: <button onClick={handleRetry}>재시도!</button>,
-                NETERROR: <button onClick={handleRetry}>재시도!</button>,
+                CORRECT: <div>{messageByScore()}</div>,
+                WRONG: <button onClick={retry}>재시도!</button>,
+                TIMEOUT: <button onClick={retry}>재시도!</button>,
+                ERROR: <button onClick={retry}>재시도!</button>,
+                NETERROR: <button onClick={retry}>재시도!</button>,
               }[scoring.state ?? 'DEFAULT']
             }
           </div>

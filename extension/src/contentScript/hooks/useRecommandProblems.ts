@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import { ProblemResponse } from '../../@types';
-import { Message, Storage } from '../../utils';
+import { MessageManager, StorageManager } from '../../utils';
+import { useRefresh } from './useRefresh';
 
 export const useRecommandProblems = () => {
+  const { isRefresh, refresh } = useRefresh();
   const [recommand, setRecommand] = useState<ProblemResponse[]>([]);
   const [selectedTiers, setSelectedTiers] = useState<number[]>([]);
-  const [isRefresh, setIsRefresh] = useState<boolean>(false);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [isFailed, setIsFailed] = useState<boolean>(false);
 
-  const refresh = () => setIsRefresh((prev) => !prev);
   const changeTiers = (tier: number) => {
     // let _selectedTiers = selectedTiers;
     // if (selectedTiers.includes(tier)) {
@@ -17,13 +17,13 @@ export const useRecommandProblems = () => {
     // } else {
     //   _selectedTiers = [tier];
     // }
-    Storage.set('selectedTiers', [tier], (result) => {
+    StorageManager.set('selectedTiers', [tier], (result) => {
       setSelectedTiers(result);
     });
   };
 
   useEffect(() => {
-    Storage.get('selectedTiers', (result) => {
+    StorageManager.get('selectedTiers', (result) => {
       if (result) setSelectedTiers(result);
     });
   }, []);
@@ -31,10 +31,10 @@ export const useRecommandProblems = () => {
   useEffect(() => {
     if (selectedTiers.length === 0) return;
     setIsLoaded(false);
-    Message.send({ message: 'fetchRecommands', type: 'async', data: { teamId: '1', tier: selectedTiers[0] } }, (response) => {
+    MessageManager.send({ message: 'fetchRecommands', type: 'async', requestData: { teamId: '1', tier: selectedTiers[0] } }, (response) => {
       switch (response.state) {
         case 'success':
-          setRecommand(response.data);
+          setRecommand(response.responseData.problems);
           break;
         case 'fail':
           setIsFailed(true);
@@ -46,5 +46,5 @@ export const useRecommandProblems = () => {
     });
   }, [isRefresh, selectedTiers]);
 
-  return { recommand, selectedTiers, changeTiers, isLoaded, isFailed, refresh };
+  return { recommand, selectedTiers, refresh, changeTiers, isLoaded, isFailed };
 };

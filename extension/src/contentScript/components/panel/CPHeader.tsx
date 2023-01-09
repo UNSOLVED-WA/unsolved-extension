@@ -2,6 +2,21 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { ScrollDirection } from '../../types';
 
+interface Props {
+  title: string;
+  scrollDirection: ScrollDirection;
+}
+
+const CPHeader = ({ title, scrollDirection }: Props) => {
+  return (
+    <Container scrollDirection={scrollDirection}>
+      <h1>{title}</h1>
+    </Container>
+  );
+};
+
+export default CPHeader;
+
 const Container = styled.div<{ scrollDirection: ScrollDirection }>`
   z-index: 100;
   position: absolute;
@@ -44,18 +59,3 @@ const Container = styled.div<{ scrollDirection: ScrollDirection }>`
     }}
   }
 `;
-
-interface Props {
-  title: string;
-  scrollDirection: ScrollDirection;
-}
-
-const ContentPanelHeader = ({ title, scrollDirection }: Props) => {
-  return (
-    <Container scrollDirection={scrollDirection}>
-      <h1>{title}</h1>
-    </Container>
-  );
-};
-
-export default ContentPanelHeader;

@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import UnsolvedFloatButton from './UnsolvedFloatButton';
-import { Storage } from '../utils';
+import { UnsolvedWaButton } from './components';
+import { StorageManager } from '../utils';
 import './style/main.css';
 
-const App = () => <UnsolvedFloatButton />;
+const App = () => <UnsolvedWaButton />;
 
 const root = document.createElement('div');
 root.id = 'unsolved-wa';
@@ -13,7 +13,7 @@ function handleHideInjectElement(element: HTMLElement, isHide: boolean) {
   element.style.display = isHide ? 'none' : 'block';
 }
 
-Storage.get('hideButton', (result) => {
+StorageManager.get('hideButton', (result) => {
   if (!result) {
     handleHideInjectElement(root, result);
 

@@ -1,7 +1,35 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { fadeIn } from '../style/animation.style';
-import { Message } from '../../utils/message';
+import { fadeIn } from '../../style/animation';
+import { MessageManager } from '../../../utils';
+
+interface Props {
+  type: keyof typeof novices;
+}
+
+const novices = {
+  error: {
+    message: '로그인하기',
+    action: () => MessageManager.send({ message: 'toLogin', type: 'sync' }),
+  },
+  noOrganization: {
+    message: '그룹 가입하기',
+    action: () => MessageManager.send({ message: 'toLogin', type: 'sync' }),
+  },
+};
+
+const Novice = ({ type }: Props) => {
+  return (
+    <Container>
+      <button onClick={novices[type].action}>
+        <img src='https://static.solved.ac/res/logo-whitetext.svg' />
+        <span>{novices[type].message}</span>
+      </button>
+    </Container>
+  );
+};
+
+export default Novice;
 
 const Container = styled.div`
   border-radius: 15px !important;
@@ -59,19 +87,3 @@ const Container = styled.div`
     font-weight: 600;
   }
 `;
-
-const LoginPanel = () => {
-  function handleLoginButtonClick() {
-    Message.send({ message: 'toLogin', type: 'sync' });
-  }
-  return (
-    <Container>
-      <button onClick={handleLoginButtonClick}>
-        <img src='https://static.solved.ac/res/logo-whitetext.svg' />
-        <span>로그인하기</span>
-      </button>
-    </Container>
-  );
-};
-
-export default LoginPanel;

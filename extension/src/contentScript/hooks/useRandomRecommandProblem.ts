@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ProblemResponse } from '../../@types';
-import { Message } from '../../utils';
+import { MessageManager } from '../../utils';
 
 export const useRandomRecommandProblem = (isRefresh: boolean) => {
   const [randomRecommand, setRandomRecommand] = useState<ProblemResponse>(null);
@@ -10,10 +10,10 @@ export const useRandomRecommandProblem = (isRefresh: boolean) => {
 
   useEffect(() => {
     // TODO: <high> teamId, tier 값은 추후 유저한테서 받아와야함 + default 값
-    Message.send({ message: 'fetchRandomRecommand', type: 'async', data: { teamId: '1', tier: '1' } }, (response) => {
+    MessageManager.send({ message: 'fetchRandomRecommand', type: 'async', requestData: { teamId: '1', tier: '1' } }, (response) => {
       switch (response.state) {
         case 'success':
-          setRandomRecommand(response.data);
+          setRandomRecommand(response.responseData.problems);
           break;
         case 'fail':
           setIsFailed(true);

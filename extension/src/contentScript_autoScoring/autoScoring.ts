@@ -1,4 +1,4 @@
-import { Message } from '../utils/message';
+import { MessageManager } from '../utils';
 // import { Storage } from '../utils'; // 이거 왜 안됨?
 
 function getSearchParam(key: string) {
@@ -14,11 +14,11 @@ function autoScoring() {
   const checkPassed = () => {
     const result = document.querySelector('.result');
     if (result.children[0].innerHTML === '맞았습니다!!') {
-      Message.send({ message: 'CORRECT', type: 'sync', data: getSearchParam('problem_id') });
+      MessageManager.send({ message: 'CORRECT', type: 'sync', requestData: { problemId: getSearchParam('problem_id') } });
       clearInterval(intervalId);
       intervalId = null;
     } else if (!result.children[0].innerHTML.includes('채점') && !result.children[0].innerHTML.includes('기다')) {
-      Message.send({ message: 'WRONG', type: 'sync' });
+      MessageManager.send({ message: 'WRONG', type: 'sync' });
       clearInterval(intervalId);
       intervalId = null;
     }
@@ -27,7 +27,7 @@ function autoScoring() {
   setTimeout(() => {
     if (intervalId !== null) {
       clearInterval(intervalId);
-      Message.send({ message: 'TIMEOUT', type: 'sync' });
+      MessageManager.send({ message: 'TIMEOUT', type: 'sync' });
     }
   }, MAX_CHECK_TIME);
 }
@@ -36,7 +36,7 @@ if (window.location.pathname.includes('/status') && getSearchParam('from_mine') 
   chrome.storage.local.set({ isClicked: true });
   chrome.storage.local.get('scoring', (result) => {
     if (result.scoring.state === 'DEFAULT') {
-      Message.send({ message: 'RUNNING', type: 'sync', data: getSearchParam('problem_id') });
+      MessageManager.send({ message: 'RUNNING', type: 'sync' });
     }
     if (result.scoring.state === 'RUNNING') {
       autoScoring();
@@ -53,7 +53,7 @@ if (window.location.pathname.includes('/submit')) {
   const button = document.querySelector('#submit_button');
   if (button) {
     button.addEventListener('click', () => {
-      Message.send({ message: 'RUNNING', type: 'sync' });
+      MessageManager.send({ message: 'RUNNING', type: 'sync' });
     });
   }
 }

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { CacheProvider, Global, css } from '@emotion/react';
-import { ThemeProvider, useTheme } from '@mui/material';
+import { ThemeProvider } from '@mui/material';
 import createCache from '@emotion/cache';
 import weakMemoize from '@emotion/weak-memoize';
-import { createWebIcon, icons } from './style/icons';
+import { createWebIcon, icons } from '../../style/icons';
 import { createPortal } from 'react-dom';
-import { theme } from './style/theme';
+import { theme } from '../../style/theme';
 
 const memoizedCreateCacheWithContainer = weakMemoize((container: Node) => {
   const newCache = createCache({
@@ -15,7 +15,7 @@ const memoizedCreateCacheWithContainer = weakMemoize((container: Node) => {
   return newCache;
 });
 
-export const IFrame = ({ children, title }: { children: React.ReactNode; title: string }) => {
+const IFrame = ({ children, title }: { children: React.ReactNode; title: string }) => {
   const [contentRef, setContentRef] = useState(null);
   const doc = contentRef?.contentWindow?.document;
   const mountNode = doc?.body;
@@ -44,35 +44,7 @@ export const IFrame = ({ children, title }: { children: React.ReactNode; title: 
         createPortal(
           <CacheProvider value={memoizedCreateCacheWithContainer(insertionTarget)}>
             <ThemeProvider theme={theme}>
-              <Global
-                styles={css`
-                  * {
-                    font-family: 'Roboto', sans-serif;
-                    /* line-height: 16px; */
-                    box-sizing: border-box;
-                    -webkit-user-select: none;
-                    -moz-user-select: none;
-                    -ms-user-select: none;
-                    user-select: none;
-                  }
-                  .material-symbols-outlined {
-                    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
-                  }
-                  // logo svg 변경 필요
-                  .unsolved-wa-logo-large {
-                    border-radius: 5px !important;
-                    background: #ffffff;
-                    position: relative;
-                    color: #ff0000;
-
-                    height: 24px;
-
-                    font-size: 20px;
-                    font-weight: 600;
-                    padding: 0px 7.5px;
-                  }
-                `}
-              />
+              <Global styles={globalStyles} />
               {children}
             </ThemeProvider>
           </CacheProvider>,
@@ -81,3 +53,33 @@ export const IFrame = ({ children, title }: { children: React.ReactNode; title: 
     </iframe>
   );
 };
+
+export default IFrame;
+
+const globalStyles = css`
+  * {
+    font-family: 'Roboto', sans-serif;
+    /* line-height: 16px; */
+    box-sizing: border-box;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+  }
+  // logo svg 변경 필요
+  .unsolved-wa-logo-large {
+    border-radius: 5px !important;
+    background: #ffffff;
+    position: relative;
+    color: #ff0000;
+
+    height: 24px;
+
+    font-size: 20px;
+    font-weight: 600;
+    padding: 0px 7.5px;
+  }
+`;

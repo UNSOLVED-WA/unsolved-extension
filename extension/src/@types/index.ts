@@ -142,16 +142,155 @@ export type RequestMessage =
     )
   | SCORING_STATE;
 
-export type Request = {
-  message: RequestMessage;
-  type?: 'async' | 'sync';
-  data?: any;
+export type FetchUser = {
+  message: 'fetchUser';
+  type: 'async';
+  requestData?: null;
+  responseData?: { solvedUser: SolvedUser };
 };
 
-export type Response = {
+export type FetchBadge = {
+  message: 'fetchBadge';
+  type: 'async';
+  requestData?: null;
+  responseData?: { badge: string };
+};
+
+export type FetchRanking = {
+  message: 'fetchRanking';
+  type: 'async';
+  requestData: { teamId: string };
+  responseData?: { rankings: Ranking[] };
+};
+
+export type FetchRecommands = {
+  message: 'fetchRecommands';
+  type: 'async';
+  requestData: { teamId: string; tier: number };
+  responseData?: { problems: ProblemResponse[] };
+};
+
+export type FetchRandomRecommand = {
+  message: 'fetchRandomRecommand';
+  type: 'async';
+  requestData: { teamId: string; tier: string };
+  responseData?: { problems: ProblemResponse };
+};
+
+export type ToLogin = {
+  message: 'toLogin';
+  type: 'sync';
+  requestData?: null;
+  responseData?: null;
+};
+
+export type HideButton = {
+  message: 'hideButton';
+  type: 'sync';
+  requestData?: null;
+  responseData?: null;
+};
+
+export type SendNotification = {
+  message: 'sendNotification';
+  type: 'sync';
+  requestData?: null;
+  responseData?: null;
+};
+
+export type ToRedirectProblem = {
+  message: 'toRedirectProblem';
+  type: 'sync';
+  requestData: { problemId: number };
+  responseData?: null;
+};
+
+export type ToRedirectUser = {
+  message: 'toRedirectUser';
+  type: 'sync';
+  requestData: { bojId: string };
+  responseData?: null;
+};
+
+export type DEFAULT = {
+  message: 'DEFAULT';
+  type: 'sync';
+  requestData?: null;
+  responseData?: null;
+};
+
+export type RUNNING = {
+  message: 'RUNNING';
+  type: 'sync';
+  requestData?: null;
+  responseData?: null;
+};
+
+export type CORRECT = {
+  message: 'CORRECT';
+  type: 'sync';
+  requestData: { problemId: string };
+  responseData?: null;
+};
+
+export type WRONG = {
+  message: 'WRONG';
+  type: 'sync';
+  requestData?: null;
+  responseData?: null;
+};
+
+export type TIMEOUT = {
+  message: 'TIMEOUT';
+  type: 'sync';
+  requestData?: null;
+  responseData?: null;
+};
+
+export type ERROR = {
+  message: 'ERROR';
+  type: 'sync';
+  requestData?: null;
+  responseData?: null;
+};
+
+export type NETERROR = {
+  message: 'NETERROR';
+  type: 'sync';
+  requestData?: null;
+  responseData?: null;
+};
+
+export type Message =
+  | FetchUser
+  | FetchBadge
+  | FetchRanking
+  | FetchRecommands
+  | FetchRandomRecommand
+  | ToLogin
+  | HideButton
+  | SendNotification
+  | ToRedirectProblem
+  | ToRedirectUser
+  | DEFAULT
+  | RUNNING
+  | CORRECT
+  | WRONG
+  | TIMEOUT
+  | ERROR
+  | NETERROR;
+
+export type FindByMessage<Union, T> = Union extends { message: T } ? Union : never;
+export type FindResponse<Union, T> = Union extends { message: T } ? Union : never;
+
+export type RequestByMessage<T extends Message['message']> = FindByMessage<Message, T>;
+export type ResponseByMesage<T extends Message['message']> = Omit<FindByMessage<Message, T>, 'message' | 'type' | 'requestData'> & {
   state: 'success' | 'fail' | 'cached';
-  message?: string;
-  data?: any;
+  errorMessage?: string;
 };
 
-export type SendResponse = (response?: Response) => void;
+export type Request = RequestByMessage<Message['message']>;
+export type ResponseByRequest<T extends Request> = ResponseByMesage<T['message']>;
+export type Response = ResponseByMesage<Message['message']>;
+
+export type SendResponse<T = Message['message']> = (response?: ResponseByMesage<T extends Message['message'] ? T : never>) => void;

@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Message } from '../utils/message';
+import { MessageManager } from '../utils';
 
 // TODO : <high> 자동 열기 제어 기능 추가
 const App = () => {
   function handleHideButton() {
-    Message.send({ message: 'hideButton', type: 'sync' });
+    MessageManager.send({ message: 'hideButton', type: 'sync' });
   }
 
   function handleUNotificationButton() {
-    Message.send({ message: 'sendNotification', type: 'sync' });
+    MessageManager.send({ message: 'sendNotification', type: 'sync' });
   }
 
   return (
