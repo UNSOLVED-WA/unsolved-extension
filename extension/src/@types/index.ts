@@ -73,7 +73,7 @@ export type Organization = {
   rating: number;
   solvedCount: number;
   type: string;
-  userCount?: number;
+  userCount: number;
   voteCount: number;
 };
 
