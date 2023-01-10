@@ -40,6 +40,7 @@
     "webpack-merge": "^5.7.3"
   },
   "dependencies": {
+    "@mui/joy": "^5.0.0-alpha.62",
     "lodash": "^4.17.21",
     "react-inlinesvg": "^3.0.1"
   }
