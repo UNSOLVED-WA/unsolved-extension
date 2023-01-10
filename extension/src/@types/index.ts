@@ -174,6 +174,13 @@ export type FetchRandomRecommand = {
   responseData?: { problems: ProblemResponse };
 };
 
+export type ToAddOrganization = {
+  message: 'toAddOrganization';
+  type: 'sync';
+  requestData?: null;
+  responseData?: null;
+};
+
 export type ToLogin = {
   message: 'toLogin';
   type: 'sync';
@@ -279,6 +286,7 @@ export type Message =
   | FetchRecommands
   | FetchRandomRecommand
   | ToLogin
+  | ToAddOrganization
   | UseCommandsToggleVisible
   | AutoScoring
   | HideButton

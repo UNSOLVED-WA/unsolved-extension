@@ -132,6 +132,11 @@ function syncRequest(request: Request) {
         url: 'https://solved.ac/',
       });
       break;
+    case 'toAddOrganization':
+      chrome.tabs.create({
+        url: 'https://www.acmicpc.net/setting/school',
+      });
+      break;
     case 'sendNotification':
       chrome.notifications.create('helloworld', {
         type: 'basic',
