@@ -89,6 +89,39 @@ function asyncRequest(request: Request, sendResponse: SendResponse) {
     case 'fetchRandomRecommand':
       fetchRandomRecommand(sendResponse, request.requestData.teamId, request.requestData.tier);
       break;
+    case 'useCommandsToggleVisible':
+      StorageManager.get('commands', (commands) => {
+        if (request.requestData?.toggle) {
+          StorageManager.set('commands', { ...commands, toggle_visible: !commands.toggle_visible }, ({ toggle_visible }) => {
+            sendResponse({ state: 'success', responseData: { isUseCommandsToggleVisible: toggle_visible } });
+          });
+        } else {
+          sendResponse({ state: 'success', responseData: { isUseCommandsToggleVisible: commands.toggle_visible } });
+        }
+      });
+      break;
+    case 'autoScoring':
+      StorageManager.get('autoScoring', (isAutoScoring) => {
+        if (request.requestData?.toggle) {
+          StorageManager.set('autoScoring', !isAutoScoring, (isAutoScoring) => {
+            sendResponse({ state: 'success', responseData: { isAutoScoring } });
+          });
+        } else {
+          sendResponse({ state: 'success', responseData: { isAutoScoring } });
+        }
+      });
+      break;
+    case 'hideButton':
+      StorageManager.get('hideButton', (isHide) => {
+        if (request.requestData?.toggle) {
+          StorageManager.set('hideButton', !isHide, (isHide) => {
+            sendResponse({ state: 'success', responseData: { isHide } });
+          });
+        } else {
+          sendResponse({ state: 'success', responseData: { isHide } });
+        }
+      });
+      break;
   }
 }
 
@@ -97,11 +130,6 @@ function syncRequest(request: Request) {
     case 'toLogin':
       chrome.tabs.create({
         url: 'https://solved.ac/',
-      });
-      break;
-    case 'hideButton':
-      StorageManager.get('hideButton', (result) => {
-        StorageManager.set('hideButton', !result);
       });
       break;
     case 'sendNotification':
@@ -158,18 +186,27 @@ chrome.runtime.onInstalled.addListener(() => {
   StorageManager.sets({
     hideButton: false,
     isClicked: false,
+    autoScoring: true,
     scoring: {
       problemId: '',
       state: 'DEFAULT',
       score: -1,
     },
+    selectedTiers: [1],
+    commands: {
+      toggle_visible: true,
+    },
   });
 });
 
 chrome.commands.onCommand.addListener((command) => {
-  if (command === 'toggle-buttom') {
-    StorageManager.get('hideButton', (result) => {
-      StorageManager.set('hideButton', !result);
-    });
+  switch (command) {
+    case 'toggle-visible':
+      StorageManager.gets(['hideButton', 'commands'], ({ commands, hideButton }) => {
+        if (commands.toggle_visible) StorageManager.set('hideButton', !hideButton);
+      });
+      break;
+    default:
+      break;
   }
 });

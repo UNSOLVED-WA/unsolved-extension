@@ -7,7 +7,18 @@
     "service_worker": "background.js"
   },
   "host_permissions": ["<all_urls>", "https://*/*"],
-  "permissions": ["storage", "activeTab", "webRequest", "contextMenus", "cookies", "webNavigation", "tabs", "alarms", "notifications"],
+  "permissions": [
+    "storage",
+    "activeTab",
+    "webRequest",
+    "contextMenus",
+    "cookies",
+    "webNavigation",
+    "tabs",
+    "alarms",
+    "notifications",
+    "commands"
+  ],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
@@ -33,12 +44,18 @@
     }
   ],
   "commands": {
-    "toggle-buttom": {
+    "_execute_browser_action": {
       "suggested_key": {
-        "default": "Ctrl+Shift+L",
-        "mac": "Command+Shift+L"
+        "default": "Ctrl+Shift+9",
+        "mac": "Command+Shift+9"
+      }
+    },
+    "toggle-visible": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+8",
+        "mac": "Command+Shift+8"
       },
-      "description": "toggle Unsolved.wa button",
+      "description": "toggle visible of Unsolved.wa Service",
       "global": true
     }
   }

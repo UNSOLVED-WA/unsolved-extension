@@ -12,9 +12,14 @@ export type STORAGE_VALUE = {
   solvedUser?: SolvedUser;
   badge?: string;
   // scoring view
+  autoScoring?: boolean;
   scoring: { state?: SCORING_STATE; problemId?: string; score?: number };
   // recommend view
   selectedTiers?: number[];
+  // background
+  commands: {
+    toggle_visible: boolean;
+  };
 };
 
 export type ProblemResponse = {
@@ -127,27 +132,19 @@ export type UnsolvedUser = {
   solvingCount: number;
 };
 
-export type RequestMessage =
-  | (
-      | 'fetchUser' //
-      | 'fetchBadge'
-      | 'fetchRanking'
-      | 'fetchRecommands'
-      | 'fetchRandomRecommand'
-      | 'toLogin'
-      | 'hideButton'
-      | 'sendNotification'
-      | 'toRedirectProblem'
-      | 'toRedirectUser'
-    )
-  | SCORING_STATE;
-
-export type FetchUser = {
+// chrome.runtime.*message에 사용되는 타입
+type MessageInterface = {
+  message: string;
+  type: 'sync' | 'async';
+  requestData?: unknown;
+  responseData?: unknown;
+};
+export interface FetchUser extends MessageInterface {
   message: 'fetchUser';
   type: 'async';
   requestData?: null;
   responseData?: { solvedUser: SolvedUser };
-};
+}
 
 export type FetchBadge = {
   message: 'fetchBadge';
@@ -184,11 +181,25 @@ export type ToLogin = {
   responseData?: null;
 };
 
+export type UseCommandsToggleVisible = {
+  message: 'useCommandsToggleVisible';
+  type: 'async';
+  requestData?: { toggle: boolean };
+  responseData?: { isUseCommandsToggleVisible: boolean };
+};
+
+export type AutoScoring = {
+  message: 'autoScoring';
+  type: 'async';
+  requestData?: { toggle: boolean };
+  responseData?: { isAutoScoring: boolean };
+};
+
 export type HideButton = {
   message: 'hideButton';
-  type: 'sync';
-  requestData?: null;
-  responseData?: null;
+  type: 'async';
+  requestData?: { toggle: boolean };
+  responseData?: { isHide: boolean };
 };
 
 export type SendNotification = {
@@ -268,6 +279,8 @@ export type Message =
   | FetchRecommands
   | FetchRandomRecommand
   | ToLogin
+  | UseCommandsToggleVisible
+  | AutoScoring
   | HideButton
   | SendNotification
   | ToRedirectProblem
