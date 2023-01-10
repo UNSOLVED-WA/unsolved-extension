@@ -26,8 +26,7 @@ const Popup = () => {
   const { isHide, isLoading: isHideLoading, toggleIsHide } = useHideButton();
   const { isAutoScoring, isLoading: isAutoScoringLoading, toggleIsAutoScoring } = useAutoScoring();
   const { isUseCommandsToggleVisible, isLoading: isUseCommandsToggleVisibleLoading, toggleIsUseCommands } = useCommandsToggleVisible();
-  const { mode, systemMode } = useColorScheme();
-  console.log(mode);
+  const { systemMode } = useColorScheme();
 
   return (
     <Container mode={systemMode}>
