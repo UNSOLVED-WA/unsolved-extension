@@ -133,12 +133,11 @@ const Filter = styled.div<{ isFilterOpen: boolean }>`
   }
   #filter-selector {
     overflow: hidden;
-    max-height: ${(props) => (props.isFilterOpen ? '300px' : '0px')};
+    max-height: ${({isFilterOpen}) => (isFilterOpen ? '300px' : '0px')};
     transition: max-height 0.25s linear;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    /* gap: 10px 10px; */
 
     .tiers {
       margin: 4px 8px;

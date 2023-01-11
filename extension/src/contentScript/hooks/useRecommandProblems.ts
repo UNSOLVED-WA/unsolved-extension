@@ -11,12 +11,6 @@ export const useRecommandProblems = () => {
   const [isFailed, setIsFailed] = useState<boolean>(false);
 
   const changeTiers = (tier: number) => {
-    // let _selectedTiers = selectedTiers;
-    // if (selectedTiers.includes(tier)) {
-    //   _selectedTiers = selectedTiers.filter((t) => t !== tier);
-    // } else {
-    //   _selectedTiers = [tier];
-    // }
     StorageManager.set('selectedTiers', [tier], (result) => {
       setSelectedTiers(result);
     });

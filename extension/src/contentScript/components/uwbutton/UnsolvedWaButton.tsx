@@ -8,7 +8,7 @@ const UnsolvedWaButton = () => {
   const { isRefresh } = useRefresh();
   const { isShow, isScoring, containerRef, show, close, reset } = useShow();
   const { profile, state } = useProfile(isRefresh);
-  // TODO: selectedIndex 위치 고민..
+
   const [selectedIndex, setSelectedIndex] = useState(0);
   const handleSelectedIndex = (index: number) => setSelectedIndex(index);
 

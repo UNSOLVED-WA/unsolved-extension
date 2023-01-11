@@ -53,17 +53,14 @@ const ProfileView = ({ profile }: Props) => {
           </Flex>
         </div>
       </ContentBox>
-      <ContentBox title='Unsolved Profile'>
-        <Flex direction='row' divided='two'>
-          <b>Solving Count</b>
-          <div>3</div>
-        </Flex>
-        <Flex direction='row' divided='two'>
-          <b>Ranking</b>
-          <div>10</div>
-        </Flex>
-      </ContentBox>
-      <ContentBox title='Organization Info'>
+      <ContentBox
+        title={
+          <Flex direction='row' justify='space-between'>
+            <b>Organization info</b>
+            <button>변경</button>
+          </Flex>
+        }
+      >
         <Flex direction='row' divided='two'>
           <b>Name</b>
           <div>{profile.user.organizations[0].name}</div>
@@ -75,6 +72,16 @@ const ProfileView = ({ profile }: Props) => {
         <Flex direction='row' divided='two'>
           <b>Rating</b>
           <div>{profile.user.organizations[0].rating.toLocaleString('ko-KR')}</div>
+        </Flex>
+      </ContentBox>
+      <ContentBox title='Unsolved Profile'>
+        <Flex direction='row' divided='two'>
+          <b>Solving Count</b>
+          <div>3</div>
+        </Flex>
+        <Flex direction='row' divided='two'>
+          <b>Ranking</b>
+          <div>10</div>
         </Flex>
       </ContentBox>
       <ContentBox key={randomRecommand.problemId} color={numberToTier(randomRecommand.tier).tier} pointer={true}>

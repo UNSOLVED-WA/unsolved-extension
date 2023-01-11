@@ -3,10 +3,7 @@ import { SolvedUser } from '../../@types';
 import { MessageManager } from '../../utils';
 
 export const useProfile = (isRefresh: boolean) => {
-  const [profile, setProfile] = useState<SolvedUser>(null);
-  // const [isLoaded, setIsLoaded] = useState(false);
-  // const [isCached, setIsCached] = useState(false);
-  // const [isFailed, setIsFailed] = useState(false);
+  const [profile, setProfile] = useState<SolvedUser & { selectedOrganization: string }>(null);
   const [state, setState] = useState<'loading' | 'success' | 'fail' | 'noOrganization'>('loading');
 
   useEffect(() => {
@@ -15,11 +12,14 @@ export const useProfile = (isRefresh: boolean) => {
         setState('fail');
         return;
       }
-      // if (response.state === 'cached') setIsCached(true);
-      setProfile(response.responseData.solvedUser);
       if (response.responseData.solvedUser.user.organizations.length === 0) {
+        setProfile({ ...response.responseData.solvedUser, selectedOrganization: '' });
         setState('noOrganization');
       } else {
+        setProfile({
+          ...response.responseData.solvedUser,
+          selectedOrganization: response.responseData.solvedUser.user.organizations[0].name,
+        });
         setState('success');
       }
     });

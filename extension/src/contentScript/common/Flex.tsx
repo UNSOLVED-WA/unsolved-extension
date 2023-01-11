@@ -47,25 +47,21 @@ const Flex = ({ children, ...props }: Props) => {
 export default Flex;
 
 const Container = styled.div<Props>`
-  width: ${(props) => props.width ?? '100%'};
-  height: ${(props) => props.height ?? 'auto'};
+  width: ${({ width }) => width ?? '100%'};
+  height: ${({ height }) => height ?? 'auto'};
   display: flex;
-  flex-direction: ${(props) => props.direction ?? 'row'};
+  flex-direction: ${({ direction }) => direction ?? 'row'};
 
-  justify-content: ${(props) => props.justify ?? 'space-between'};
-  align-items: ${(props) => props.align ?? 'center'};
-  gap: ${(props) => props.gap ?? '0px'};
-
-  flex-grow: ${(props) => props.flexGrow ?? 1};
-  flex-shrink: ${(props) => props.flexShrink ?? 1};
-  flex-basis: ${(props) => props.flexBasis ?? 'auto'};
+  justify-content: ${({ justify }) => justify ?? 'space-between'};
+  align-items: ${({ align }) => align ?? 'center'};
+  gap: ${({ gap }) => gap ?? '0px'};
 
   font-size: 0.9rem;
 
-  overflow: ${(props) => props.overflow ?? 'hidden'};
+  overflow: ${({ overflow }) => overflow ?? 'hidden'};
 
-  ${(props) =>
-    props.divided === 'two' &&
+  ${({ divided }) =>
+    divided === 'two' &&
     `
     color: #555555;
     `}
@@ -76,7 +72,7 @@ const Container = styled.div<Props>`
     overflow: hidden;
   }
   && > *:last-child {
-    text-align: ${(props) => (props.divided === 'two' ? 'end' : 'left')};
+    text-align: ${({ divided }) => (divided === 'two' ? 'end' : 'left')};
   }
   .material-symbols-outlined {
     font-size: 1.2rem;
