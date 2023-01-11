@@ -39,14 +39,20 @@ function fetchRandomRecommand(sendResponse: SendResponse<'fetchRandomRecommand'>
 function fetchUser(sendResponse: SendResponse<'fetchUser'>) {
   API.ExternalService.getSolvedUsers()
     .then((data) => {
-      StorageManager.set('solvedUser', data, (result) => {
-        sendResponse({ state: 'success', responseData: { solvedUser: result } });
+      StorageManager.get('selectedOrganization', (selectedOrganization) => {
+        if (selectedOrganization === '') {
+          selectedOrganization = data.user.organizations[0].name;
+          StorageManager.set('selectedOrganization', selectedOrganization);
+        }
+        StorageManager.set('solvedUser', data, (solvedUser) => {
+          sendResponse({ state: 'success', responseData: { solvedUser, selectedOrganization } });
+        });
       });
     })
     .catch(async (error) => {
       try {
         const data = (await fetchCachedData(error, 'solvedUser')) as SolvedUser;
-        sendResponse({ state: 'cached', responseData: { solvedUser: data } });
+        sendResponse({ state: 'cached', responseData: { solvedUser: data, selectedOrganization: data.user.organizations[0].name } });
       } catch {
         sendResponse({ state: 'fail', errorMessage: error.message });
       }
@@ -88,6 +94,11 @@ function asyncRequest(request: Request, sendResponse: SendResponse) {
       break;
     case 'fetchRandomRecommand':
       fetchRandomRecommand(sendResponse, request.requestData.teamId, request.requestData.tier);
+      break;
+    case 'selectedOrganization':
+      StorageManager.set('selectedOrganization', request.requestData.selectedOrganization, (selectedOrganization) => {
+        sendResponse({ state: 'success', responseData: { selectedOrganization } });
+      });
       break;
     case 'useCommandsToggleVisible':
       StorageManager.get('commands', (commands) => {
@@ -192,6 +203,7 @@ chrome.runtime.onInstalled.addListener(() => {
     hideButton: false,
     isClicked: false,
     autoScoring: true,
+    selectedOrganization: '',
     scoring: {
       problemId: '',
       state: 'DEFAULT',

@@ -2,10 +2,10 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { ProfileView, ScoringView, RecommandView, RankingView } from './views';
 import { fadeIn } from '../../style/animation';
-import { SolvedUser } from '../../../@types';
+import { Profile } from '../../../@types';
 
 interface Props {
-  profile: SolvedUser;
+  profile: Profile;
   selectedIndex: number;
 }
 

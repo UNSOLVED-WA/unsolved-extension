@@ -3,10 +3,10 @@ import styled from '@emotion/styled';
 import { CPBody, CPHeader, CPNavigator } from '.';
 import { fadeIn } from '../../style/animation';
 import { useScroll } from '../../hooks';
-import { SolvedUser } from '../../../@types';
+import { Profile } from '../../../@types';
 
 interface Props {
-  profile: SolvedUser;
+  profile: Profile;
   selectedIndex: number;
   handleSelectedIndex: (index: number) => void;
 }
