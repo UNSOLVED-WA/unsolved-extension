@@ -32,11 +32,12 @@ function setResponseType(response: Response, type = 'json') {
 }
 
 async function serviceInterface<T>(url: string, method: string, body?: any, type = 'json'): Promise<T> {
-  return fetch(url, {
+  const options = {
     method,
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-  })
+  };
+  if (body) options['body'] = JSON.stringify(body);
+  return fetch(url, options)
     .then(responseStatusCheck)
     .then((response) => setResponseType(response, type));
 }

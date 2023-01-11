@@ -10,6 +10,7 @@ import { SolvedUser } from '../../../../@types';
 interface Props {
   profile: SolvedUser;
 }
+
 const ProfileView = ({ profile }: Props) => {
   const { isRefresh, refresh } = useRefresh();
   const { randomRecommand, isLoaded: isProblemLoaded, isFailed: isProblemFailed } = useRandomRecommandProblem(isRefresh);

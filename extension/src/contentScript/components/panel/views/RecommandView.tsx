@@ -7,13 +7,65 @@ import { useRecommandProblems } from '../../../hooks';
 import { MessageManager } from '../../../../utils';
 import { numberToTier, tiers } from '../../../util';
 
-const RecommandView = () => {
-  const { recommand, selectedTiers, refresh, changeTiers, isLoaded, isFailed } = useRecommandProblems();
+interface Props {
+  selectedTiers: number[];
+  changeTiers: (tier: number) => void;
+}
+
+const FilterBox = ({ selectedTiers, changeTiers }: Props) => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const handleExpandButtonTabbed = () => setIsFilterOpen((prev) => !prev);
   const handleFilterClose = () => setIsFilterOpen(false);
   const sortTier = (tiers: number[]) => tiers.sort((a, b) => a - b);
+
+  return (
+    <ContentBox>
+      <Filter isFilterOpen={isFilterOpen}>
+        <div id='filter-title'>
+          <Flex direction='row'>
+            <div>
+              <span className='title'>선택한 티어 :</span>
+              {sortTier(selectedTiers).map((selectedTier) => {
+                const st = numberToTier(selectedTier);
+                return (
+                  <span key={'filter-title-' + st.tier} className={'title ' + st.tier}>
+                    {' ' + st.tier.toLocaleUpperCase() + ' ' + st.level?.toString()}
+                  </span>
+                );
+              })}
+            </div>
+            <button className='expand' onClick={handleExpandButtonTabbed}>
+              {isFilterOpen ? <ExpandLessIcon height='20' width='20' /> : <ExpandMoreIcon height='20' width='20' />}
+            </button>
+          </Flex>
+        </div>
+        <div id='filter-selector'>
+          <div id='filter-padding' />
+          {sortTier(tiers).map((tier) => {
+            const t = numberToTier(tier);
+            return (
+              <button
+                className={`tiers ${t.tier}`.concat(selectedTiers.includes(tier) ? ' selected' : '')}
+                key={'tier-' + tier}
+                onClick={() => {
+                  handleFilterClose();
+                  changeTiers(tier);
+                }}
+              >
+                {t.tier.substring(0, 1).toUpperCase() + t.level?.toString()}
+              </button>
+            );
+          })}
+        </div>
+      </Filter>
+    </ContentBox>
+  );
+};
+
+const RecommandView = () => {
+  const { recommand, selectedTiers, refresh, changeTiers, isLoaded, isFailed } = useRecommandProblems();
+
   const redirectProblemInfo = (problemId: number) => {
     MessageManager.send({ message: 'toRedirectProblem', type: 'sync', requestData: { problemId } });
   };
@@ -27,49 +79,16 @@ const RecommandView = () => {
   }
   return (
     <div className='panel-contents'>
-      <ContentBox>
-        <Filter isFilterOpen={isFilterOpen}>
-          <div id='filter-title'>
-            <Flex direction='row'>
-              <div>
-                <span className='title'>선택한 티어 :</span>
-                {sortTier(selectedTiers).map((selectedTier) => {
-                  const st = numberToTier(selectedTier);
-                  return (
-                    <span key={'filter-title-' + st.tier} className={'title ' + st.tier}>
-                      {' ' + st.tier.toLocaleUpperCase() + ' ' + st.level?.toString()}
-                    </span>
-                  );
-                })}
-              </div>
-              <button className='expand' onClick={handleExpandButtonTabbed}>
-                {isFilterOpen ? <ExpandLessIcon height='20' width='20' /> : <ExpandMoreIcon height='20' width='20' />}
-              </button>
-            </Flex>
-          </div>
-          <div id='filter-selector'>
-            <div id='filter-padding' />
-            {sortTier(tiers).map((tier) => {
-              const t = numberToTier(tier);
-              return (
-                <button
-                  className={`tiers ${t.tier}`.concat(selectedTiers.includes(tier) ? ' selected' : '')}
-                  key={'tier-' + tier}
-                  onClick={() => {
-                    handleFilterClose();
-                    changeTiers(tier);
-                  }}
-                >
-                  {t.tier.substring(0, 1).toUpperCase() + t.level?.toString()}
-                </button>
-              );
-            })}
-          </div>
-        </Filter>
-      </ContentBox>
+      <FilterBox selectedTiers={selectedTiers} changeTiers={changeTiers} />
       {!isLoaded ? (
         <ContentBox>
           <CircularProgress />
+        </ContentBox>
+      ) : recommand.length === 0 ? (
+        <ContentBox color={numberToTier(selectedTiers[0]).tier}>
+          <Flex justify='center' align='center'>
+            All Solved!
+          </Flex>
         </ContentBox>
       ) : (
         recommand.map(({ problemId, problemTitle, tier }) => {

@@ -1,5 +1,4 @@
-import { MessageManager } from '../utils';
-// import { Storage } from '../utils'; // 이거 왜 안됨?
+import { MessageManager, StorageManager } from '../utils';
 
 function getSearchParam(key: string) {
   const url = new URL(window.location.href);
@@ -33,7 +32,11 @@ function autoScoring() {
 }
 
 if (window.location.pathname.includes('/status') && getSearchParam('from_mine') === '1') {
-  chrome.storage.local.set({ isClicked: true });
+  chrome.storage.local.get('autoScoring', (result) => {
+    if (result.autoScoring === true) {
+      chrome.storage.local.set({ isClicked: true });
+    }
+  });
   chrome.storage.local.get('scoring', (result) => {
     if (result.scoring.state === 'DEFAULT') {
       MessageManager.send({ message: 'RUNNING', type: 'sync' });

@@ -11,7 +11,7 @@ export const useProfile = (isRefresh: boolean) => {
 
   useEffect(() => {
     MessageManager.send({ message: 'fetchUser', type: 'async' }, (response) => {
-      if (response.state === 'fail') {
+      if (response.state === 'fail' || response.state === 'cached') {
         setState('fail');
         return;
       }

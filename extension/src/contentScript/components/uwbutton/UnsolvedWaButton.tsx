@@ -28,7 +28,7 @@ const UnsolvedWaButton = () => {
             {
               loading: <CircularProgress />,
               success: <ContentPanel profile={profile} selectedIndex={selectedIndex} handleSelectedIndex={handleSelectedIndex} />,
-              error: <Novice type='error' />,
+              fail: <Novice type='error' />,
               noOrganization: <Novice type='noOrganization' />,
             }[state]
           }

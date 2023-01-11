@@ -14,7 +14,7 @@ const novices = {
   },
   noOrganization: {
     message: '그룹 가입하기',
-    action: () => MessageManager.send({ message: 'toLogin', type: 'sync' }),
+    action: () => MessageManager.send({ message: 'toAddOrganization', type: 'sync' }),
   },
 };
 
