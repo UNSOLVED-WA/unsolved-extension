@@ -20,7 +20,7 @@ const UnsolvedWaButton = () => {
   }, [isScoring]);
 
   return (
-    <div className={'unsolved-wa-container ' + (isShow ? 'unsolved-wa-clicked' : 'unsolved-wa-default')} ref={containerRef}>
+    <div className={'uw-container ' + (isShow ? 'clicked' : 'default')} ref={containerRef}>
       {isShow ? (
         <IFrame title='unsolved-content'>
           <UWHeader handlePanelClose={close} />
@@ -34,8 +34,8 @@ const UnsolvedWaButton = () => {
           }
         </IFrame>
       ) : (
-        <button className='unsolved-wa-floatbtn' onClick={show}>
-          <span className='unsolved-wa-logo-medium'>wa</span>
+        <button className='uw-floatbtn' onClick={show}>
+          <span className='uw-logo-medium'>wa</span>
         </button>
       )}
     </div>
