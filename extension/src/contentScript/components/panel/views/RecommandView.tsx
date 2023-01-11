@@ -29,14 +29,14 @@ const FilterBox = ({ selectedTiers, changeTiers }: Props) => {
               {sortTier(selectedTiers).map((selectedTier) => {
                 const st = numberToTier(selectedTier);
                 return (
-                  <span key={'filter-title-' + st.tier} className={'title ' + st.tier}>
+                  <span key={'f-t-' + st.tier} className={'title ' + st.tier}>
                     {' ' + st.tier.toLocaleUpperCase() + ' ' + st.level?.toString()}
                   </span>
                 );
               })}
             </div>
             <button className='expand' onClick={handleExpandButtonTabbed}>
-              {isFilterOpen ? <ExpandLessIcon height='20' width='20' /> : <ExpandMoreIcon height='20' width='20' />}
+              {isFilterOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
             </button>
           </Flex>
         </div>
@@ -47,7 +47,7 @@ const FilterBox = ({ selectedTiers, changeTiers }: Props) => {
             return (
               <button
                 className={`tiers ${t.tier}`.concat(selectedTiers.includes(tier) ? ' selected' : '')}
-                key={'tier-' + tier}
+                key={'t-' + tier}
                 onClick={() => {
                   handleFilterClose();
                   changeTiers(tier);
@@ -94,7 +94,7 @@ const RecommandView = () => {
         recommand.map(({ problemId, problemTitle, tier }) => {
           const tierInfo = numberToTier(tier);
           return (
-            <ContentBox key={problemId} color={tierInfo.tier} pointer={true}>
+            <ContentBox key={'r-' + problemId} color={tierInfo.tier} pointer={true}>
               <RecommandBox onClick={() => redirectProblemInfo(problemId)}>
                 <Flex direction='column' gap='0px' align='start'>
                   <Flex direction='row' justify='space-between'>
@@ -133,12 +133,11 @@ const Filter = styled.div<{ isFilterOpen: boolean }>`
   }
   #filter-selector {
     overflow: hidden;
-    max-height: ${(props) => (props.isFilterOpen ? '300px' : '0px')};
+    max-height: ${({ isFilterOpen }) => (isFilterOpen ? '300px' : '0px')};
     transition: max-height 0.25s linear;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    /* gap: 10px 10px; */
 
     .tiers {
       margin: 4px 8px;

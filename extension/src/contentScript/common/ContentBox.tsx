@@ -69,19 +69,19 @@ type ContainerProps = Pick<Props, 'type' | 'pointer' | 'fullHeight'> & {
 
 const Container = styled.div<ContainerProps>`
   width: calc(100% - 20px);
-  height: ${(props) => (props.fullHeight ? '100%' : 'auto')};
+  height: ${({ fullHeight }) => (fullHeight ? '100%' : 'auto')};
   position: relative;
 
-  color: ${(props) => (props.type === 'border' ? 'black' : props.fgColor ?? 'black')};
+  color: ${({ type, fgColor }) => (type === 'border' ? 'black' : fgColor ?? 'black')};
   border-radius: 7px !important;
-  background: ${(props) => props.bgColor ?? 'white'};
+  background: ${({ bgColor }) => bgColor ?? 'white'};
 
-  ${(props) => {
-    if (props.type === 'border') {
+  ${({ type, bgColor }) => {
+    if (type === 'border') {
       return `
       background: white;
       border: 1px solid transparent;
-      background-image: linear-gradient(#fff, #fff), ${props.bgColor ?? 'white'};
+      background-image: linear-gradient(#fff, #fff), ${bgColor ?? 'white'};
       background-origin: border-box;
       background-clip: content-box, border-box;
     `;
@@ -94,7 +94,7 @@ const Container = styled.div<ContainerProps>`
   display: flex;
   flex-direction: column;
   gap: 5px;
-  cursor: ${(props) => (props.pointer ? 'pointer' : 'default')};
+  cursor: ${({ pointer }) => (pointer ? 'pointer' : 'default')};
 
   > div {
     padding: 10px;

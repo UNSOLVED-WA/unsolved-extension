@@ -1,13 +1,33 @@
 import { useEffect, useState } from 'react';
-import { SolvedUser } from '../../@types';
+import { SolvedUser, Profile } from '../../@types';
 import { MessageManager } from '../../utils';
 
-export const useProfile = (isRefresh: boolean) => {
+type State = 'loading' | 'success' | 'fail' | 'noOrganization';
+
+export const useProfile = (isRefresh: boolean): { profile: Profile; state: State } => {
   const [profile, setProfile] = useState<SolvedUser>(null);
-  // const [isLoaded, setIsLoaded] = useState(false);
-  // const [isCached, setIsCached] = useState(false);
-  // const [isFailed, setIsFailed] = useState(false);
-  const [state, setState] = useState<'loading' | 'success' | 'fail' | 'noOrganization'>('loading');
+  const [selectedOrganization, setSelectedOrganization] = useState<string>('');
+  const [state, setState] = useState<State>('loading');
+
+  function setOrganization(selectedOrganization: string) {
+    MessageManager.send({ message: 'selectedOrganization', type: 'async', requestData: { selectedOrganization } }, (response) => {
+      setSelectedOrganization(response.responseData.selectedOrganization);
+    });
+  }
+
+  function getOrganization() {
+    return profile.user.organizations.find((organization) => {
+      return organization.name === selectedOrganization;
+    });
+  }
+
+  function getOrganizations() {
+    return profile.user.organizations;
+  }
+
+  function isOrganizationRegistered() {
+    return true;
+  }
 
   useEffect(() => {
     MessageManager.send({ message: 'fetchUser', type: 'async' }, (response) => {
@@ -15,15 +35,15 @@ export const useProfile = (isRefresh: boolean) => {
         setState('fail');
         return;
       }
-      // if (response.state === 'cached') setIsCached(true);
-      setProfile(response.responseData.solvedUser);
       if (response.responseData.solvedUser.user.organizations.length === 0) {
         setState('noOrganization');
       } else {
+        setSelectedOrganization(response.responseData.selectedOrganization);
+        setProfile(response.responseData.solvedUser);
         setState('success');
       }
     });
   }, [isRefresh]);
 
-  return { profile, state };
+  return { profile: { ...profile, isOrganizationRegistered, getOrganization, getOrganizations, setOrganization }, state };
 };

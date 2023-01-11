@@ -10,6 +10,7 @@ export type STORAGE_VALUE = {
   isClicked?: boolean;
   // profile view
   solvedUser?: SolvedUser;
+  selectedOrganization?: string;
   badge?: string;
   // scoring view
   autoScoring?: boolean;
@@ -46,6 +47,13 @@ export interface SolvedUser {
   solved: Solved[];
   user: User;
 }
+
+export type Profile = SolvedUser & {
+  getOrganization: () => Organization;
+  getOrganizations: () => Organization[];
+  isOrganizationRegistered: () => boolean;
+  setOrganization: (selectedOrganization: string) => void;
+};
 
 export type Emoticon = {
   displayName: string;
@@ -143,7 +151,7 @@ export interface FetchUser extends MessageInterface {
   message: 'fetchUser';
   type: 'async';
   requestData?: null;
-  responseData?: { solvedUser: SolvedUser };
+  responseData?: { solvedUser: SolvedUser; selectedOrganization: string };
 }
 
 export type FetchBadge = {
@@ -172,6 +180,13 @@ export type FetchRandomRecommand = {
   type: 'async';
   requestData: { teamId: string; tier: string };
   responseData?: { problems: ProblemResponse };
+};
+
+export type SelectedOrganization = {
+  message: 'selectedOrganization';
+  type: 'async';
+  requestData: { selectedOrganization: string };
+  responseData?: { selectedOrganization: string };
 };
 
 export type ToAddOrganization = {
@@ -285,6 +300,7 @@ export type Message =
   | FetchRanking
   | FetchRecommands
   | FetchRandomRecommand
+  | SelectedOrganization
   | ToLogin
   | ToAddOrganization
   | UseCommandsToggleVisible

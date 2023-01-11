@@ -13,11 +13,6 @@ export const theme = extendTheme({
         neutral: {
           softBg: '#e1e1e1',
         },
-        // danger: {
-        //   plainColor: 'valid CSS color',
-        //   plainHoverBg: 'valid CSS color',
-        //   plainActiveBg: 'valid CSS color',
-        // },
       },
     },
     dark: {

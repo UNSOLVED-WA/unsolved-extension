@@ -32,20 +32,14 @@ const Container = styled.div<{ scrollDirection: ScrollDirection }>`
   padding-left: 60px;
   border-radius: 15px 15px 0 0 !important;
 
-  /* background-color: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(60px); */
-
   h1 {
     padding: 0px;
     margin: 0px;
     margin-left: 15px;
     font-size: 20px;
     transition: all 0.3s ease-in-out;
-    /* background-color: rgba(255, 255, 255, 0.5); */
     ${({ scrollDirection }) => {
-      if (scrollDirection === 'down') {
-        return ``;
-      } else {
+      if (scrollDirection !== 'down') {
         return `
         background: #ff7373bf;
         color: #ffffff;

@@ -1,20 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SVG from 'react-inlinesvg';
 import { CircularProgress } from '@mui/material';
 import { ContentBox, RecommandBox, Flex } from '../../../common';
 import { useBadge, useRandomRecommandProblem, useRefresh } from '../../../hooks';
 import { MessageManager } from '../../../../utils';
 import { numberToTier } from '../../../util';
-import { SolvedUser } from '../../../../@types';
+import { Profile } from '../../../../@types';
 
 interface Props {
-  profile: SolvedUser;
+  profile: Profile;
 }
 
 const ProfileView = ({ profile }: Props) => {
+  const [isChangeOrganization, setIsChangeOrganization] = useState(false);
   const { isRefresh, refresh } = useRefresh();
   const { randomRecommand, isLoaded: isProblemLoaded, isFailed: isProblemFailed } = useRandomRecommandProblem(isRefresh);
   const { badge, isLoaded: isBadgeLoaded, isFailed: isBadgeFailed } = useBadge(isRefresh);
+
+  const handleChangeOrganizationButtonTabbed = () => setIsChangeOrganization((prev) => !prev);
 
   const redirectUserInfo = (bojId: string) => {
     MessageManager.send({ message: 'toRedirectUser', type: 'sync', requestData: { bojId } });
@@ -53,31 +56,58 @@ const ProfileView = ({ profile }: Props) => {
           </Flex>
         </div>
       </ContentBox>
-      <ContentBox title='Unsolved Profile'>
-        <Flex direction='row' divided='two'>
-          <b>Solving Count</b>
-          <div>3</div>
-        </Flex>
-        <Flex direction='row' divided='two'>
-          <b>Ranking</b>
-          <div>10</div>
-        </Flex>
+      <ContentBox
+        title={
+          <Flex direction='row' justify='space-between'>
+            <b>Organization info</b>
+            <button onClick={handleChangeOrganizationButtonTabbed}>변경</button>
+          </Flex>
+        }
+      >
+        {isChangeOrganization ? (
+          profile.getOrganizations().map((organization) => (
+            <div
+              key={organization.name}
+              onClick={() => {
+                profile.setOrganization(organization.name);
+                handleChangeOrganizationButtonTabbed();
+              }}
+            >
+              {organization.name}
+            </div>
+          ))
+        ) : (
+          <>
+            <Flex direction='row' divided='two'>
+              <b>Name</b>
+              <div>{profile.getOrganization().name}</div>
+            </Flex>
+            <Flex direction='row' divided='two'>
+              <b>User Count</b>
+              <div>{profile.getOrganization().userCount.toLocaleString('ko-KR')}</div>
+            </Flex>
+            <Flex direction='row' divided='two'>
+              <b>Rating</b>
+              <div>{profile.getOrganization().rating.toLocaleString('ko-KR')}</div>
+            </Flex>
+          </>
+        )}
       </ContentBox>
-      <ContentBox title='Organization Info'>
-        <Flex direction='row' divided='two'>
-          <b>Name</b>
-          <div>{profile.user.organizations[0].name}</div>
-        </Flex>
-        <Flex direction='row' divided='two'>
-          <b>User Count</b>
-          <div>{profile.user.organizations[0].userCount.toLocaleString('ko-KR')}</div>
-        </Flex>
-        <Flex direction='row' divided='two'>
-          <b>Rating</b>
-          <div>{profile.user.organizations[0].rating.toLocaleString('ko-KR')}</div>
-        </Flex>
-      </ContentBox>
-      <ContentBox key={randomRecommand.problemId} color={numberToTier(randomRecommand.tier).tier} pointer={true}>
+      {profile.isOrganizationRegistered() ? (
+        <ContentBox title='Unsolved Profile'>
+          <Flex direction='row' divided='two'>
+            <b>Solving Count</b>
+            <div>3</div>
+          </Flex>
+          <Flex direction='row' divided='two'>
+            <b>Ranking</b>
+            <div>10</div>
+          </Flex>
+        </ContentBox>
+      ) : (
+        <ContentBox defined='error' definedAction={refresh} />
+      )}
+      <ContentBox color={numberToTier(randomRecommand.tier).tier} pointer={true}>
         <RecommandBox onClick={() => redirectProblemInfo(randomRecommand.problemId)}>
           <Flex direction='column' gap='0px' align='start'>
             <Flex direction='row' justify='space-between'>

@@ -4,10 +4,9 @@
   font-family: 'Roboto', sans-serif;
   line-height: 16px;
   box-sizing: border-box;
-  /* background: transparent !important; */
 }
 
-.unsolved-wa-container {
+.uw-container {
   padding: 0px;
   position: fixed;
   background: red;
@@ -29,7 +28,7 @@
   box-shadow: rgb(0 0 0 / 30%) 0px 0px 30px 0px;
 }
 
-.unsolved-wa-floatbtn {
+.uw-floatbtn {
   cursor: pointer;
   z-index: 10000000;
   width: 100%;
@@ -38,7 +37,7 @@
   border: 0px;
 }
 
-.unsolved-wa-clicked {
+.uw-container.clicked {
   border-radius: 15px !important;
   cursor: default;
 
@@ -53,22 +52,22 @@
   animation: scaling 0.3s ease-in-out 0.25s forwards;
 }
 
-.unsolved-wa-clicked:hover {
+.uw-container.clicked:hover {
   transform: translateY(-50%) scale(1);
 }
-.unsolved-wa-clicked:hover::before {
+.uw-container.clicked:hover::before {
   display: none;
 }
 
-.unsolved-wa-default {
+.uw-container.default {
   border-radius: 50% !important;
 }
-.unsolved-wa-default:hover {
+.uw-container.default:hover {
   transform-origin: 50% 50%;
   transform: translateY(-50%) scale(1.5);
 }
 
-.unsolved-wa-default:hover::before {
+.uw-container.default:hover::before {
   content: '';
   display: block;
   position: fixed;
@@ -80,8 +79,7 @@
   animation: border_pulse 1s ease-in-out infinite 0.3s;
 }
 
-/* 중복 css 제거 */
-.unsolved-wa-logo-medium {
+.uw-logo-medium {
   border-radius: 5px !important;
   background: #ffffff !important;
   position: relative !important;

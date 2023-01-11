@@ -1,4 +1,4 @@
-import { MessageManager, StorageManager } from '../utils';
+import { MessageManager } from '../utils';
 
 function getSearchParam(key: string) {
   const url = new URL(window.location.href);

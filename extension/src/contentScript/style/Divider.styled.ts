@@ -9,7 +9,7 @@ type Props =
 const Divider = styled.div<Props>`
   width: 80%;
   height: 1px;
-  background: ${(props) => props.color || '#ffffff'};
+  background: ${({ color }) => color || '#ffffff'};
 `;
 
 export default Divider;
