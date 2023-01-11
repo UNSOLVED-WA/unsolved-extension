@@ -10,7 +10,7 @@ const RankingView = () => {
   const { ranking, refresh, isLoaded, isFailed } = useRanking();
 
   const redirectUserInfo = (bojId: string) => {
-    MessageManager.send({ message: 'toRedirectUser', type: 'sync', requestData: { bojId }, data: { hi: 'hello' } });
+    MessageManager.send({ message: 'toRedirectUser', type: 'sync', requestData: { bojId } });
   };
 
   if (!isLoaded) return <CircularProgress />;
