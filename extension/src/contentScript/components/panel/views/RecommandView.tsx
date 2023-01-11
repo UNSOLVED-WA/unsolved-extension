@@ -29,7 +29,7 @@ const FilterBox = ({ selectedTiers, changeTiers }: Props) => {
               {sortTier(selectedTiers).map((selectedTier) => {
                 const st = numberToTier(selectedTier);
                 return (
-                  <span key={'filter-title-' + st.tier} className={'title ' + st.tier}>
+                  <span key={'f-t-' + st.tier} className={'title ' + st.tier}>
                     {' ' + st.tier.toLocaleUpperCase() + ' ' + st.level?.toString()}
                   </span>
                 );
@@ -47,7 +47,7 @@ const FilterBox = ({ selectedTiers, changeTiers }: Props) => {
             return (
               <button
                 className={`tiers ${t.tier}`.concat(selectedTiers.includes(tier) ? ' selected' : '')}
-                key={'tier-' + tier}
+                key={'t-' + tier}
                 onClick={() => {
                   handleFilterClose();
                   changeTiers(tier);
@@ -94,7 +94,7 @@ const RecommandView = () => {
         recommand.map(({ problemId, problemTitle, tier }) => {
           const tierInfo = numberToTier(tier);
           return (
-            <ContentBox key={problemId} color={tierInfo.tier} pointer={true}>
+            <ContentBox key={'r-' + problemId} color={tierInfo.tier} pointer={true}>
               <RecommandBox onClick={() => redirectProblemInfo(problemId)}>
                 <Flex direction='column' gap='0px' align='start'>
                   <Flex direction='row' justify='space-between'>

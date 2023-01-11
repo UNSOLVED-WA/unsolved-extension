@@ -41,7 +41,7 @@ const CPNavigator = ({ contents, handleSelectedIndex }: NavigatorProps) => {
         <span className='unsolved-wa-logo-large'>wa</span>
         <Divider />
         {contents.map((item, index) => (
-          <span key={'icon-' + item.text} className='logo material-symbols-outlined' onClick={() => handleClick(index)}>
+          <span key={'n-i-' + item.text} className='logo material-symbols-outlined' onClick={() => handleClick(index)}>
             {item.icon}
           </span>
         ))}
@@ -50,7 +50,7 @@ const CPNavigator = ({ contents, handleSelectedIndex }: NavigatorProps) => {
         <span className='unsolved text'>unsolved</span>
         <Divider />
         {contents.map((item, index) => (
-          <span className='text' key={'text-' + item.text} onClick={() => handleClick(index)}>
+          <span className='text' key={'n-t-' + item.text} onClick={() => handleClick(index)}>
             {item.text}
           </span>
         ))}

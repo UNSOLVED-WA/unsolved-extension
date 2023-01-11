@@ -84,7 +84,7 @@ const ProfileView = ({ profile }: Props) => {
           <div>10</div>
         </Flex>
       </ContentBox>
-      <ContentBox key={randomRecommand.problemId} color={numberToTier(randomRecommand.tier).tier} pointer={true}>
+      <ContentBox color={numberToTier(randomRecommand.tier).tier} pointer={true}>
         <RecommandBox onClick={() => redirectProblemInfo(randomRecommand.problemId)}>
           <Flex direction='column' gap='0px' align='start'>
             <Flex direction='row' justify='space-between'>
