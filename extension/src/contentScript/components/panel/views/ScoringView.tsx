@@ -15,7 +15,7 @@ const ScoringView = () => {
       <ContentBox fullHeight>
         <Flex direction='column' align='center' justify='center' height='100%' gap='30px'>
           <div id='scoring-title'>{scoring.message}</div>
-          <div id='scoring-icon'>{scoring.icon({ width: '200px', height: '200px' })}</div>
+          <div id='scoring-icon'>{scoring.icon()}</div>
           <div id='scoring-description'>
             {
               {

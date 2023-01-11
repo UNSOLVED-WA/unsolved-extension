@@ -36,7 +36,7 @@ const FilterBox = ({ selectedTiers, changeTiers }: Props) => {
               })}
             </div>
             <button className='expand' onClick={handleExpandButtonTabbed}>
-              {isFilterOpen ? <ExpandLessIcon height='20' width='20' /> : <ExpandMoreIcon height='20' width='20' />}
+              {isFilterOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
             </button>
           </Flex>
         </div>
@@ -133,7 +133,7 @@ const Filter = styled.div<{ isFilterOpen: boolean }>`
   }
   #filter-selector {
     overflow: hidden;
-    max-height: ${({isFilterOpen}) => (isFilterOpen ? '300px' : '0px')};
+    max-height: ${({ isFilterOpen }) => (isFilterOpen ? '300px' : '0px')};
     transition: max-height 0.25s linear;
     display: flex;
     flex-wrap: wrap;
