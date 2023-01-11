@@ -80,7 +80,6 @@
   animation: border_pulse 1s ease-in-out infinite 0.3s;
 }
 
-/* 중복 css 제거 */
 .unsolved-wa-logo-medium {
   border-radius: 5px !important;
   background: #ffffff !important;
