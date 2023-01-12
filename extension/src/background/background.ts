@@ -1,5 +1,5 @@
 import API from '../api/api';
-import { ScoringManager, StorageManager } from '../utils';
+import { StorageManager } from '../utils';
 import { STORAGE_VALUE, Request, SendResponse, SolvedUser } from '../@types';
 
 function fetchCachedData(_: Error, key: keyof STORAGE_VALUE) {
@@ -167,23 +167,23 @@ function syncRequest(request: Request) {
       });
       break;
     case 'RUNNING':
-      ScoringManager.set('RUNNING');
+      StorageManager.set('scoring', { state: 'RUNNING' });
       break;
     case 'WRONG':
-      ScoringManager.set('WRONG');
+      StorageManager.set('scoring', { state: 'WRONG' });
       break;
     case 'TIMEOUT':
-      ScoringManager.set('TIMEOUT');
+      StorageManager.set('scoring', { state: 'TIMEOUT' });
       break;
     case 'CORRECT':
       StorageManager.get('solvedUser', async (solvedUser) => {
         // TODO : <high> 'user2' -> solvedUser.user.handle
         API.ProblemService.updateUnsolvedProblems('user2', parseInt(request.requestData.problemId))
           .then((result) => {
-            ScoringManager.set('CORRECT', null, result[0] ? result[0].score : 0);
+            StorageManager.set('scoring', { state: 'CORRECT', score: result[0] ? result[0].score : 0 });
           })
           .catch((error) => {
-            ScoringManager.set('NETERROR', request.requestData.problemId, -1);
+            StorageManager.set('scoring', { state: 'NETERROR', problemId: request.requestData.problemId, score: -1 });
           });
       });
       break;

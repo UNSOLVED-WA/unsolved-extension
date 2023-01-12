@@ -1,11 +1,10 @@
 import { StorageManager } from './storageManager';
 import { DefaultIcon, RunningIcon, CorrectIcon, WrongIcon, TimeoutIcon, NeterrorIcon } from '../contentScript/common/icons';
 import { SCORING_STATE, STORAGE_VALUE } from '../@types';
-import { IconComponentProps } from '../contentScript/common/icons/Icon';
 
 export type ScoringObject = {
   message: string;
-  icon?: (_?: IconComponentProps) => JSX.Element;
+  icon?: () => JSX.Element;
 } & STORAGE_VALUE['scoring'];
 
 function findMessage(state: SCORING_STATE): string {
