@@ -1,7 +1,11 @@
+const os = require('os');
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
@@ -20,7 +24,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
         test: /\.(jpg|jpeg|png|woff|woff2|eot|ttf|svg)$/,
@@ -44,6 +48,9 @@ module.exports = {
       ],
     }),
     ...getHtmlPlugins(['popup']),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+    }),
     new BundleAnalyzerPlugin(),
   ],
   output: {
@@ -51,9 +58,16 @@ module.exports = {
     path: path.resolve('dist'),
   },
   optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin(),
+      new CssMinimizerPlugin({
+        parallel: os.cpus().length - 1,
+      }),
+    ],
     splitChunks: {
       chunks(chunk) {
-        return chunk.name !== 'contentScript' && chunk.name !== 'background' && chunk.name !== 'autoScoring';
+        return chunk.name !== 'contentScript' && chunk.name !== 'background' && chunk.name !== 'autoScoring' && chunk.name !== 'popup';
       },
     },
   },
@@ -63,7 +77,7 @@ function getHtmlPlugins(chunks) {
   return chunks.map(
     (chunk) =>
       new HtmlPlugin({
-        title: 'React Extension',
+        title: 'Unsolved.wa',
         filename: `${chunk}.html`,
         chunks: [chunk],
       })
