@@ -60,21 +60,26 @@ const ProfileView = ({ profile }: Props) => {
         title={
           <Flex direction='row' justify='space-between'>
             <b>Organization info</b>
-            <button onClick={handleChangeOrganizationButtonTabbed}>변경</button>
+            <button className='organization-change-button' onClick={handleChangeOrganizationButtonTabbed}>
+              변경
+            </button>
           </Flex>
         }
       >
         {isChangeOrganization ? (
           profile.getOrganizations().map((organization) => (
-            <div
+            <Flex
+              direction='row'
+              divided='two'
               key={organization.name}
               onClick={() => {
                 profile.setOrganization(organization.name);
                 handleChangeOrganizationButtonTabbed();
               }}
             >
-              {organization.name}
-            </div>
+              <b>{organization.name}</b>
+              <span>V</span>
+            </Flex>
           ))
         ) : (
           <>
