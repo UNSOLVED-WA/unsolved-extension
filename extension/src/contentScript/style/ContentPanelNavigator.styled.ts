@@ -12,8 +12,8 @@ const NavigatorContainer = styled.div`
   justify-content: start;
   align-items: center;
 
-  background: #2196f3; /* fallback for old browsers */
-  background: linear-gradient(to top, #ff000077, #f44336, #ff0000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #d00000;
+  background: linear-gradient(to top, #ff000077, #f44336, #ff0000);
 
   transition: all 0.3s ease-in-out;
 
