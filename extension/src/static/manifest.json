@@ -22,17 +22,17 @@
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "black-cat.png",
-      "32": "black-cat.png",
-      "48": "black-cat.png",
-      "128": "black-cat.png"
+      "16": "logo_square.png",
+      "32": "logo_square.png",
+      "48": "logo_square.png",
+      "128": "logo_square.png"
     }
   },
   "icons": {
-    "16": "black-cat.png",
-    "32": "black-cat.png",
-    "48": "black-cat.png",
-    "128": "black-cat.png"
+    "16": "logo_square.png",
+    "32": "logo_square.png",
+    "48": "logo_square.png",
+    "128": "logo_square.png"
   },
   "content_scripts": [
     {
