@@ -1,7 +1,7 @@
 {
   "name": "unsolved.wa",
   "description": "백준 랭킹작을 위한 Organization unsolved 문제 추천 서비스",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
