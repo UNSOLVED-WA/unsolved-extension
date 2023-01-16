@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import SVG from 'react-inlinesvg';
 import { CircularProgress } from '@mui/material';
 import { ContentBox, RecommandBox, Flex } from '../../../common';
+import { RadioButtonChecked, RadioButtonUnChecked } from '../../../common/icons';
 import { useBadge, useRandomRecommandProblem, useRefresh } from '../../../hooks';
 import { MessageManager } from '../../../../utils';
 import { numberToTier } from '../../../util';
@@ -60,22 +61,28 @@ const ProfileView = ({ profile }: Props) => {
         title={
           <Flex direction='row' justify='space-between'>
             <b>Organization info</b>
-            <button onClick={handleChangeOrganizationButtonTabbed}>변경</button>
+            <button className='organizations-change-button' onClick={handleChangeOrganizationButtonTabbed}>
+              변경
+            </button>
           </Flex>
         }
       >
         {isChangeOrganization ? (
-          profile.getOrganizations().map((organization) => (
-            <div
-              key={organization.name}
-              onClick={() => {
-                profile.setOrganization(organization.name);
-                handleChangeOrganizationButtonTabbed();
-              }}
-            >
-              {organization.name}
-            </div>
-          ))
+          <ul className='organizations'>
+            {profile.getOrganizations().map((organization) => (
+              <li
+                key={organization.name}
+                className='organization'
+                onClick={() => {
+                  profile.setOrganization(organization.name);
+                  handleChangeOrganizationButtonTabbed();
+                }}
+              >
+                <span>{organization.name}</span>
+                {organization.name === profile.getOrganization().name ? <RadioButtonChecked /> : <RadioButtonUnChecked />}
+              </li>
+            ))}
+          </ul>
         ) : (
           <>
             <Flex direction='row' divided='two'>
