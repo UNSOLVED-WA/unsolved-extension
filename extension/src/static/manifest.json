@@ -22,17 +22,17 @@
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "logo_square.png",
-      "32": "logo_square.png",
-      "48": "logo_square.png",
-      "128": "logo_square.png"
+      "16": "logo_square_capital_16.png",
+      "32": "logo_square_capital_32.png",
+      "48": "logo_square_capital_48.png",
+      "128": "logo_square_capital_128.png"
     }
   },
   "icons": {
-    "16": "logo_square.png",
-    "32": "logo_square.png",
-    "48": "logo_square.png",
-    "128": "logo_square.png"
+    "16": "logo_square_capital_16.png",
+    "32": "logo_square_capital_32.png",
+    "48": "logo_square_capital_48.png",
+    "128": "logo_square_capital_128.png"
   },
   "content_scripts": [
     {
