@@ -40,15 +40,11 @@
 .uw-container.clicked {
   border-radius: 15px !important;
   cursor: default;
-
   background-color: rgba(255, 255, 255, 0);
   backdrop-filter: blur(60px);
-
   right: 12px;
-
   width: 350px;
   height: 500px;
-
   animation: scaling 0.3s ease-in-out 0.25s forwards;
 }
 
@@ -80,9 +76,12 @@
 }
 
 .uw-logo-medium {
+  position: fixed !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
   border-radius: 5px !important;
   background: #ffffff !important;
-  position: relative !important;
   color: #ff0000 !important;
 
   font-size: 12px !important;
