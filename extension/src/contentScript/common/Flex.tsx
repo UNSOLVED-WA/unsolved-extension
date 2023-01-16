@@ -58,7 +58,7 @@ const Container = styled.div<Props>`
   align-items: ${({ align }) => align ?? 'center'};
   gap: ${({ gap }) => gap ?? '0px'};
 
-  font-size: 0.9rem;
+  font-size: 14.5px;
 
   overflow: ${({ overflow }) => overflow ?? 'hidden'};
 

@@ -73,9 +73,7 @@ const globalStyles = css`
     background: #ffffff;
     position: relative;
     color: #ff0000;
-
     height: 24px;
-
     font-size: 20px;
     font-weight: 600;
     padding: 0px 7.5px;
@@ -84,9 +82,14 @@ const globalStyles = css`
     border: none;
     background: none;
     cursor: pointer;
+    border-radius: 4px;
+    font-weight: 600;
+    background-color: #ffffff;
+    color: #fa6a6a;
   }
   .organizations-change-button:hover {
-    background-color: #e0e0e0;
+    background-color: #fa6a6a;
+    color: white;
   }
   .organizations {
     padding: 0;
@@ -96,5 +99,30 @@ const globalStyles = css`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-radius: 4px;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: #555555;
+    cursor: pointer;
+  }
+  .organizations .organization:hover {
+    background-color: #e5e5e5;
+  }
+  .responsible-height {
+    max-height: 57px;
+    min-height: 57px;
+    transition: all 0.25s linear;
+  }
+  .responsible-height.activate {
+    min-height: 0px;
+  }
+  .responsible-height.activate.shortest {
+    max-height: 21px;
+  }
+  .responsible-height.activate.short {
+    max-height: 42px;
+  }
+  .responsible-height.activate.long {
+    max-height: 150px;
   }
 `;
