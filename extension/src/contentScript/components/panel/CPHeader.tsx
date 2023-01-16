@@ -38,6 +38,7 @@ const Container = styled.div<{ scrollDirection: ScrollDirection }>`
     margin-left: 15px;
     font-size: 20px;
     transition: all 0.3s ease-in-out;
+    border-radius: 15px;
     ${({ scrollDirection }) => {
       if (scrollDirection !== 'down') {
         return `
@@ -46,7 +47,6 @@ const Container = styled.div<{ scrollDirection: ScrollDirection }>`
 
         padding: 5px 10px;
         backdrop-filter: blur(60px);
-        border-radius: 15px !important;
         font-size: 12px;
       `;
       }
