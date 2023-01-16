@@ -55,7 +55,7 @@ const Container = styled.div`
   }
 
   & > button {
-    padding: 0.5rem 1rem;
+    padding: 8px 16px;
     margin: 0px 30px;
     width: 100%;
 

@@ -77,7 +77,7 @@ const Container = styled.div<Props>`
     text-align: ${({ divided }) => (divided === 'two' ? 'end' : 'left')};
   }
   .material-symbols-outlined {
-    font-size: 1.2rem;
+    font-size: 18px;
     cursor: pointer;
   }
 
