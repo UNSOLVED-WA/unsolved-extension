@@ -80,4 +80,21 @@ const globalStyles = css`
     font-weight: 600;
     padding: 0px 7.5px;
   }
+  .organizations-change-button {
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  .organizations-change-button:hover {
+    background-color: #e0e0e0;
+  }
+  .organizations {
+    padding: 0;
+    margin: 0;
+  }
+  .organizations .organization {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 `;

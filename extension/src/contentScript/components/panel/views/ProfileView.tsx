@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import SVG from 'react-inlinesvg';
 import { CircularProgress } from '@mui/material';
 import { ContentBox, RecommandBox, Flex } from '../../../common';
+import { RadioButtonChecked, RadioButtonUnChecked } from '../../../common/icons';
 import { useBadge, useRandomRecommandProblem, useRefresh } from '../../../hooks';
 import { MessageManager } from '../../../../utils';
 import { numberToTier } from '../../../util';
@@ -60,27 +61,28 @@ const ProfileView = ({ profile }: Props) => {
         title={
           <Flex direction='row' justify='space-between'>
             <b>Organization info</b>
-            <button className='organization-change-button' onClick={handleChangeOrganizationButtonTabbed}>
+            <button className='organizations-change-button' onClick={handleChangeOrganizationButtonTabbed}>
               변경
             </button>
           </Flex>
         }
       >
         {isChangeOrganization ? (
-          profile.getOrganizations().map((organization) => (
-            <Flex
-              direction='row'
-              divided='two'
-              key={organization.name}
-              onClick={() => {
-                profile.setOrganization(organization.name);
-                handleChangeOrganizationButtonTabbed();
-              }}
-            >
-              <b>{organization.name}</b>
-              <span>V</span>
-            </Flex>
-          ))
+          <ul className='organizations'>
+            {profile.getOrganizations().map((organization) => (
+              <li
+                key={organization.name}
+                className='organization'
+                onClick={() => {
+                  profile.setOrganization(organization.name);
+                  handleChangeOrganizationButtonTabbed();
+                }}
+              >
+                <span>{organization.name}</span>
+                {organization.name === profile.getOrganization().name ? <RadioButtonChecked /> : <RadioButtonUnChecked />}
+              </li>
+            ))}
+          </ul>
         ) : (
           <>
             <Flex direction='row' divided='two'>
