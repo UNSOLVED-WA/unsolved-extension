@@ -4,7 +4,8 @@
   "description": "react chrome extension template",
   "scripts": {
     "start": "webpack --watch --progress --config webpack.dev.js",
-    "build": "webpack --watch --progress --config webpack.prod.js"
+    "build": "webpack --watch --progress --config webpack.prod.js",
+    "export": "webpack --progress --config webpack.prod.js"
   },
   "author": "",
   "sideEffects": false,
