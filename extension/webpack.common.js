@@ -6,9 +6,9 @@ const TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
+  watch: false,
   entry: {
     popup: path.resolve('src/popup/main_popup.tsx'),
     background: path.resolve('src/background/background.ts'),
@@ -52,7 +52,6 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].css',
     }),
-    new BundleAnalyzerPlugin(),
   ],
   output: {
     filename: '[name].js',

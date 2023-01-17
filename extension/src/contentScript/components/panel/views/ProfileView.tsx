@@ -26,6 +26,11 @@ const ProfileView = ({ profile }: Props) => {
   const redirectProblemInfo = (problemId: number) => {
     MessageManager.send({ message: 'toRedirectProblem', type: 'sync', requestData: { problemId } });
   };
+  const responsibleHeightSize = (length: number) => {
+    if (length > 3) return 'long';
+    if (length > 2) return 'short';
+    return 'shortest';
+  };
 
   if (!isProblemLoaded || !isBadgeLoaded) return <CircularProgress />;
   if (isProblemFailed || isBadgeFailed) {
@@ -67,38 +72,44 @@ const ProfileView = ({ profile }: Props) => {
           </Flex>
         }
       >
-        {isChangeOrganization ? (
-          <ul className='organizations'>
-            {profile.getOrganizations().map((organization) => (
-              <li
-                key={organization.name}
-                className='organization'
-                onClick={() => {
-                  profile.setOrganization(organization.name);
-                  handleChangeOrganizationButtonTabbed();
-                }}
-              >
-                <span>{organization.name}</span>
-                {organization.name === profile.getOrganization().name ? <RadioButtonChecked /> : <RadioButtonUnChecked />}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <>
-            <Flex direction='row' divided='two'>
-              <b>Name</b>
-              <div>{profile.getOrganization().name}</div>
-            </Flex>
-            <Flex direction='row' divided='two'>
-              <b>User Count</b>
-              <div>{profile.getOrganization().userCount.toLocaleString('ko-KR')}</div>
-            </Flex>
-            <Flex direction='row' divided='two'>
-              <b>Rating</b>
-              <div>{profile.getOrganization().rating.toLocaleString('ko-KR')}</div>
-            </Flex>
-          </>
-        )}
+        <div
+          className={
+            'responsible-height ' + (isChangeOrganization ? `activate ${responsibleHeightSize(profile.user.organizations.length)}` : '')
+          }
+        >
+          {isChangeOrganization ? (
+            <ul className='organizations'>
+              {profile.getOrganizations().map((organization) => (
+                <li
+                  key={organization.name}
+                  className='organization'
+                  onClick={() => {
+                    profile.setOrganization(organization.name);
+                    handleChangeOrganizationButtonTabbed();
+                  }}
+                >
+                  <span>{organization.name}</span>
+                  {organization.name === profile.getOrganization().name ? <RadioButtonChecked /> : <RadioButtonUnChecked />}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <>
+              <Flex direction='row' divided='two'>
+                <b>Name</b>
+                <div>{profile.getOrganization().name}</div>
+              </Flex>
+              <Flex direction='row' divided='two'>
+                <b>User Count</b>
+                <div>{profile.getOrganization().userCount.toLocaleString('ko-KR')}</div>
+              </Flex>
+              <Flex direction='row' divided='two'>
+                <b>Rating</b>
+                <div>{profile.getOrganization().rating.toLocaleString('ko-KR')}</div>
+              </Flex>
+            </>
+          )}
+        </div>
       </ContentBox>
       {profile.isOrganizationRegistered() ? (
         <ContentBox title='Unsolved Profile'>

@@ -1,7 +1,7 @@
 {
-  "name": "unwa react",
-  "description": "This library adds repository recommendation to Github.com",
-  "version": "1.0.0",
+  "name": "unsolved.wa",
+  "description": "백준 랭킹작을 위한 Organization unsolved 문제 추천 서비스",
+  "version": "0.0.1",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
@@ -22,17 +22,17 @@
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "black-cat.png",
-      "32": "black-cat.png",
-      "48": "black-cat.png",
-      "128": "black-cat.png"
+      "16": "logo_square_capital_16.png",
+      "32": "logo_square_capital_32.png",
+      "48": "logo_square_capital_48.png",
+      "128": "logo_square_capital_128.png"
     }
   },
   "icons": {
-    "16": "black-cat.png",
-    "32": "black-cat.png",
-    "48": "black-cat.png",
-    "128": "black-cat.png"
+    "16": "logo_square_capital_16.png",
+    "32": "logo_square_capital_32.png",
+    "48": "logo_square_capital_48.png",
+    "128": "logo_square_capital_128.png"
   },
   "content_scripts": [
     {
