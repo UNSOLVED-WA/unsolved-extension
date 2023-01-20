@@ -1,5 +1,5 @@
 import React from 'react';
-import { ContentBox, RecommandBox, Flex } from '../../../../common';
+import { ContentBox, Recommand, Flex } from '../../../../common';
 import Box from './Box';
 import { useRandomRecommandProblem } from '../../../../hooks';
 import { MessageManager } from '../../../../../utils';
@@ -13,7 +13,7 @@ const RandomRecommandBox = () => {
   return (
     <Box isLoaded={isLoaded} isFailed={isFailed} customBox={true} fallback='error' fallbackAction={refresh}>
       <ContentBox color={numberToTier(randomRecommand?.tier).tier} pointer={true}>
-        <RecommandBox onClick={() => redirectProblemInfo(randomRecommand?.problemId)}>
+        <Recommand onClick={() => redirectProblemInfo(randomRecommand?.problemId)}>
           <Flex direction='column' gap='0px' align='start'>
             <Flex direction='row' justify='space-between'>
               <span className='problem-id'>No.{randomRecommand?.problemId}</span>
@@ -23,7 +23,7 @@ const RandomRecommandBox = () => {
             </Flex>
             <span className='problem-title'>{randomRecommand?.problemTitle}</span>
           </Flex>
-        </RecommandBox>
+        </Recommand>
       </ContentBox>
     </Box>
   );

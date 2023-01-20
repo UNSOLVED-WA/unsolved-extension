@@ -4,5 +4,7 @@ import UnsolvedProfileBox from './UnsolvedProfileBox';
 import RandomRecommandBox from './RandomRecommandBox';
 import BadgeBox from './BadgeBox';
 import RankingBox from './RankingBox';
+import FilterBox from './FilterBox';
+import RecommandBox from './RecommandBox';
 
-export { SolvedProfileBox, OrganizationInfoBox, UnsolvedProfileBox, BadgeBox, RandomRecommandBox, RankingBox };
+export { SolvedProfileBox, OrganizationInfoBox, UnsolvedProfileBox, BadgeBox, RandomRecommandBox, RankingBox, RecommandBox, FilterBox };
