@@ -1,4 +1,4 @@
-import { ProblemResponse, ProblemRequest, UnsolvedUser, Ranking, SolvedUser } from '../@types';
+import { ProblemResponse, ProblemRequest, UnsolvedUser, Ranking, SolvedUser, Team } from '../@types';
 import * as mockAPI from './mockapi';
 
 const UNSOLVED_BASE_URL = 'https://heyinsa.kr/unsolved';
@@ -45,6 +45,12 @@ async function serviceInterface<T>(url: string, method: string, body?: any, type
 const UserService = {
   getUnsolvedUser: async (bojId: string) => {
     return serviceInterface<UnsolvedUser>(convertURL([UNSOLVED_BASE_URL, 'users', bojId]), 'GET');
+  },
+};
+
+const TeamService = {
+  getTeamByTeamName: async (teamName: string) => {
+    return serviceInterface<Team>(convertURL([UNSOLVED_BASE_URL, 'teams', 'name', teamName]), 'GET');
   },
 };
 
@@ -114,6 +120,7 @@ const ExternalService = {
 
 const prodAPI = {
   UserService,
+  TeamService,
   ProblemService,
   RankingService,
   ExternalService,

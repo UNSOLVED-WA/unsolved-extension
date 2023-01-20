@@ -16,6 +16,10 @@ const definedContent: DefinedContent = {
     title: '네트워크 상태를 확인해주세요',
     icon: 'refresh',
   },
+  info: {
+    title: '서비스에 Team을 등록해주세요',
+    icon: 'refresh',
+  },
 };
 
 interface Props {

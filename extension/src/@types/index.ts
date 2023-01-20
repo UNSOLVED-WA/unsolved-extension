@@ -42,6 +42,11 @@ export type Ranking = {
   score: number;
 };
 
+export type Team = {
+  teamId: number;
+  teamName: string;
+};
+
 export interface SolvedUser {
   emoticons: Emoticon[];
   solved: Solved[];
@@ -51,7 +56,6 @@ export interface SolvedUser {
 export type Profile = SolvedUser & {
   getOrganization: () => Organization;
   getOrganizations: () => Organization[];
-  isOrganizationRegistered: () => boolean;
   setOrganization: (selectedOrganization: string) => void;
 };
 
@@ -152,6 +156,13 @@ export interface FetchUser extends MessageInterface {
   type: 'async';
   requestData?: null;
   responseData?: { solvedUser: SolvedUser; selectedOrganization: string };
+}
+
+export interface FetchTeam extends MessageInterface {
+  message: 'fetchTeam';
+  type: 'async';
+  requestData?: null;
+  responseData?: { team: Team };
 }
 
 export type FetchBadge = {
@@ -296,6 +307,7 @@ export type NETERROR = {
 
 export type Message =
   | FetchUser
+  | FetchTeam
   | FetchBadge
   | FetchRanking
   | FetchRecommands

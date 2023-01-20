@@ -11,6 +11,7 @@ export const useRanking = () => {
 
   useEffect(() => {
     // TODO: <high> 해당 그룹의 teamId(data)를 받아와야함
+    setIsLoaded(false);
     MessageManager.send({ message: 'fetchRanking', type: 'async', requestData: { teamId: '1' } }, (response) => {
       switch (response.state) {
         case 'success':
