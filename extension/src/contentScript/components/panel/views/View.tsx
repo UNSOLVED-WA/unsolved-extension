@@ -1,23 +1,25 @@
 import React from 'react';
 import { CircularProgress } from '@mui/material';
 import { ContentBox } from '../../../common';
+import { COLORS } from '../../../style/theme';
 
 interface Props {
-  isLoading?: boolean;
+  isLoaded?: boolean;
   isFailed?: boolean;
-  failedAction?: () => void;
+  fallback?: keyof COLORS;
+  fallbackAction?: () => void;
   style?: React.CSSProperties;
   children?: React.ReactNode[] | React.ReactNode;
 }
 
-const InnerView = ({ children, isLoading, isFailed, failedAction }: Props) => {
-  if (isLoading)
+const InnerView = ({ children, isLoaded = true, isFailed, fallback = 'error', fallbackAction }: Props) => {
+  if (!isLoaded)
     return (
       <ContentBox>
         <CircularProgress />
       </ContentBox>
     );
-  if (isFailed) return <ContentBox defined='error' definedAction={failedAction} />;
+  if (isFailed) return <ContentBox defined={fallback} definedAction={fallbackAction} />;
   return <>{children}</>;
 };
 

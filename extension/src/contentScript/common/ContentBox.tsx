@@ -40,7 +40,7 @@ const ContentBox = ({ children, ...props }: Props) => {
     return (
       <Container bgColor={theme.colors[props.defined]?.bg} fgColor={theme.colors[props.defined]?.fg} type={props.type}>
         <Flex direction='row' divided='none'>
-          <div>{definedContent[props.defined].title}</div>
+          <div>{props.title || definedContent[props.defined].title}</div>
           <span onClick={props.definedAction} className='material-symbols-outlined'>
             {definedContent[props.defined].icon}
           </span>
