@@ -1,8 +1,7 @@
 import React from 'react';
 import Box from './Box';
 import { ContentBox, Flex, Recommand } from '../../../../common';
-import { MessageManager } from '../../../../../utils';
-import { numberToTier } from '../../../../util';
+import { numberToTier, redirectProblemInfo } from '../../../../util';
 import { ProblemResponse } from '../../../../../@types';
 
 interface Props {
@@ -14,9 +13,6 @@ interface Props {
 }
 
 const RecommandBox = ({ recommand, selectedTiers, isLoaded, isFailed, refresh }: Props) => {
-  const redirectProblemInfo = (problemId: number) => {
-    MessageManager.send({ message: 'toRedirectProblem', type: 'sync', requestData: { problemId } });
-  };
   return (
     <Box isLoaded={isLoaded} isFailed={isFailed} fallback='error' fallbackAction={refresh} customBox={true}>
       {recommand.length === 0 ? (

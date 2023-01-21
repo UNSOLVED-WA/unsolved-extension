@@ -2,15 +2,13 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { useRanking } from '../../../../hooks';
 import { ContentBox, Flex } from '../../../../common';
-import { indexToTier } from '../../../../util';
-import { MessageManager } from '../../../../../utils';
+import { indexToTier, redirectUserInfo } from '../../../../util';
+
 import Box from './Box';
 
 const RankingBox = () => {
   const { ranking, refresh, isLoaded, isFailed } = useRanking();
-  const redirectUserInfo = (bojId: string) => {
-    MessageManager.send({ message: 'toRedirectUser', type: 'sync', requestData: { bojId } });
-  };
+
   return (
     <Box customBox={true} isLoaded={isLoaded} isFailed={isFailed} fallback='error' fallbackAction={refresh}>
       {ranking.map((user, index) => (
