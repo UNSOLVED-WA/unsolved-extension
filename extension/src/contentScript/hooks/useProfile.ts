@@ -25,11 +25,8 @@ export const useProfile = (isRefresh: boolean): { profile: Profile; state: State
     return profile.user.organizations;
   }
 
-  function isOrganizationRegistered() {
-    return true;
-  }
-
   useEffect(() => {
+    setState('loading');
     MessageManager.send({ message: 'fetchUser', type: 'async' }, (response) => {
       if (response.state === 'fail' || response.state === 'cached') {
         setState('fail');
@@ -45,5 +42,5 @@ export const useProfile = (isRefresh: boolean): { profile: Profile; state: State
     });
   }, [isRefresh]);
 
-  return { profile: { ...profile, isOrganizationRegistered, getOrganization, getOrganizations, setOrganization }, state };
+  return { profile: { ...profile, getOrganization, getOrganizations, setOrganization }, state };
 };

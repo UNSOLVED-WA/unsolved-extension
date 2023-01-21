@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
 import { MessageManager } from '../../utils';
+import { useRefresh } from './useRefresh';
 
-export const useBadge = (isRefresh: boolean) => {
+export const useBadge = () => {
+  const { isRefresh, refresh } = useRefresh();
   const [badge, setBadge] = useState('');
   const [isLoaded, setIsLoaded] = useState(false);
   const [isCached, setIsCached] = useState(false);
   const [isFailed, setIsFailed] = useState(false);
 
   useEffect(() => {
+    setIsLoaded(false);
     MessageManager.send({ message: 'fetchBadge', type: 'async' }, (response) => {
       switch (response.state) {
         case 'cached':
@@ -27,5 +30,5 @@ export const useBadge = (isRefresh: boolean) => {
     });
   }, [isRefresh]);
 
-  return { badge, isLoaded, isCached, isFailed };
+  return { badge, isLoaded, isCached, isFailed, refresh };
 };

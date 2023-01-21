@@ -59,6 +59,18 @@ function fetchUser(sendResponse: SendResponse<'fetchUser'>) {
     });
 }
 
+function fetchTeam(sendResponse: SendResponse<'fetchTeam'>) {
+  StorageManager.get('selectedOrganization', (selectedOrganization) => {
+    API.TeamService.getTeamByTeamName(selectedOrganization)
+      .then((team) => {
+        sendResponse({ state: 'success', responseData: { team } });
+      })
+      .catch((error) => {
+        sendResponse({ state: 'fail', errorMessage: error.message });
+      });
+  });
+}
+
 function fetchBadge(sendResponse: SendResponse<'fetchBadge'>) {
   StorageManager.get('solvedUser', (result) => {
     API.ExternalService.getBojBadge(result.user.handle)
@@ -82,6 +94,9 @@ function asyncRequest(request: Request, sendResponse: SendResponse) {
   switch (request.message) {
     case 'fetchUser':
       fetchUser(sendResponse);
+      break;
+    case 'fetchTeam':
+      fetchTeam(sendResponse);
       break;
     case 'fetchBadge':
       fetchBadge(sendResponse);

@@ -1,8 +1,9 @@
-import { UnsolvedUser, ProblemResponse, Ranking } from '../@types';
+import { UnsolvedUser, ProblemResponse, Ranking, Team } from '../@types';
 
 import { dummyUnsolvedUser } from '../test/dummy/dummyUser';
 import { dummyUpdateProblems, dummyProblems, dummyProblem } from '../test/dummy/dummyProblem';
 import { dummyAllRanking, dummyMonthRanking } from '../test/dummy/dummyRanking';
+import { dummyTeam } from '../test/dummy/dummyTeam';
 
 function objectToPromise<T>(obj: T): Promise<T> {
   return new Promise((resolve) => {
@@ -14,6 +15,13 @@ const UserService = {
   getUnsolvedUser: async (bojId: string): Promise<UnsolvedUser> => {
     console.log('mockAPI: getUnsolvedUser : ', bojId);
     return objectToPromise(dummyUnsolvedUser);
+  },
+};
+
+const TeamService = {
+  getTeamByTeamName: async (teamName: string): Promise<Team> => {
+    console.log('mockAPI: getTeamByTeamName : ', teamName);
+    return objectToPromise(dummyTeam);
   },
 };
 
@@ -43,4 +51,4 @@ const RankingService = {
   },
 };
 
-export { UserService, ProblemService, RankingService };
+export { UserService, TeamService, ProblemService, RankingService };

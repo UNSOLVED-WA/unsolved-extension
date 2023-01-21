@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-const RecommandBox = styled.div`
+const Recommand = styled.div`
   display: flex;
 
   align-items: center;
@@ -21,4 +21,4 @@ const RecommandBox = styled.div`
   }
 `;
 
-export default RecommandBox;
+export default Recommand;

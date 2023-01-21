@@ -7,5 +7,17 @@ import { useRefresh } from './useRefresh';
 import { useScoring } from './useScoring';
 import { useScroll } from './useScroll';
 import { useShow } from './useShow';
+import { useTeam } from './useTeam';
 
-export { useBadge, useProfile, useRandomRecommandProblem, useRanking, useRecommandProblems, useRefresh, useScoring, useScroll, useShow };
+export {
+  useBadge,
+  useProfile,
+  useRandomRecommandProblem,
+  useRanking,
+  useRecommandProblems,
+  useRefresh,
+  useScoring,
+  useScroll,
+  useShow,
+  useTeam,
+};
