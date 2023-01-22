@@ -18,7 +18,7 @@ const definedContent: DefinedContent = {
   },
   info: {
     title: '서비스에 Team을 등록해주세요',
-    icon: 'refresh',
+    icon: 'group_add',
   },
 };
 

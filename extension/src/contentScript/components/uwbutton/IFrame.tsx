@@ -34,6 +34,7 @@ const IFrame = ({ children, title }: { children: React.ReactNode; title: string 
       insertionTarget.appendChild(createWebIcon(icons.recommend));
       insertionTarget.appendChild(createWebIcon(icons.refresh));
       insertionTarget.appendChild(createWebIcon(icons.edit_square));
+      insertionTarget.appendChild(createWebIcon(icons.group_add));
     }
   }, [insertionTarget]);
 

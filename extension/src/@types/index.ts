@@ -1,4 +1,4 @@
-export const ICONS = ['face', 'star', 'recommend', 'close', 'refresh', 'edit_square'] as const;
+export const ICONS = ['face', 'star', 'recommend', 'close', 'refresh', 'edit_square', 'group_add'] as const;
 export type ICON = typeof ICONS[number];
 export type URL = string;
 
