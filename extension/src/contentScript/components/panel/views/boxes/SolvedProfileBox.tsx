@@ -1,6 +1,6 @@
 import React from 'react';
-import { MessageManager } from '../../../../../utils';
 import { Flex } from '../../../../common';
+import { redirectUserInfo } from '../../../../util';
 import Box from './Box';
 import { User } from '../../../../../@types';
 
@@ -9,9 +9,6 @@ interface Props {
 }
 
 const SolvedProfileBox = ({ user }: Props) => {
-  const redirectUserInfo = (bojId: string) => {
-    MessageManager.send({ message: 'toRedirectUser', type: 'sync', requestData: { bojId } });
-  };
   return (
     <Box title='Solved Profile'>
       <div onClick={() => redirectUserInfo(user.handle)}>
