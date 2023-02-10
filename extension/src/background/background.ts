@@ -241,11 +241,6 @@ chrome.commands.onCommand.addListener((command) => {
       StorageManager.gets(['hideButton', 'commands'], ({ hideButton, commands }) => {
         if (commands.toggle_visible) StorageManager.set('hideButton', !hideButton);
       });
-
-      chrome.storage.local.get('commands', (commands) => {
-        console.log(commands);
-      });
-
       break;
     default:
       break;
