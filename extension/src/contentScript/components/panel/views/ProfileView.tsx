@@ -1,6 +1,6 @@
 import React from 'react';
 import View from './View';
-import { SolvedProfileBox, OrganizationInfoBox, UnsolvedProfileBox, RandomRecommandBox, BadgeBox } from './boxes';
+import { SolvedProfileBox, OrganizationInfoBox, UnsolvedProfileBox, BadgeBox } from './boxes';
 import { Profile } from '../../../../@types';
 
 interface Props {
@@ -13,7 +13,6 @@ const ProfileView = ({ profile }: Props) => {
       <SolvedProfileBox user={profile.user} />
       <OrganizationInfoBox profile={profile} />
       <UnsolvedProfileBox />
-      <RandomRecommandBox />
       <BadgeBox />
     </View>
   );
