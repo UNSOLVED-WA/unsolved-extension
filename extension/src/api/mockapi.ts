@@ -1,4 +1,4 @@
-import { UnsolvedUser, ProblemResponse, Ranking, Team } from '../@types';
+import { UnsolvedUser, ProblemResponse, Ranking, Team, Solved } from '../@types';
 
 import { dummyUnsolvedUser } from '../test/dummy/dummyUser';
 import { dummyUpdateProblems, dummyProblems, dummyProblem } from '../test/dummy/dummyProblem';
@@ -15,6 +15,10 @@ const UserService = {
   getUnsolvedUser: async (bojId: string): Promise<UnsolvedUser> => {
     console.log('mockAPI: getUnsolvedUser : ', bojId);
     return objectToPromise(dummyUnsolvedUser);
+  },
+  createUser: async (handle: string, organizationIds: number[], solved: Solved[]): Promise<void> => {
+    console.log('mockAPI: createUser : ', handle, organizationIds, solved);
+    return new Promise(null);
   },
 };
 

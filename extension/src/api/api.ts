@@ -1,4 +1,4 @@
-import { ProblemResponse, ProblemRequest, UnsolvedUser, Ranking, SolvedUser, Team } from '../@types';
+import { ProblemResponse, ProblemRequest, UnsolvedUser, Ranking, SolvedUser, Team, SolvedUserRequest, Solved } from '../@types';
 import * as mockAPI from './mockapi';
 
 const UNSOLVED_BASE_URL = 'https://heyinsa.kr/unsolved';
@@ -31,7 +31,7 @@ function setResponseType(response: Response, type = 'json') {
   }
 }
 
-async function serviceInterface<T>(url: string, method: string, body?: any, type = 'json'): Promise<T> {
+async function serviceInterface<T, Body = any>(url: string, method: string, body?: Body, type = 'json'): Promise<T> {
   const options = {
     method,
     headers: { 'Content-Type': 'application/json' },
@@ -45,6 +45,13 @@ async function serviceInterface<T>(url: string, method: string, body?: any, type
 const UserService = {
   getUnsolvedUser: async (bojId: string) => {
     return serviceInterface<UnsolvedUser>(convertURL([UNSOLVED_BASE_URL, 'users', bojId]), 'GET');
+  },
+  createUser: async (handle: string, organizationIds: number[], solved: Solved[]) => {
+    return serviceInterface<void, SolvedUserRequest>(convertURL([UNSOLVED_BASE_URL, 'users', handle]), 'POST', {
+      handle,
+      organizationIds,
+      solved,
+    });
   },
 };
 

@@ -90,10 +90,29 @@ function fetchBadge(sendResponse: SendResponse<'fetchBadge'>) {
   });
 }
 
+function createUser(sendResponse: SendResponse<'createUser'>) {
+  StorageManager.get('solvedUser', (result) => {
+    API.UserService.createUser(
+      result.user.handle,
+      result.user.organizations.map((organization) => organization.organizationId),
+      result.solved
+    )
+      .then(() => {
+        sendResponse({ state: 'success' });
+      })
+      .catch((error) => {
+        sendResponse({ state: 'fail', errorMessage: error.message });
+      });
+  });
+}
+
 function asyncRequest(request: Request, sendResponse: SendResponse) {
   switch (request.message) {
     case 'fetchUser':
       fetchUser(sendResponse);
+      break;
+    case 'createUser':
+      createUser(sendResponse);
       break;
     case 'fetchTeam':
       fetchTeam(sendResponse);

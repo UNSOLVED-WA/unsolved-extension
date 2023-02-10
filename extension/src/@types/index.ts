@@ -47,6 +47,12 @@ export type Team = {
   teamName: string;
 };
 
+export interface SolvedUserRequest {
+  handle: string;
+  organizationIds: number[];
+  solved: Solved[];
+}
+
 export interface SolvedUser {
   emoticons: Emoticon[];
   solved: Solved[];
@@ -163,6 +169,13 @@ export interface FetchTeam extends MessageInterface {
   type: 'async';
   requestData?: null;
   responseData?: { team: Team };
+}
+
+export interface CreateUser extends MessageInterface {
+  message: 'createUser';
+  type: 'async';
+  requestData?: null;
+  responseData?: null;
 }
 
 export type FetchBadge = {
@@ -307,6 +320,7 @@ export type NETERROR = {
 
 export type Message =
   | FetchUser
+  | CreateUser
   | FetchTeam
   | FetchBadge
   | FetchRanking
