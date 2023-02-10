@@ -193,7 +193,7 @@ function syncRequest(request: Request) {
     case 'CORRECT':
       StorageManager.get('solvedUser', async (solvedUser) => {
         // TODO : <high> 'user2' -> solvedUser.user.handle
-        API.ProblemService.updateUnsolvedProblems('user2', parseInt(request.requestData.problemId))
+        API.ProblemService.updateUnsolvedProblems(solvedUser.user.handle, parseInt(request.requestData.problemId))
           .then((result) => {
             StorageManager.set('scoring', { state: 'CORRECT', score: result[0] ? result[0].score : 0 });
           })
@@ -234,9 +234,14 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.commands.onCommand.addListener((command) => {
   switch (command) {
     case 'toggle-visible':
-      StorageManager.gets(['hideButton', 'commands'], ({ commands, hideButton }) => {
+      StorageManager.gets(['hideButton', 'commands'], ({ hideButton, commands }) => {
         if (commands.toggle_visible) StorageManager.set('hideButton', !hideButton);
       });
+
+      chrome.storage.local.get('commands', (commands) => {
+        console.log(commands);
+      });
+
       break;
     default:
       break;

@@ -4,8 +4,8 @@ import { FilterBox, RecommandBox } from './boxes';
 import View from './View';
 
 const RecommandView = () => {
-  const { recommand, selectedTiers, refresh, changeTiers, isLoaded, isFailed } = useRecommandProblems();
-  const { isLoaded: isTeamLoaded, isFailed: isTeamFailed } = useTeam();
+  const { team, isLoaded: isTeamLoaded, isFailed: isTeamFailed } = useTeam();
+  const { recommand, selectedTiers, refresh, changeTiers, isLoaded, isFailed } = useRecommandProblems(team);
 
   return (
     <View isLoaded={isTeamLoaded} isFailed={isTeamFailed} fallback='info'>

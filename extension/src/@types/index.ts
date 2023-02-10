@@ -43,7 +43,7 @@ export type Ranking = {
 };
 
 export type Team = {
-  teamId: number;
+  teamId: string;
   teamName: string;
 };
 

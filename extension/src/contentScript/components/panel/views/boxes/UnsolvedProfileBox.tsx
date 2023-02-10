@@ -1,10 +1,14 @@
 import React from 'react';
 import Box from './Box';
 import { Flex } from '../../../../common';
-import { useTeam } from '../../../../hooks';
 
-const UnsolvedProfileBox = () => {
-  const { isLoaded, isFailed, refresh } = useTeam();
+interface Props {
+  isLoaded: boolean;
+  isFailed: boolean;
+  refresh: () => void;
+}
+
+const UnsolvedProfileBox = ({ isLoaded, isFailed, refresh }: Props) => {
   return (
     <Box title='Unsolved Profile' isLoaded={isLoaded} isFailed={isFailed} fallback='info' fallbackAction={refresh}>
       <Flex direction='row' divided='two'>

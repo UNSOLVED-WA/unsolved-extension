@@ -3,9 +3,14 @@ import { ContentBox, Recommand, Flex } from '../../../../common';
 import Box from './Box';
 import { useRandomRecommandProblem } from '../../../../hooks';
 import { numberToTier, redirectProblemInfo } from '../../../../util';
+import { Team } from '../../../../../@types';
 
-const RandomRecommandBox = () => {
-  const { randomRecommand, isLoaded, isFailed, refresh } = useRandomRecommandProblem();
+interface Props {
+  team: Team;
+}
+
+const RandomRecommandBox = ({ team }: Props) => {
+  const { randomRecommand, isLoaded, isFailed, refresh } = useRandomRecommandProblem(team);
 
   return (
     <Box isLoaded={isLoaded} isFailed={isFailed} customBox={true} fallback='error' fallbackAction={refresh}>

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { ProblemResponse } from '../../@types';
+import { ProblemResponse, Team } from '../../@types';
 import { MessageManager, StorageManager } from '../../utils';
 import { useRefresh } from './useRefresh';
 
-export const useRecommandProblems = () => {
+export const useRecommandProblems = (team: Team) => {
   const { isRefresh, refresh } = useRefresh();
   const [recommand, setRecommand] = useState<ProblemResponse[]>([]);
   const [selectedTiers, setSelectedTiers] = useState<number[]>([]);
@@ -23,22 +23,25 @@ export const useRecommandProblems = () => {
   }, []);
 
   useEffect(() => {
-    if (selectedTiers.length === 0) return;
+    if (selectedTiers.length === 0 || team.teamId == null) return;
     setIsLoaded(false);
-    MessageManager.send({ message: 'fetchRecommands', type: 'async', requestData: { teamId: '1', tier: selectedTiers[0] } }, (response) => {
-      switch (response.state) {
-        case 'success':
-          setRecommand(response.responseData.problems);
-          break;
-        case 'fail':
-          setIsFailed(true);
-          break;
-        default:
-          break;
+    MessageManager.send(
+      { message: 'fetchRecommands', type: 'async', requestData: { teamId: team.teamId, tier: selectedTiers[0] } },
+      (response) => {
+        switch (response.state) {
+          case 'success':
+            setRecommand(response.responseData.problems);
+            break;
+          case 'fail':
+            setIsFailed(true);
+            break;
+          default:
+            break;
+        }
+        setIsLoaded(true);
       }
-      setIsLoaded(true);
-    });
-  }, [isRefresh, selectedTiers]);
+    );
+  }, [isRefresh, selectedTiers, team]);
 
   return { recommand, selectedTiers, refresh, changeTiers, isLoaded, isFailed };
 };
