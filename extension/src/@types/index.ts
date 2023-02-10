@@ -305,6 +305,13 @@ export type NETERROR = {
   responseData?: null;
 };
 
+export type OpenGuide = {
+  message: 'OpenGuide';
+  type: 'sync';
+  requestData?: null;
+  responseData?: null;
+};
+
 export type Message =
   | FetchUser
   | FetchTeam
@@ -327,7 +334,8 @@ export type Message =
   | WRONG
   | TIMEOUT
   | ERROR
-  | NETERROR;
+  | NETERROR
+  | OpenGuide;
 
 export type FindByMessage<Union, T> = Union extends { message: T } ? Union : never;
 export type FindResponse<Union, T> = Union extends { message: T } ? Union : never;

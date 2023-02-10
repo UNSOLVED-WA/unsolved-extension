@@ -3,11 +3,15 @@ import styled from '@emotion/styled';
 import { useRanking } from '../../../../hooks';
 import { ContentBox, Flex } from '../../../../common';
 import { indexToTier, redirectUserInfo } from '../../../../util';
-
 import Box from './Box';
+import { Team } from '../../../../../@types';
 
-const RankingBox = () => {
-  const { ranking, refresh, isLoaded, isFailed } = useRanking();
+interface Props {
+  team: Team;
+}
+
+const RankingBox = ({ team }: Props) => {
+  const { ranking, refresh, isLoaded, isFailed } = useRanking(team);
 
   return (
     <Box customBox={true} isLoaded={isLoaded} isFailed={isFailed} fallback='error' fallbackAction={refresh}>

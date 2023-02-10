@@ -23,7 +23,7 @@ export const useRecommandProblems = (team: Team) => {
   }, []);
 
   useEffect(() => {
-    if (selectedTiers.length === 0 || team.teamId == null) return;
+    if (selectedTiers.length === 0 || team == null) return;
     setIsLoaded(false);
     MessageManager.send(
       { message: 'fetchRecommands', type: 'async', requestData: { teamId: team.teamId, tier: selectedTiers[0] } },

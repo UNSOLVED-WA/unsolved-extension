@@ -11,6 +11,11 @@ export const useRandomRecommandProblem = (team: Team) => {
 
   useEffect(() => {
     // TODO: <high> teamId, tier 값은 추후 유저한테서 받아와야함 + default 값
+    if (team == null) {
+      setIsFailed(true);
+      setIsLoaded(true);
+      return;
+    }
     setIsLoaded(false);
     MessageManager.send({ message: 'fetchRandomRecommand', type: 'async', requestData: { teamId: team.teamId, tier: '1' } }, (response) => {
       switch (response.state) {

@@ -202,6 +202,10 @@ function syncRequest(request: Request) {
           });
       });
       break;
+    case 'OpenGuide':
+      chrome.tabs.create({
+        url: 'https://github.com/UNSOLVED-WA/unsolved-extension',
+      });
   }
 }
 

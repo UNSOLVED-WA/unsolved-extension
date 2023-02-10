@@ -9,6 +9,10 @@ export const useTeam = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isFailed, setIsFailed] = useState(false);
 
+  const openGuide = () => {
+    MessageManager.send({ message: 'OpenGuide', type: 'sync' });
+  };
+
   useEffect(() => {
     setIsLoaded(false);
     MessageManager.send({ message: 'fetchTeam', type: 'async' }, (response) => {
@@ -18,5 +22,5 @@ export const useTeam = () => {
     });
   }, [isRefresh]);
 
-  return { team, isLoaded, isFailed, refresh };
+  return { team, openGuide, isLoaded, isFailed, refresh };
 };
