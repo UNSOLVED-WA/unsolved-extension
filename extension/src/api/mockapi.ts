@@ -12,11 +12,11 @@ function objectToPromise<T>(obj: T): Promise<T> {
 }
 
 const UserService = {
-  getUnsolvedUser: async (bojId: string): Promise<UnsolvedUser> => {
+  fetchUnsolvedUser: async (bojId: string): Promise<UnsolvedUser> => {
     console.log('mockAPI: getUnsolvedUser : ', bojId);
     return objectToPromise(dummyUnsolvedUser);
   },
-  createUser: async (handle: string, organizationIds: number[], solved: Solved[]): Promise<void> => {
+  createUnsolvedUser: async (handle: string, organizationIds: number[], solved: Solved[]): Promise<void> => {
     console.log('mockAPI: createUser : ', handle, organizationIds, solved);
     return new Promise(null);
   },

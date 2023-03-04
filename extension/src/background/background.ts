@@ -2,6 +2,8 @@ import API from '../api/api';
 import { StorageManager } from '../utils';
 import { STORAGE_VALUE, Request, SendResponse, SolvedUser } from '../@types';
 
+// const TEST_MODE = true;
+
 function fetchCachedData(_: Error, key: keyof STORAGE_VALUE) {
   return StorageManager.get(key);
 }
@@ -90,15 +92,27 @@ function fetchBadge(sendResponse: SendResponse<'fetchBadge'>) {
   });
 }
 
-function createUser(sendResponse: SendResponse<'createUser'>) {
-  StorageManager.get('solvedUser', (result) => {
-    API.UserService.createUser(
-      result.user.handle,
-      result.user.organizations.map((organization) => organization.organizationId),
-      result.solved
+function createUnsolvedUser(sendResponse: SendResponse<'createUnsolvedUser'>) {
+  StorageManager.get('solvedUser', (solvedUser) => {
+    API.UserService.createUnsolvedUser(
+      solvedUser.user.handle,
+      solvedUser.user.organizations.map((organization) => organization.organizationId),
+      solvedUser.solved
     )
-      .then(() => {
-        sendResponse({ state: 'success' });
+      .then((data) => {
+        sendResponse({ state: 'success', responseData: { unsolvedUser: data } });
+      })
+      .catch((error) => {
+        sendResponse({ state: 'fail', errorMessage: solvedUser.user.handle + error.message });
+      });
+  });
+}
+
+function fetchUnsolvedUser(sendResponse: SendResponse<'fetchUnsolvedUser'>) {
+  StorageManager.get('solvedUser', (result) => {
+    API.UserService.fetchUnsolvedUser(result.user.handle)
+      .then((data) => {
+        sendResponse({ state: 'success', responseData: { unsolvedUser: data } });
       })
       .catch((error) => {
         sendResponse({ state: 'fail', errorMessage: error.message });
@@ -111,8 +125,11 @@ function asyncRequest(request: Request, sendResponse: SendResponse) {
     case 'fetchUser':
       fetchUser(sendResponse);
       break;
-    case 'createUser':
-      createUser(sendResponse);
+    case 'fetchUnsolvedUser':
+      fetchUnsolvedUser(sendResponse);
+      break;
+    case 'createUnsolvedUser':
+      createUnsolvedUser(sendResponse);
       break;
     case 'fetchTeam':
       fetchTeam(sendResponse);

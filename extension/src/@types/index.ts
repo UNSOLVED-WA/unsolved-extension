@@ -49,7 +49,7 @@ export type Team = {
 
 export interface SolvedUserRequest {
   handle: string;
-  organizationIds: number[];
+  organizations: number[];
   solved: Solved[];
 }
 
@@ -171,11 +171,18 @@ export interface FetchTeam extends MessageInterface {
   responseData?: { team: Team };
 }
 
-export interface CreateUser extends MessageInterface {
-  message: 'createUser';
+export interface CreateUnsolvedUser extends MessageInterface {
+  message: 'createUnsolvedUser';
   type: 'async';
   requestData?: null;
-  responseData?: null;
+  responseData?: { unsolvedUser: UnsolvedUser };
+}
+
+export interface FetchUnsolvedUser extends MessageInterface {
+  message: 'fetchUnsolvedUser';
+  type: 'async';
+  requestData?: null;
+  responseData?: { unsolvedUser: UnsolvedUser };
 }
 
 export type FetchBadge = {
@@ -320,7 +327,8 @@ export type NETERROR = {
 
 export type Message =
   | FetchUser
-  | CreateUser
+  | CreateUnsolvedUser
+  | FetchUnsolvedUser
   | FetchTeam
   | FetchBadge
   | FetchRanking

@@ -2,6 +2,8 @@ import { ProblemResponse, ProblemRequest, UnsolvedUser, Ranking, SolvedUser, Tea
 import * as mockAPI from './mockapi';
 
 const UNSOLVED_BASE_URL = 'https://heyinsa.kr/unsolved';
+// const UNSOLVED_BASE_URL = 'http://localhost:8080';
+
 const SOLVED_URL = 'https://solved.ac/api/v3/account/verify_credentials';
 const BOJBADGE_URL = 'https://mazassumnida.wtf/api/v2/generate_badge?boj=';
 
@@ -43,13 +45,13 @@ async function serviceInterface<T, Body = any>(url: string, method: string, body
 }
 
 const UserService = {
-  getUnsolvedUser: async (bojId: string) => {
+  fetchUnsolvedUser: async (bojId: string) => {
     return serviceInterface<UnsolvedUser>(convertURL([UNSOLVED_BASE_URL, 'users', bojId]), 'GET');
   },
-  createUser: async (handle: string, organizationIds: number[], solved: Solved[]) => {
-    return serviceInterface<void, SolvedUserRequest>(convertURL([UNSOLVED_BASE_URL, 'users', handle]), 'POST', {
+  createUnsolvedUser: async (handle: string, organizations: number[], solved: Solved[]) => {
+    return serviceInterface<UnsolvedUser, SolvedUserRequest>(convertURL([UNSOLVED_BASE_URL, 'users', handle]), 'POST', {
       handle,
-      organizationIds,
+      organizations,
       solved,
     });
   },

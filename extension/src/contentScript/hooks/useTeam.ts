@@ -11,8 +11,13 @@ export const useTeam = () => {
   useEffect(() => {
     setIsLoaded(false);
     MessageManager.send({ message: 'fetchTeam', type: 'async' }, (response) => {
-      if (response.state === 'success') setTeam(true);
-      else setIsFailed(true);
+      if (response.state === 'success') {
+        console.log('team fetched');
+        setTeam(true);
+      } else {
+        console.log('no Team');
+        setIsFailed(true);
+      }
       setIsLoaded(true);
     });
   }, [isRefresh]);
