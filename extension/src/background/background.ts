@@ -1,8 +1,9 @@
-import API from '../api/api';
+import API, { NoContentError, ServerSideError } from '../api/api';
 import { StorageManager } from '../utils';
 import { STORAGE_VALUE, Request, SendResponse, SolvedUser } from '../@types';
+import { tiers } from '../contentScript/util';
 
-// const TEST_MODE = true;
+const TEST_MODE = true;
 
 function fetchCachedData(_: Error, key: keyof STORAGE_VALUE) {
   return StorageManager.get(key);
@@ -28,14 +29,23 @@ function fetchRecommands(sendResponse: SendResponse<'fetchRecommands'>, teamId: 
     });
 }
 
-function fetchRandomRecommand(sendResponse: SendResponse<'fetchRandomRecommand'>, teamId: string, tier: string) {
-  API.ProblemService.getRecommandUnsolvedProblem(teamId, tier)
-    .then((problems) => {
-      sendResponse({ state: 'success', responseData: { problems } });
-    })
-    .catch((error) => {
-      sendResponse({ state: 'fail', errorMessage: error.message });
-    });
+function fetchRandomRecommand(sendResponse: SendResponse<'fetchRandomRecommand'>) {
+  const tier = tiers[Math.floor(Math.random() * tiers.length)].toString();
+  StorageManager.get('selectedOrganization', (selectedOrganization) => {
+    API.ProblemService.getRecommandUnsolvedProblem(selectedOrganization, tier)
+      .then((problems) => {
+        sendResponse({ state: 'success', responseData: { problems } });
+      })
+      .catch((error) => {
+        let fallback: string;
+        if (error instanceof NoContentError) {
+          fallback = 'info';
+        } else {
+          fallback = 'error';
+        }
+        sendResponse({ state: 'fail', errorMessage: error.message, fallback });
+      });
+  });
 }
 
 function fetchUser(sendResponse: SendResponse<'fetchUser'>) {
@@ -144,7 +154,7 @@ function asyncRequest(request: Request, sendResponse: SendResponse) {
       fetchRecommands(sendResponse, request.requestData.teamId, request.requestData.tier);
       break;
     case 'fetchRandomRecommand':
-      fetchRandomRecommand(sendResponse, request.requestData.teamId, request.requestData.tier);
+      fetchRandomRecommand(sendResponse);
       break;
     case 'selectedOrganization':
       StorageManager.set('selectedOrganization', request.requestData.selectedOrganization, (selectedOrganization) => {
@@ -215,6 +225,11 @@ function syncRequest(request: Request) {
     case 'toRedirectUser':
       chrome.tabs.create({
         url: `https://www.acmicpc.net/user/${request.requestData.bojId}`,
+      });
+      break;
+    case 'showGuide':
+      chrome.tabs.create({
+        url: 'https://github.com/UNSOLVED-WA/unsolved-extension/blob/main/GUIDE.md',
       });
       break;
     case 'RUNNING':

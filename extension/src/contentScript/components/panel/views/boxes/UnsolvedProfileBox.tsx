@@ -1,44 +1,44 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Box from './Box';
-import { Flex } from '../../../../common';
-import { useTeam } from '../../../../hooks';
-import { MessageManager } from '../../../../../utils';
+import { ContentBox, Recommand, Flex } from '../../../../common';
+import { useTeam, useRandomRecommandProblem, useUserTeam } from '../../../../hooks';
+import { numberToTier, redirectProblemInfo } from '../../../../util';
 
 const UnsolvedProfileBox = () => {
-  const { isLoaded, isFailed, refresh } = useTeam();
-  const [solvingCount, setSolvingCount] = useState(-1);
-
-  useEffect(() => {
-    if (isLoaded && !isFailed) {
-      MessageManager.send({ message: 'fetchUnsolvedUser', type: 'async' }, (response) => {
-        if (response.state === 'success') {
-          // user exists
-          setSolvingCount(response.responseData.unsolvedUser.solvingCount);
-        } else {
-          // user does not exist
-          MessageManager.send({ message: 'createUnsolvedUser', type: 'async' }, (response) => {
-            if (response.state === 'success') {
-              setSolvingCount(response.responseData.unsolvedUser.solvingCount);
-            } else {
-              console.log('fail createUnsolvedUser : ', response.errorMessage);
-            }
-          });
-        }
-      });
-    }
-  }, [isLoaded, isFailed, refresh]);
+  const { team, isLoaded: isTeamLoaded, isFailed: isTeamFailed, showGuide } = useTeam();
+  const { randomRecommand, isLoaded, isFailed, refresh } = useRandomRecommandProblem(team);
+  const { solvingCount } = useUserTeam(isTeamLoaded, isTeamFailed);
 
   return (
-    <Box title='Unsolved Profile' isLoaded={isLoaded} isFailed={isFailed} fallback='info' fallbackAction={refresh}>
-      <Flex direction='row' divided='two'>
-        <b>Solving Count</b>
-        <div>{solvingCount < 0 ? 'default' : solvingCount}</div>
-      </Flex>
-      <Flex direction='row' divided='two'>
-        <b>Ranking</b>
-        <div>기능 추가 예정</div>
-      </Flex>
-    </Box>
+    <>
+      <Box title='Unsolved Profile' isLoaded={isTeamLoaded} isFailed={isTeamFailed} fallback='info' fallbackAction={showGuide}>
+        <Flex direction='row' divided='two'>
+          <b>Solving Count</b>
+          <div>{solvingCount < 0 ? 'default' : solvingCount}</div>
+        </Flex>
+        <Flex direction='row' divided='two'>
+          <b>Ranking</b>
+          <div>기능 추가 예정</div>
+        </Flex>
+      </Box>
+      {team && (
+        <Box isLoaded={isLoaded} isFailed={isFailed} customBox={true} fallback='error' fallbackAction={refresh}>
+          <ContentBox color={numberToTier(randomRecommand?.tier).tier} pointer={true}>
+            <Recommand onClick={() => redirectProblemInfo(randomRecommand?.problemId)}>
+              <Flex direction='column' gap='0px' align='start'>
+                <Flex direction='row' justify='space-between'>
+                  <span className='problem-id'>No.{randomRecommand?.problemId}</span>
+                  <span className='problem-tier'>
+                    {numberToTier(randomRecommand?.tier).tier + ' ' + numberToTier(randomRecommand?.tier).level}
+                  </span>
+                </Flex>
+                <span className='problem-title'>{randomRecommand?.problemTitle}</span>
+              </Flex>
+            </Recommand>
+          </ContentBox>
+        </Box>
+      )}
+    </>
   );
 };
 

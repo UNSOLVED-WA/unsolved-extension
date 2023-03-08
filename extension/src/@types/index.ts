@@ -157,6 +157,7 @@ type MessageInterface = {
   requestData?: unknown;
   responseData?: unknown;
 };
+
 export interface FetchUser extends MessageInterface {
   message: 'fetchUser';
   type: 'async';
@@ -185,6 +186,13 @@ export interface FetchUnsolvedUser extends MessageInterface {
   responseData?: { unsolvedUser: UnsolvedUser };
 }
 
+export interface ShowGuide extends MessageInterface {
+  message: 'showGuide';
+  type: 'sync';
+  requestData?: null;
+  responseData?: null;
+}
+
 export type FetchBadge = {
   message: 'fetchBadge';
   type: 'async';
@@ -209,7 +217,7 @@ export type FetchRecommands = {
 export type FetchRandomRecommand = {
   message: 'fetchRandomRecommand';
   type: 'async';
-  requestData: { teamId: string; tier: string };
+  requestData?: null;
   responseData?: { problems: ProblemResponse };
 };
 
@@ -343,6 +351,7 @@ export type Message =
   | SendNotification
   | ToRedirectProblem
   | ToRedirectUser
+  | ShowGuide
   | DEFAULT
   | RUNNING
   | CORRECT
@@ -358,6 +367,7 @@ export type RequestByMessage<T extends Message['message']> = FindByMessage<Messa
 export type ResponseByMesage<T extends Message['message']> = Omit<FindByMessage<Message, T>, 'message' | 'type' | 'requestData'> & {
   state: 'success' | 'fail' | 'cached';
   errorMessage?: string;
+  fallback?: string;
 };
 
 export type Request = RequestByMessage<Message['message']>;

@@ -12,6 +12,10 @@ type DefinedContent = {
 };
 
 const definedContent: DefinedContent = {
+  default: {
+    title: 'Default',
+    icon: 'refresh',
+  },
   error: {
     title: '네트워크 상태를 확인해주세요',
     icon: 'refresh',

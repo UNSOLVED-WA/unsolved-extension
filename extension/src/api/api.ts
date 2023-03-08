@@ -1,22 +1,45 @@
 import { ProblemResponse, ProblemRequest, UnsolvedUser, Ranking, SolvedUser, Team, SolvedUserRequest, Solved } from '../@types';
 import * as mockAPI from './mockapi';
 
-const UNSOLVED_BASE_URL = 'https://heyinsa.kr/unsolved';
-// const UNSOLVED_BASE_URL = 'http://localhost:8080';
+// const UNSOLVED_BASE_URL = 'https://heyinsa.kr/unsolved';
+const UNSOLVED_BASE_URL = 'http://localhost:8080';
 
 const SOLVED_URL = 'https://solved.ac/api/v3/account/verify_credentials';
 const BOJBADGE_URL = 'https://mazassumnida.wtf/api/v2/generate_badge?boj=';
 
 const convertURL = (strings: string[]) => strings.join('/');
 
+export class NoContentError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'NoContentError';
+  }
+}
+
+export class ServerSideError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'ServerSideError';
+  }
+}
+
+export class InvalidRequestError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'InvalidRequestError';
+  }
+}
+
 function responseStatusCheck(response: Response) {
   switch (true) {
     case response.status === 200:
       return response;
+    case response.status === 204:
+      throw new NoContentError('No Content');
     case response.status >= 500:
-      throw new Error('Server error');
+      throw new ServerSideError('Server error');
     case response.status >= 400:
-      throw new Error('Invalid request');
+      throw new InvalidRequestError('Invalid request');
     default:
       throw new Error('Unknown error');
   }
@@ -92,8 +115,8 @@ const ProblemService = {
    * @param tier
    * @returns 추천 문제
    */
-  getRecommandUnsolvedProblem: async (teamId: string, tier: string) => {
-    return serviceInterface<ProblemResponse>(convertURL([UNSOLVED_BASE_URL, 'problems', 'unsolved', 'random', teamId, tier]), 'GET');
+  getRecommandUnsolvedProblem: async (teamName: string, tier: string) => {
+    return serviceInterface<ProblemResponse>(convertURL([UNSOLVED_BASE_URL, 'problems', 'unsolved', 'random', teamName, tier]), 'GET');
   },
   // 유저 점수 받아오는 api 추가 예정
 };

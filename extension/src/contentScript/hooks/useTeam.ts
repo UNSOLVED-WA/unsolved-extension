@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { MessageManager } from '../../utils';
-import { useRefresh } from './useRefresh';
 
 export const useTeam = () => {
-  const { isRefresh, refresh } = useRefresh();
   const [team, setTeam] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isFailed, setIsFailed] = useState(false);
+
+  function showGuide() {
+    MessageManager.send({ message: 'showGuide', type: 'sync' });
+  }
 
   useEffect(() => {
     setIsLoaded(false);
@@ -20,7 +22,7 @@ export const useTeam = () => {
       }
       setIsLoaded(true);
     });
-  }, [isRefresh]);
+  }, []);
 
-  return { team, isLoaded, isFailed, refresh };
+  return { team, isLoaded, isFailed, showGuide };
 };
