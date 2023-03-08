@@ -3,26 +3,23 @@ import { ProblemResponse, Team } from '../../@types';
 import { MessageManager } from '../../utils';
 import { useRefresh } from './useRefresh';
 
-export const useRandomRecommandProblem = (team: Team) => {
+export const useRandomRecommandProblem = (team: boolean) => {
   const { isRefresh, refresh } = useRefresh();
   const [randomRecommand, setRandomRecommand] = useState<ProblemResponse>(null);
+  const [fallback, setFallback] = useState('default');
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [isFailed, setIsFailed] = useState<boolean>(false);
 
   useEffect(() => {
-    // TODO: <high> teamId, tier 값은 추후 유저한테서 받아와야함 + default 값
-    if (team == null) {
-      setIsFailed(true);
-      setIsLoaded(true);
-      return;
-    }
+    if (!team) return;
     setIsLoaded(false);
-    MessageManager.send({ message: 'fetchRandomRecommand', type: 'async', requestData: { teamId: team.teamId, tier: '1' } }, (response) => {
+    MessageManager.send({ message: 'fetchRandomRecommand', type: 'async' }, (response) => {
       switch (response.state) {
         case 'success':
           setRandomRecommand(response.responseData.problems);
           break;
         case 'fail':
+          setFallback(response.fallback);
           setIsFailed(true);
           break;
         default:
@@ -30,7 +27,7 @@ export const useRandomRecommandProblem = (team: Team) => {
       }
       setIsLoaded(true);
     });
-  }, [isRefresh, team]);
+  }, [team,isRefresh]);
 
-  return { randomRecommand, isLoaded, isFailed, refresh };
+  return { randomRecommand, fallback, isLoaded, isFailed, refresh };
 };

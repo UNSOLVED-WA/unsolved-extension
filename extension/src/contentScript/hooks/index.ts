@@ -8,6 +8,7 @@ import { useScoring } from './useScoring';
 import { useScroll } from './useScroll';
 import { useShow } from './useShow';
 import { useTeam } from './useTeam';
+import { useUserTeam } from './useUserTeam';
 
 export {
   useBadge,
@@ -20,4 +21,5 @@ export {
   useScroll,
   useShow,
   useTeam,
+  useUserTeam,
 };

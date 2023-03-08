@@ -1,25 +1,27 @@
 import React from 'react';
 import Box from './Box';
 import { ContentBox, Recommand, Flex } from '../../../../common';
+import { useTeam, useRandomRecommandProblem, useUserTeam } from '../../../../hooks';
 import { numberToTier, redirectProblemInfo } from '../../../../util';
-import { useRandomRecommandProblem, useTeam } from '../../../../hooks';
 
 const UnsolvedProfileBox = () => {
-  const { team, openGuide } = useTeam();
+  const { team, isLoaded: isTeamLoaded, isFailed: isTeamFailed, showGuide } = useTeam();
   const { randomRecommand, isLoaded, isFailed, refresh } = useRandomRecommandProblem(team);
+  const { solvingCount } = useUserTeam(isTeamLoaded, isTeamFailed);
+
   return (
     <>
-      <Box title='Unsolved Profile' isLoaded={isLoaded} isFailed={isFailed} fallback='info' fallbackAction={openGuide}>
+      <Box title='Unsolved Profile' isLoaded={isTeamLoaded} isFailed={isTeamFailed} fallback='info' fallbackAction={showGuide}>
         <Flex direction='row' divided='two'>
           <b>Solving Count</b>
-          <div>3</div>
+          <div>{solvingCount < 0 ? 'default' : solvingCount}</div>
         </Flex>
         <Flex direction='row' divided='two'>
           <b>Ranking</b>
-          <div>10</div>
+          <div>기능 추가 예정</div>
         </Flex>
       </Box>
-      {team !== null ?? (
+      {team && (
         <Box isLoaded={isLoaded} isFailed={isFailed} customBox={true} fallback='error' fallbackAction={refresh}>
           <ContentBox color={numberToTier(randomRecommand?.tier).tier} pointer={true}>
             <Recommand onClick={() => redirectProblemInfo(randomRecommand?.problemId)}>

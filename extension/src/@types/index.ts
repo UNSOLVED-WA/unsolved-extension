@@ -47,6 +47,12 @@ export type Team = {
   teamName: string;
 };
 
+export interface SolvedUserRequest {
+  handle: string;
+  organizations: number[];
+  solved: Solved[];
+}
+
 export interface SolvedUser {
   emoticons: Emoticon[];
   solved: Solved[];
@@ -151,6 +157,7 @@ type MessageInterface = {
   requestData?: unknown;
   responseData?: unknown;
 };
+
 export interface FetchUser extends MessageInterface {
   message: 'fetchUser';
   type: 'async';
@@ -163,6 +170,27 @@ export interface FetchTeam extends MessageInterface {
   type: 'async';
   requestData?: null;
   responseData?: { team: Team };
+}
+
+export interface CreateUnsolvedUser extends MessageInterface {
+  message: 'createUnsolvedUser';
+  type: 'async';
+  requestData?: null;
+  responseData?: { unsolvedUser: UnsolvedUser };
+}
+
+export interface FetchUnsolvedUser extends MessageInterface {
+  message: 'fetchUnsolvedUser';
+  type: 'async';
+  requestData?: null;
+  responseData?: { unsolvedUser: UnsolvedUser };
+}
+
+export interface ShowGuide extends MessageInterface {
+  message: 'showGuide';
+  type: 'sync';
+  requestData?: null;
+  responseData?: null;
 }
 
 export type FetchBadge = {
@@ -189,7 +217,7 @@ export type FetchRecommands = {
 export type FetchRandomRecommand = {
   message: 'fetchRandomRecommand';
   type: 'async';
-  requestData: { teamId: string; tier: string };
+  requestData?: null;
   responseData?: { problems: ProblemResponse };
 };
 
@@ -314,6 +342,8 @@ export type OpenGuide = {
 
 export type Message =
   | FetchUser
+  | CreateUnsolvedUser
+  | FetchUnsolvedUser
   | FetchTeam
   | FetchBadge
   | FetchRanking
@@ -328,6 +358,7 @@ export type Message =
   | SendNotification
   | ToRedirectProblem
   | ToRedirectUser
+  | ShowGuide
   | DEFAULT
   | RUNNING
   | CORRECT
@@ -344,6 +375,7 @@ export type RequestByMessage<T extends Message['message']> = FindByMessage<Messa
 export type ResponseByMesage<T extends Message['message']> = Omit<FindByMessage<Message, T>, 'message' | 'type' | 'requestData'> & {
   state: 'success' | 'fail' | 'cached';
   errorMessage?: string;
+  fallback?: string;
 };
 
 export type Request = RequestByMessage<Message['message']>;
