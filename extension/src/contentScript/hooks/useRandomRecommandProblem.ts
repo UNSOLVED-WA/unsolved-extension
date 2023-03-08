@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ProblemResponse } from '../../@types';
+import { ProblemResponse, Team } from '../../@types';
 import { MessageManager } from '../../utils';
 import { useRefresh } from './useRefresh';
 

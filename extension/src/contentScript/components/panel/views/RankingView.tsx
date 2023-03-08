@@ -4,11 +4,11 @@ import { RankingBox } from './boxes';
 import { useTeam } from '../../../hooks';
 
 const RankingView = () => {
-  const { isLoaded, isFailed } = useTeam();
+  const { team, isLoaded, isFailed } = useTeam();
 
   return (
     <View isLoaded={isLoaded} isFailed={isFailed} fallback='info'>
-      <RankingBox />
+      <RankingBox team={team} />
     </View>
   );
 };
