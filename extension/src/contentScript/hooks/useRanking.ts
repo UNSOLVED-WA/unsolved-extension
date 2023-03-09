@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Ranking, Team } from '../../@types';
+import { Ranking } from '../../@types';
 import { MessageManager } from '../../utils';
 import { useRefresh } from './useRefresh';
 
-export const useRanking = (team: Team) => {
+export const useRanking = (team: boolean) => {
   const { isRefresh, refresh } = useRefresh();
   const [ranking, setRanking] = useState<Ranking[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -13,7 +13,7 @@ export const useRanking = (team: Team) => {
     // TODO: <high> teamId 값은 추후 유저한테서 받아와야함 + default 값
     if (team == null) return;
     setIsLoaded(false);
-    MessageManager.send({ message: 'fetchRanking', type: 'async', requestData: { teamId: team.teamId } }, (response) => {
+    MessageManager.send({ message: 'fetchRanking', type: 'async' }, (response) => {
       switch (response.state) {
         case 'success':
           setRanking(response.responseData.rankings);

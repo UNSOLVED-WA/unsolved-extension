@@ -203,14 +203,14 @@ export type FetchBadge = {
 export type FetchRanking = {
   message: 'fetchRanking';
   type: 'async';
-  requestData: { teamId: string };
+  requestData?: null;
   responseData?: { rankings: Ranking[] };
 };
 
 export type FetchRecommands = {
   message: 'fetchRecommands';
   type: 'async';
-  requestData: { teamId: string; tier: number };
+  requestData: { tier: number };
   responseData?: { problems: ProblemResponse[] };
 };
 

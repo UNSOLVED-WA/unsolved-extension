@@ -3,30 +3,32 @@ import { StorageManager } from '../utils';
 import { STORAGE_VALUE, Request, SendResponse, SolvedUser } from '../@types';
 import { tiers } from '../contentScript/util';
 
-const TEST_MODE = true;
-
 function fetchCachedData(_: Error, key: keyof STORAGE_VALUE) {
   return StorageManager.get(key);
 }
 
-function fetchRanking(sendResponse: SendResponse<'fetchRanking'>, teamId: string) {
-  API.RankingService.getAllRanking(teamId)
-    .then((rankings) => {
-      sendResponse({ state: 'success', responseData: { rankings } });
-    })
-    .catch((error) => {
-      sendResponse({ state: 'fail', errorMessage: error.message });
-    });
+function fetchRanking(sendResponse: SendResponse<'fetchRanking'>) {
+  StorageManager.get('selectedOrganization', (selectedOrganization) => {
+    API.RankingService.getAllRanking(selectedOrganization)
+      .then((rankings) => {
+        sendResponse({ state: 'success', responseData: { rankings } });
+      })
+      .catch((error) => {
+        sendResponse({ state: 'fail', errorMessage: error.message });
+      });
+  });
 }
 
-function fetchRecommands(sendResponse: SendResponse<'fetchRecommands'>, teamId: string, tier: number) {
-  API.ProblemService.getUnsolvedProblems(teamId, tier)
-    .then((problems) => {
-      sendResponse({ state: 'success', responseData: { problems } });
-    })
-    .catch((error) => {
-      sendResponse({ state: 'fail', errorMessage: error.message });
-    });
+function fetchRecommands(sendResponse: SendResponse<'fetchRecommands'>, tier: number) {
+  StorageManager.get('selectedOrganization', (selectedOrganization) => {
+    API.ProblemService.getUnsolvedProblems(selectedOrganization, tier)
+      .then((problems) => {
+        sendResponse({ state: 'success', responseData: { problems } });
+      })
+      .catch((error) => {
+        sendResponse({ state: 'fail', errorMessage: error.message });
+      });
+  });
 }
 
 function fetchRandomRecommand(sendResponse: SendResponse<'fetchRandomRecommand'>) {
@@ -148,10 +150,10 @@ function asyncRequest(request: Request, sendResponse: SendResponse) {
       fetchBadge(sendResponse);
       break;
     case 'fetchRanking':
-      fetchRanking(sendResponse, request.requestData.teamId);
+      fetchRanking(sendResponse);
       break;
     case 'fetchRecommands':
-      fetchRecommands(sendResponse, request.requestData.teamId, request.requestData.tier);
+      fetchRecommands(sendResponse, request.requestData.tier);
       break;
     case 'fetchRandomRecommand':
       fetchRandomRecommand(sendResponse);

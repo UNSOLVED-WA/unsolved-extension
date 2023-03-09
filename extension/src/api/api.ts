@@ -102,16 +102,16 @@ const ProblemService = {
   },
   /**
    * unsolved 리스트 조회(?) // TODO: <low> backend에서 어떤 문제 리스트를 보내주는지 알려줘야함(티어에 맞는 문제만 보내주는건지)
-   * @param teamId
+   * @param teamName
    * @param tier
    * @returns 문제 리스트
    */
-  getUnsolvedProblems: async (teamId: string, tier: number) => {
-    return serviceInterface<ProblemResponse[]>(convertURL([UNSOLVED_BASE_URL, 'problems', 'unsolved', teamId, tier.toString()]), 'GET');
+  getUnsolvedProblems: async (teamName: string, tier: number) => {
+    return serviceInterface<ProblemResponse[]>(convertURL([UNSOLVED_BASE_URL, 'problems', 'unsolved', teamName, tier.toString()]), 'GET');
   },
   /**
    * 특정 티어의 문제 하나를 추천 받기
-   * @param teamId
+   * @param teamName
    * @param tier
    * @returns 추천 문제
    */
@@ -124,19 +124,19 @@ const ProblemService = {
 const RankingService = {
   /**
    * 랭킹 전체 조회
-   * @param teamId
+   * @param teamName
    * @returns
    */
-  getAllRanking: async (teamId: string) => {
-    return serviceInterface<Ranking[]>(convertURL([UNSOLVED_BASE_URL, 'rankings', teamId]), 'GET');
+  getAllRanking: async (teamName: string) => {
+    return serviceInterface<Ranking[]>(convertURL([UNSOLVED_BASE_URL, 'rankings', teamName]), 'GET');
   },
   /**
    * 월간 랭킹
-   * @param teamId
+   * @param teamName
    * @returns
    */
-  getMonthRanking: async (teamId: string) => {
-    return serviceInterface<Ranking[]>(convertURL([UNSOLVED_BASE_URL, 'rankings', 'month', teamId]), 'GET');
+  getMonthRanking: async (teamName: string) => {
+    return serviceInterface<Ranking[]>(convertURL([UNSOLVED_BASE_URL, 'rankings', 'month', teamName]), 'GET');
   },
   // TODO: <low> 월간 랭킹 히스토리 조회 api 추가 예정??
 };
