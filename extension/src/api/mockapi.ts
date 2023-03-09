@@ -16,9 +16,9 @@ const UserService = {
     console.log('mockAPI: getUnsolvedUser : ', bojId);
     return objectToPromise(dummyUnsolvedUser);
   },
-  createUnsolvedUser: async (handle: string, organizationIds: number[], solved: Solved[]): Promise<void> => {
+  createUnsolvedUser: async (handle: string, organizationIds: number[], solved: Solved[]): Promise<UnsolvedUser> => {
     console.log('mockAPI: createUser : ', handle, organizationIds, solved);
-    return new Promise(null);
+    return objectToPromise(dummyUnsolvedUser);
   },
 };
 
