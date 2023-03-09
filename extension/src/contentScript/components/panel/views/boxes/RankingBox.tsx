@@ -4,10 +4,9 @@ import { useRanking } from '../../../../hooks';
 import { ContentBox, Flex } from '../../../../common';
 import { indexToTier, redirectUserInfo } from '../../../../util';
 import Box from './Box';
-import { Team } from '../../../../../@types';
 
 interface Props {
-  team: Team;
+  team: boolean;
 }
 
 const RankingBox = ({ team }: Props) => {
