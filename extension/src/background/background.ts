@@ -54,7 +54,7 @@ function fetchUser(sendResponse: SendResponse<'fetchUser'>) {
   API.ExternalService.getSolvedUsers()
     .then((data) => {
       StorageManager.get('selectedOrganization', (selectedOrganization) => {
-        if (selectedOrganization === '') {
+        if (selectedOrganization === '' && data.user.organizations.length > 0) {
           selectedOrganization = data.user.organizations[0].name;
           StorageManager.set('selectedOrganization', selectedOrganization);
         }
