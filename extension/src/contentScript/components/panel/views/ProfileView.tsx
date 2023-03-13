@@ -11,7 +11,7 @@ const ProfileView = ({ profile }: Props) => {
   return (
     <View>
       <SolvedProfileBox user={profile.user} />
-      <OrganizationInfoBox profile={profile} />
+      <OrganizationInfoBox />
       <UnsolvedProfileBox />
       <BadgeBox />
     </View>
