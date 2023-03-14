@@ -11,8 +11,7 @@ import {
 } from '../@types';
 import * as mockAPI from './mockapi';
 
-// const UNSOLVED_BASE_URL = 'https://heyinsa.kr/unsolved';
-const UNSOLVED_BASE_URL = 'http://localhost:8080';
+const UNSOLVED_BASE_URL = process.env.BRANCH_NAME === 'main' ? 'https://heyinsa.kr/unsolved' : 'http://localhost:8080';
 const SOLVED_URL = 'https://solved.ac/api/v3';
 const BOJBADGE_URL = 'https://mazassumnida.wtf/api/v2/generate_badge?boj=';
 
@@ -70,6 +69,7 @@ async function serviceInterface<T, Body = any>(url: string, method: string, body
     method,
     headers: { 'Content-Type': 'application/json' },
   };
+  console.log(UNSOLVED_BASE_URL);
   if (body) options['body'] = JSON.stringify(body);
   return fetch(url, options)
     .then(responseStatusCheck)
