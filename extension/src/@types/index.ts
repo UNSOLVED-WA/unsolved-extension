@@ -10,7 +10,8 @@ export type STORAGE_VALUE = {
   isClicked?: boolean;
   // profile view
   solvedUser?: SolvedUser;
-  selectedOrganization?: string;
+  organizations?: Organization[];
+  selectedOrganization?: Organization;
   badge?: string;
   // scoring view
   autoScoring?: boolean;
@@ -49,21 +50,22 @@ export type Team = {
 
 export interface SolvedUserRequest {
   handle: string;
-  organizations: number[];
   solved: Solved[];
 }
+
+export type Profile = SolvedUser;
 
 export interface SolvedUser {
-  emoticons: Emoticon[];
-  solved: Solved[];
   user: User;
+  aggredOn: AggredOn;
+  solved: Solved[];
+  emoticons: Emoticon[];
 }
 
-export type Profile = SolvedUser & {
-  getOrganization: () => Organization;
-  getOrganizations: () => Organization[];
-  setOrganization: (selectedOrganization: string) => void;
-};
+export interface AggredOn {
+  tos: string;
+  privacy: string;
+}
 
 export type Emoticon = {
   displayName: string;
@@ -103,32 +105,32 @@ export type Organization = {
 export type Settings = Record<string, unknown>;
 
 export type User = {
-  background: Background;
-  badge?: string;
+  handle: string;
   bio: string;
+  badgeId: string;
+  backgroundId: string;
+  profileImageUrl: string;
+  solvedCount: number;
+  voteCount: number;
   class: number;
   classDecoration: string;
-  coins: number;
-  email: string;
-  exp: number;
-  handle: string;
-  joinedAt: string;
-  maxStreak: number;
-  organizations: Organization[];
-  proUntil?: string;
-  profileImageUrl?: string;
+  rivalCount: number;
+  reverseRivalCount: number;
+  tier: number;
   rating: number;
-  ratingByClass: number;
+  exp: number;
   ratingByProblemsSum: number;
+  ratingByClass: number;
   ratingBySolvedCount: number;
   ratingByVoteCount: number;
-  reverseRivalCount: number;
-  rivalCount: number;
-  settings: Settings;
-  solvedCount: number;
+  maxStreak: number;
+  coins: number;
   stardusts: number;
-  tier: number;
-  voteCount: number;
+  joinedAt: string;
+  bannedUntil: string;
+  proUntil: string;
+  settings: Settings;
+  email: string;
 };
 
 export type SolvingProblemRequest = {
@@ -162,7 +164,7 @@ export interface FetchUser extends MessageInterface {
   message: 'fetchUser';
   type: 'async';
   requestData?: null;
-  responseData?: { solvedUser: SolvedUser; selectedOrganization: string };
+  responseData?: { solvedUser: SolvedUser };
 }
 
 export interface FetchTeam extends MessageInterface {
@@ -184,6 +186,13 @@ export interface FetchUnsolvedUser extends MessageInterface {
   type: 'async';
   requestData?: null;
   responseData?: { unsolvedUser: UnsolvedUser };
+}
+
+export interface FetchOrganization extends MessageInterface {
+  message: 'fetchOrganization';
+  type: 'async';
+  requestData?: null;
+  responseData?: { organizations: Organization[]; selectedOrganization: Organization };
 }
 
 export interface ShowGuide extends MessageInterface {
@@ -224,8 +233,8 @@ export type FetchRandomRecommand = {
 export type SelectedOrganization = {
   message: 'selectedOrganization';
   type: 'async';
-  requestData: { selectedOrganization: string };
-  responseData?: { selectedOrganization: string };
+  requestData: { selectedOrganization: Organization };
+  responseData?: { selectedOrganization: Organization };
 };
 
 export type ToAddOrganization = {
@@ -349,6 +358,7 @@ export type Message =
   | FetchRanking
   | FetchRecommands
   | FetchRandomRecommand
+  | FetchOrganization
   | SelectedOrganization
   | ToLogin
   | ToAddOrganization

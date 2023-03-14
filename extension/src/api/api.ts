@@ -1,10 +1,19 @@
-import { ProblemResponse, ProblemRequest, UnsolvedUser, Ranking, SolvedUser, Team, SolvedUserRequest, Solved } from '../@types';
+import {
+  ProblemResponse,
+  ProblemRequest,
+  UnsolvedUser,
+  Ranking,
+  SolvedUser,
+  Team,
+  SolvedUserRequest,
+  Solved,
+  Organization,
+} from '../@types';
 import * as mockAPI from './mockapi';
 
 // const UNSOLVED_BASE_URL = 'https://heyinsa.kr/unsolved';
 const UNSOLVED_BASE_URL = 'http://localhost:8080';
-
-const SOLVED_URL = 'https://solved.ac/api/v3/account/verify_credentials';
+const SOLVED_URL = 'https://solved.ac/api/v3';
 const BOJBADGE_URL = 'https://mazassumnida.wtf/api/v2/generate_badge?boj=';
 
 const convertURL = (strings: string[]) => strings.join('/');
@@ -71,10 +80,9 @@ const UserService = {
   fetchUnsolvedUser: async (bojId: string) => {
     return serviceInterface<UnsolvedUser>(convertURL([UNSOLVED_BASE_URL, 'users', bojId]), 'GET');
   },
-  createUnsolvedUser: async (handle: string, organizations: number[], solved: Solved[]) => {
+  createUnsolvedUser: async (handle: string, solved: Solved[]) => {
     return serviceInterface<UnsolvedUser, SolvedUserRequest>(convertURL([UNSOLVED_BASE_URL, 'users', handle]), 'POST', {
       handle,
-      organizations,
       solved,
     });
   },
@@ -143,7 +151,10 @@ const RankingService = {
 
 const ExternalService = {
   getSolvedUsers: async () => {
-    return serviceInterface<SolvedUser>(SOLVED_URL, 'GET');
+    return serviceInterface<SolvedUser>(convertURL([SOLVED_URL, '/account/verify_credentials']), 'GET');
+  },
+  getOrganizationByHandle: async (handle: string) => {
+    return serviceInterface<Organization[]>(convertURL([SOLVED_URL, `/user/organizations?handle=${handle}`]), 'GET');
   },
   getBojBadge: async (bojId: string) => {
     return serviceInterface<string>(BOJBADGE_URL + bojId, 'GET', null, 'text');

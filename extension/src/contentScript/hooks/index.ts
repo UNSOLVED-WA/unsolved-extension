@@ -9,6 +9,7 @@ import { useScroll } from './useScroll';
 import { useShow } from './useShow';
 import { useTeam } from './useTeam';
 import { useUserTeam } from './useUserTeam';
+import { useOrganization } from './useOrganization';
 
 export {
   useBadge,
@@ -21,5 +22,6 @@ export {
   useScroll,
   useShow,
   useTeam,
+  useOrganization,
   useUserTeam,
 };

@@ -18,7 +18,6 @@ export const useUserTeam = (isTeamLoaded: boolean, isTeamFailed: boolean) => {
             if (response.state === 'success') {
               setSolvingCount(response.responseData.unsolvedUser.solvingCount);
             } else {
-              console.log('fail createUnsolvedUser : ', response.errorMessage);
               setIsFailed(true);
             }
           });

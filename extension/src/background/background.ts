@@ -9,7 +9,7 @@ function fetchCachedData(_: Error, key: keyof STORAGE_VALUE) {
 
 function fetchRanking(sendResponse: SendResponse<'fetchRanking'>) {
   StorageManager.get('selectedOrganization', (selectedOrganization) => {
-    API.RankingService.getAllRanking(selectedOrganization)
+    API.RankingService.getAllRanking(selectedOrganization.name)
       .then((rankings) => {
         sendResponse({ state: 'success', responseData: { rankings } });
       })
@@ -21,7 +21,7 @@ function fetchRanking(sendResponse: SendResponse<'fetchRanking'>) {
 
 function fetchRecommands(sendResponse: SendResponse<'fetchRecommands'>, tier: number) {
   StorageManager.get('selectedOrganization', (selectedOrganization) => {
-    API.ProblemService.getUnsolvedProblems(selectedOrganization, tier)
+    API.ProblemService.getUnsolvedProblems(selectedOrganization.name, tier)
       .then((problems) => {
         sendResponse({ state: 'success', responseData: { problems } });
       })
@@ -34,7 +34,7 @@ function fetchRecommands(sendResponse: SendResponse<'fetchRecommands'>, tier: nu
 function fetchRandomRecommand(sendResponse: SendResponse<'fetchRandomRecommand'>) {
   const tier = tiers[Math.floor(Math.random() * tiers.length)].toString();
   StorageManager.get('selectedOrganization', (selectedOrganization) => {
-    API.ProblemService.getRecommandUnsolvedProblem(selectedOrganization, tier)
+    API.ProblemService.getRecommandUnsolvedProblem(selectedOrganization.name, tier)
       .then((problems) => {
         sendResponse({ state: 'success', responseData: { problems } });
       })
@@ -53,29 +53,40 @@ function fetchRandomRecommand(sendResponse: SendResponse<'fetchRandomRecommand'>
 function fetchUser(sendResponse: SendResponse<'fetchUser'>) {
   API.ExternalService.getSolvedUsers()
     .then((data) => {
-      StorageManager.get('selectedOrganization', (selectedOrganization) => {
-        if (selectedOrganization === '' && data.user.organizations.length > 0) {
-          selectedOrganization = data.user.organizations[0].name;
-          StorageManager.set('selectedOrganization', selectedOrganization);
-        }
-        StorageManager.set('solvedUser', data, (solvedUser) => {
-          sendResponse({ state: 'success', responseData: { solvedUser, selectedOrganization } });
-        });
+      StorageManager.set('solvedUser', data, (solvedUser) => {
+        sendResponse({ state: 'success', responseData: { solvedUser } });
       });
     })
     .catch(async (error) => {
       try {
         const data = (await fetchCachedData(error, 'solvedUser')) as SolvedUser;
-        sendResponse({ state: 'cached', responseData: { solvedUser: data, selectedOrganization: data.user.organizations[0].name } });
+        sendResponse({ state: 'cached', responseData: { solvedUser: data } });
       } catch {
         sendResponse({ state: 'fail', errorMessage: error.message });
       }
     });
 }
 
+function fetchOrganization(sendResponse: SendResponse<'fetchOrganization'>) {
+  StorageManager.gets(['solvedUser', 'selectedOrganization'], ({ solvedUser, selectedOrganization }) => {
+    API.ExternalService.getOrganizationByHandle(solvedUser.user.handle)
+      .then((organizations) => {
+        StorageManager.set('organizations', organizations);
+        if (selectedOrganization === null) {
+          selectedOrganization = organizations[0];
+          StorageManager.set('selectedOrganization', organizations[0]);
+        }
+        sendResponse({ state: 'success', responseData: { organizations, selectedOrganization } });
+      })
+      .catch((error) => {
+        sendResponse({ state: 'fail', errorMessage: error.message });
+      });
+  });
+}
+
 function fetchTeam(sendResponse: SendResponse<'fetchTeam'>) {
   StorageManager.get('selectedOrganization', (selectedOrganization) => {
-    API.TeamService.getTeamByTeamName(selectedOrganization)
+    API.TeamService.getTeamByTeamName(selectedOrganization.name)
       .then((team) => {
         sendResponse({ state: 'success', responseData: { team } });
       })
@@ -106,11 +117,7 @@ function fetchBadge(sendResponse: SendResponse<'fetchBadge'>) {
 
 function createUnsolvedUser(sendResponse: SendResponse<'createUnsolvedUser'>) {
   StorageManager.get('solvedUser', (solvedUser) => {
-    API.UserService.createUnsolvedUser(
-      solvedUser.user.handle,
-      solvedUser.user.organizations.map((organization) => organization.organizationId),
-      solvedUser.solved
-    )
+    API.UserService.createUnsolvedUser(solvedUser.user.handle, solvedUser.solved)
       .then((data) => {
         sendResponse({ state: 'success', responseData: { unsolvedUser: data } });
       })
@@ -136,6 +143,9 @@ function asyncRequest(request: Request, sendResponse: SendResponse) {
   switch (request.message) {
     case 'fetchUser':
       fetchUser(sendResponse);
+      break;
+    case 'fetchOrganization':
+      fetchOrganization(sendResponse);
       break;
     case 'fetchUnsolvedUser':
       fetchUnsolvedUser(sendResponse);
@@ -245,7 +255,6 @@ function syncRequest(request: Request) {
       break;
     case 'CORRECT':
       StorageManager.get('solvedUser', async (solvedUser) => {
-        // TODO : <high> 'user2' -> solvedUser.user.handle
         API.ProblemService.updateUnsolvedProblems(solvedUser.user.handle, parseInt(request.requestData.problemId))
           .then((result) => {
             StorageManager.set('scoring', { state: 'CORRECT', score: result[0] ? result[0].score : 0 });
@@ -275,7 +284,8 @@ chrome.runtime.onInstalled.addListener(() => {
     hideButton: false,
     isClicked: false,
     autoScoring: true,
-    selectedOrganization: '',
+    organizations: [],
+    selectedOrganization: null,
     scoring: {
       problemId: '',
       state: 'DEFAULT',

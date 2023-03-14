@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { MessageManager } from '../../utils';
+import { useOrganization } from './useOrganization';
 
 export const useTeam = () => {
+  const { selectedOrganization } = useOrganization();
   const [team, setTeam] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isFailed, setIsFailed] = useState(false);
@@ -11,18 +13,17 @@ export const useTeam = () => {
   }
 
   useEffect(() => {
+    if (!selectedOrganization) return;
     setIsLoaded(false);
     MessageManager.send({ message: 'fetchTeam', type: 'async' }, (response) => {
       if (response.state === 'success') {
-        console.log('team fetched');
         setTeam(true);
       } else {
-        console.log('no Team');
         setIsFailed(true);
       }
       setIsLoaded(true);
     });
-  }, []);
+  }, [selectedOrganization]);
 
   return { team, isLoaded, isFailed, showGuide };
 };

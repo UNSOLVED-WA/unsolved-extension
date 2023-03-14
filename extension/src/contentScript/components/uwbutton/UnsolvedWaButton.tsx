@@ -17,7 +17,7 @@ const UnsolvedWaButton = () => {
       setSelectedIndex(3);
       reset();
     }
-  }, [isScoring]);
+  }, [isScoring, reset]);
 
   return (
     <div className={'uw-container ' + (isShow ? 'clicked' : 'default')} ref={containerRef}>
@@ -29,7 +29,6 @@ const UnsolvedWaButton = () => {
               loading: <CircularProgress />,
               success: <ContentPanel profile={profile} selectedIndex={selectedIndex} handleSelectedIndex={handleSelectedIndex} />,
               fail: <Novice type='error' />,
-              noOrganization: <Novice type='noOrganization' />,
             }[state]
           }
         </IFrame>
