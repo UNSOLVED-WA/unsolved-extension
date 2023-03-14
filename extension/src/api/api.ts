@@ -69,7 +69,6 @@ async function serviceInterface<T, Body = any>(url: string, method: string, body
     method,
     headers: { 'Content-Type': 'application/json' },
   };
-  console.log(UNSOLVED_BASE_URL);
   if (body) options['body'] = JSON.stringify(body);
   return fetch(url, options)
     .then(responseStatusCheck)
