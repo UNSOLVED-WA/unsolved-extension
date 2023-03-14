@@ -60,7 +60,9 @@
 
 <br>
 
-> 💡 Unsolved Extension은 Chrome의 모든 tab에서 독립적으로 동작하지만, 숨기기 기능은 모든 tab에서 동일하게 적용됩니다!
+> 💡 Unsolved Extension은 Chrome의 모든 tab에서 독립적으로 동작하지만,
+> <br>
+> 숨기기 기능은 모든 tab에서 동일하게 적용됩니다!
 
 <br>
 
