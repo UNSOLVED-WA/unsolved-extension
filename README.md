@@ -31,6 +31,8 @@
 
 | Unsolved Extension을 직접 테스트 해보고 싶다면 [본 가이드](./TEST_GUIDE.md)를 참고해 주세요!
 
+</br>
+
 ## :tada: Useage
 
 ### Extension 설치 후
