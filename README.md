@@ -52,7 +52,7 @@
 
 또는 브라우저의 우측 상단, Extension 아이콘을 눌러서 직접 설정할 수 있습니다. **버튼 숨기기** 기능을 활용하면 버튼을 숨길 수 있습니다.
 
-| 💡 _우측 상단의 옵션 창은 `cmd + shift + 9`를 활용해 켜고 끌 수 있습니다!_
+> 💡 우측 상단의 옵션 창은 `cmd + shift + 9`를 활용해 켜고 끌 수 있습니다!
 
 <br>
 
@@ -60,7 +60,7 @@
 
 <br>
 
-| 💡 _Unsolved Extension은 Chrome의 모든 tab에서 독립적으로 동작하지만, 숨기기 기능은 모든 tab에서 동일하게 적용됩니다!_
+> 💡 Unsolved Extension은 Chrome의 모든 tab에서 독립적으로 동작하지만, 숨기기 기능은 모든 tab에서 동일하게 적용됩니다!
 
 <br>
 
@@ -74,7 +74,7 @@
 
 <br>
 
-| 💡 Organization을 Unsolved 서비스에 등록하려면 [본 가이드](./ORGANIZATION_GUIDE.md)를 참고해주세요
+> 💡 Organization을 Unsolved 서비스에 등록하려면 [본 가이드](./ORGANIZATION_GUIDE.md)를 참고해주세요
 
 <br>
 
