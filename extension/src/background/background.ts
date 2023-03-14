@@ -32,9 +32,8 @@ function fetchRecommands(sendResponse: SendResponse<'fetchRecommands'>, tier: nu
 }
 
 function fetchRandomRecommand(sendResponse: SendResponse<'fetchRandomRecommand'>) {
-  const tier = tiers[Math.floor(Math.random() * tiers.length)].toString();
   StorageManager.get('selectedOrganization', (selectedOrganization) => {
-    API.ProblemService.getRecommandUnsolvedProblem(selectedOrganization.name, tier)
+    API.ProblemService.getRandomUnsolvedProblem(selectedOrganization.name)
       .then((problems) => {
         sendResponse({ state: 'success', responseData: { problems } });
       })

@@ -38,8 +38,8 @@ const ProblemService = {
     console.log('mockAPI: getUnsolvedProblems : ', bojId, tier);
     return objectToPromise(dummyProblems);
   },
-  getRecommandUnsolvedProblem: async (bojId: string, tier: string) => {
-    console.log('mockAPI: getRecommandUnsolvedProblem : ', bojId, tier);
+  getRandomUnsolvedProblem: async (bojId: string) => {
+    console.log('mockAPI: getRecommandUnsolvedProblem : ', bojId);
     return objectToPromise(dummyProblem);
   },
 };

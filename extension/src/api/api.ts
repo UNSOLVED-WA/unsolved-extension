@@ -123,8 +123,8 @@ const ProblemService = {
    * @param tier
    * @returns 추천 문제
    */
-  getRecommandUnsolvedProblem: async (teamName: string, tier: string) => {
-    return serviceInterface<ProblemResponse>(convertURL([UNSOLVED_BASE_URL, 'problems', 'unsolved', 'random', teamName, tier]), 'GET');
+  getRandomUnsolvedProblem: async (teamName: string) => {
+    return serviceInterface<ProblemResponse>(convertURL([UNSOLVED_BASE_URL, 'problems', 'unsolved', 'random', teamName]), 'GET');
   },
   // 유저 점수 받아오는 api 추가 예정
 };
