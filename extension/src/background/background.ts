@@ -1,7 +1,6 @@
-import API, { NoContentError, ServerSideError } from '../api/api';
+import API, { NoContentError } from '../api/api';
 import { StorageManager } from '../utils';
 import { STORAGE_VALUE, Request, SendResponse, SolvedUser } from '../@types';
-import { tiers } from '../contentScript/util';
 
 function fetchCachedData(_: Error, key: keyof STORAGE_VALUE) {
   return StorageManager.get(key);
