@@ -1,7 +1,6 @@
-import API, { NoContentError, ServerSideError } from '../api/api';
+import API, { NoContentError } from '../api/api';
 import { StorageManager } from '../utils';
 import { STORAGE_VALUE, Request, SendResponse, SolvedUser } from '../@types';
-import { tiers } from '../contentScript/util';
 
 function fetchCachedData(_: Error, key: keyof STORAGE_VALUE) {
   return StorageManager.get(key);
@@ -32,9 +31,8 @@ function fetchRecommands(sendResponse: SendResponse<'fetchRecommands'>, tier: nu
 }
 
 function fetchRandomRecommand(sendResponse: SendResponse<'fetchRandomRecommand'>) {
-  const tier = tiers[Math.floor(Math.random() * tiers.length)].toString();
   StorageManager.get('selectedOrganization', (selectedOrganization) => {
-    API.ProblemService.getRecommandUnsolvedProblem(selectedOrganization.name, tier)
+    API.ProblemService.getRandomUnsolvedProblem(selectedOrganization.name)
       .then((problems) => {
         sendResponse({ state: 'success', responseData: { problems } });
       })

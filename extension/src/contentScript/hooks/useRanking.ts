@@ -10,7 +10,6 @@ export const useRanking = (team: boolean) => {
   const [isFailed, setIsFailed] = useState(false);
 
   useEffect(() => {
-    // TODO: <high> teamId 값은 추후 유저한테서 받아와야함 + default 값
     if (team == null) return;
     setIsLoaded(false);
     MessageManager.send({ message: 'fetchRanking', type: 'async' }, (response) => {
