@@ -1,13 +1,13 @@
 {
   "name": "unsolved.wa",
   "description": "백준 랭킹작을 위한 Organization unsolved 문제 추천 서비스",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
   },
   "host_permissions": ["<all_urls>", "https://*/*"],
-  "permissions": ["storage", "activeTab", "tabs", "notifications", "commands"],
+  "permissions": ["storage", "tabs", "commands"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {

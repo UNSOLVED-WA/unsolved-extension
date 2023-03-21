@@ -11,8 +11,7 @@ import {
 } from '../@types';
 import * as mockAPI from './mockapi';
 
-// const UNSOLVED_BASE_URL = 'https://heyinsa.kr/unsolved';
-const UNSOLVED_BASE_URL = 'http://localhost:8080';
+const UNSOLVED_BASE_URL = process.env.BRANCH_NAME === 'main' ? 'https://heyinsa.kr/unsolved' : 'http://localhost:8080';
 const SOLVED_URL = 'https://solved.ac/api/v3';
 const BOJBADGE_URL = 'https://mazassumnida.wtf/api/v2/generate_badge?boj=';
 
@@ -123,8 +122,8 @@ const ProblemService = {
    * @param tier
    * @returns 추천 문제
    */
-  getRecommandUnsolvedProblem: async (teamName: string, tier: string) => {
-    return serviceInterface<ProblemResponse>(convertURL([UNSOLVED_BASE_URL, 'problems', 'unsolved', 'random', teamName, tier]), 'GET');
+  getRandomUnsolvedProblem: async (teamName: string) => {
+    return serviceInterface<ProblemResponse>(convertURL([UNSOLVED_BASE_URL, 'problems', 'unsolved', 'random', teamName]), 'GET');
   },
   // 유저 점수 받아오는 api 추가 예정
 };

@@ -1,7 +1,6 @@
-import API, { NoContentError, ServerSideError } from '../api/api';
+import API, { NoContentError } from '../api/api';
 import { StorageManager } from '../utils';
 import { STORAGE_VALUE, Request, SendResponse, SolvedUser } from '../@types';
-import { tiers } from '../contentScript/util';
 
 function fetchCachedData(_: Error, key: keyof STORAGE_VALUE) {
   return StorageManager.get(key);
@@ -32,9 +31,8 @@ function fetchRecommands(sendResponse: SendResponse<'fetchRecommands'>, tier: nu
 }
 
 function fetchRandomRecommand(sendResponse: SendResponse<'fetchRandomRecommand'>) {
-  const tier = tiers[Math.floor(Math.random() * tiers.length)].toString();
   StorageManager.get('selectedOrganization', (selectedOrganization) => {
-    API.ProblemService.getRecommandUnsolvedProblem(selectedOrganization.name, tier)
+    API.ProblemService.getRandomUnsolvedProblem(selectedOrganization.name)
       .then((problems) => {
         sendResponse({ state: 'success', responseData: { problems } });
       })
@@ -221,14 +219,14 @@ function syncRequest(request: Request) {
         url: 'https://www.acmicpc.net/setting/school',
       });
       break;
-    case 'sendNotification':
-      chrome.notifications.create('helloworld', {
-        type: 'basic',
-        title: 'Unsolved.WA',
-        message: '문제풀 시간입니다.',
-        iconUrl: 'https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png',
-      });
-      break;
+    // case 'sendNotification':
+    //   chrome.notifications.create('helloworld', {
+    //     type: 'basic',
+    //     title: 'Unsolved.WA',
+    //     message: '문제풀 시간입니다.',
+    //     iconUrl: 'https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png',
+    //   });
+    //   break;
     case 'toRedirectProblem':
       chrome.tabs.create({
         url: `https://www.acmicpc.net/problem/${request.requestData.problemId}`,

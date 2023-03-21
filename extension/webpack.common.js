@@ -1,5 +1,6 @@
 const os = require('os');
 const path = require('path');
+const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -51,6 +52,9 @@ module.exports = {
     ...getHtmlPlugins(['popup']),
     new MiniCssExtractPlugin({
       filename: '[name].css',
+    }),
+    new webpack.EnvironmentPlugin({
+      BRANCH_NAME: 'main',
     }),
   ],
   output: {

@@ -14,7 +14,14 @@ const BadgeBox = () => {
       fallbackText='백준 뱃지를 불러오는데 실패했습니다'
       fallbackAction={refresh}
     >
-      <SVG width={270} height={135} viewBox='0 0 350 170' src={badge} />
+      <SVG
+        style={{ cursor: 'pointer' }}
+        width={270}
+        height={135}
+        viewBox='0 0 350 170'
+        src={badge}
+        onClick={() => window.open('https://github.com/mazassumnida/mazassumnida', '_blank').focus()}
+      />
     </Box>
   );
 };
