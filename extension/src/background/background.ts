@@ -221,14 +221,14 @@ function syncRequest(request: Request) {
         url: 'https://www.acmicpc.net/setting/school',
       });
       break;
-    case 'sendNotification':
-      chrome.notifications.create('helloworld', {
-        type: 'basic',
-        title: 'Unsolved.WA',
-        message: '문제풀 시간입니다.',
-        iconUrl: 'https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png',
-      });
-      break;
+    // case 'sendNotification':
+    //   chrome.notifications.create('helloworld', {
+    //     type: 'basic',
+    //     title: 'Unsolved.WA',
+    //     message: '문제풀 시간입니다.',
+    //     iconUrl: 'https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008394/noticon/ohybolu4ensol1gzqas1.png',
+    //   });
+    //   break;
     case 'toRedirectProblem':
       chrome.tabs.create({
         url: `https://www.acmicpc.net/problem/${request.requestData.problemId}`,
