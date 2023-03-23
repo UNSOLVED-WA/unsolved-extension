@@ -1,13 +1,13 @@
 {
-  "name": "react-chrome-extension",
-  "version": "1.0.0",
-  "description": "react chrome extension template",
+  "name": "unsolved.wa",
+  "version": "1.0.1",
+  "description": "BOJ Extension. Recommand Unsolved Problems for Users",
   "scripts": {
     "start": "webpack --watch --progress --config webpack.dev.js",
     "build": "BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) webpack --watch --progress --config webpack.prod.js",
     "export": "webpack --progress --config webpack.prod.js"
   },
-  "author": "",
+  "author": "rkskekzzz",
   "sideEffects": false,
   "devDependencies": {
     "@emotion/react": "^11.10.4",
