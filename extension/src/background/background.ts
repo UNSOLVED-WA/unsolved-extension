@@ -239,7 +239,7 @@ function syncRequest(request: Request) {
       break;
     case 'showGuide':
       chrome.tabs.create({
-        url: 'https://github.com/UNSOLVED-WA/unsolved-extension/blob/main/GUIDE.md',
+        url: 'https://github.com/UNSOLVED-WA/unsolved-extension/blob/dev/ORGANIZATION_GUIDE.md',
       });
       break;
     case 'RUNNING':
