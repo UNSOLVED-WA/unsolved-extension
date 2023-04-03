@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { fadeIn } from '../../style/animation';
+import { CloseIcon } from '../../common/icons';
 
 type Props = {
   handlePanelClose: () => void;
@@ -9,7 +10,7 @@ type Props = {
 const UWHeader = ({ handlePanelClose }: Props) => {
   return (
     <Container onClick={handlePanelClose}>
-      <span className='material-symbols-outlined'>close</span>
+      <CloseIcon />
     </Container>
   );
 };

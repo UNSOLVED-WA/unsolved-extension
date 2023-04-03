@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import NavigatorContainer from '../../style/ContentPanelNavigator.styled';
 import Divider from '../../style/Divider.styled';
-
+import { FaceIcon, StarIcon, RecommendIcon, ScoringIcon } from '../../common/icons';
 interface NavigatorProps {
   contents: {
     text: string;
@@ -40,14 +40,13 @@ const CPNavigator = ({ contents, handleSelectedIndex }: NavigatorProps) => {
       <div className='naviitem logos'>
         <span className='unsolved-wa-logo-large'>wa</span>
         <Divider />
-        {contents.map((item, index) => (
-          <span key={'n-i-' + item.text} className='logo material-symbols-outlined' onClick={() => handleClick(index)}>
-            {item.icon}
-          </span>
-        ))}
+        <FaceIcon onClick={() => handleClick(0)} />
+        <StarIcon onClick={() => handleClick(1)} />
+        <RecommendIcon onClick={() => handleClick(2)} />
+        <ScoringIcon onClick={() => handleClick(3)} />
       </div>
       <div className='naviitem texts' ref={navigatorTextsRef}>
-        <span className='unsolved text'>unsolved</span>
+        <span className='text'>unsolved</span>
         <Divider />
         {contents.map((item, index) => (
           <span className='text' key={'n-t-' + item.text} onClick={() => handleClick(index)}>
