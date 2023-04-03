@@ -1,7 +1,7 @@
 import { createTheme } from '@mui/material';
 import { SCORING_STATE } from '../../@types';
 
-type SVG_ICON = SCORING_STATE;
+type SVG_ICON = SCORING_STATE | 'navicon';
 type COLOR_PRESET =
   | 'default'
   | 'primary'
@@ -69,6 +69,7 @@ const _theme = {
     TIMEOUT: 'purple',
     ERROR: 'red',
     NETERROR: 'red',
+    navicon: 'white',
   },
 };
 

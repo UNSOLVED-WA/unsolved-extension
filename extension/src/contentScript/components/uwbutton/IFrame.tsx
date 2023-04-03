@@ -3,7 +3,6 @@ import { CacheProvider, Global, css } from '@emotion/react';
 import { ThemeProvider } from '@mui/material';
 import createCache from '@emotion/cache';
 import weakMemoize from '@emotion/weak-memoize';
-import { createWebIcon, icons } from '../../style/icons';
 import { createPortal } from 'react-dom';
 import { theme } from '../../style/theme';
 
@@ -26,17 +25,6 @@ const IFrame = ({ children, title }: { children: React.ReactNode; title: string 
       contentRef.contentWindow.document.body.style.margin = '0';
     }
   }, [contentRef]);
-
-  useEffect(() => {
-    if (insertionTarget) {
-      insertionTarget.appendChild(createWebIcon(icons.face));
-      insertionTarget.appendChild(createWebIcon(icons.star));
-      insertionTarget.appendChild(createWebIcon(icons.recommend));
-      insertionTarget.appendChild(createWebIcon(icons.refresh));
-      insertionTarget.appendChild(createWebIcon(icons.edit_square));
-      insertionTarget.appendChild(createWebIcon(icons.group_add));
-    }
-  }, [insertionTarget]);
 
   return (
     <iframe title={title} ref={setContentRef} style={{ width: '100%', height: '100%', border: 'none', borderRadius: '15px' }}>
@@ -65,9 +53,6 @@ const globalStyles = css`
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-  }
-  .material-symbols-outlined {
-    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
   }
   .unsolved-wa-logo-large {
     border-radius: 5px !important;

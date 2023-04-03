@@ -1,6 +1,6 @@
 {
   "name": "unsolved.wa",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "BOJ Extension. Recommand Unsolved Problems for Users",
   "scripts": {
     "start": "webpack --watch --progress --config webpack.dev.js",

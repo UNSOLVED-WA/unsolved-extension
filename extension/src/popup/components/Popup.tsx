@@ -50,7 +50,7 @@ const Popup = () => {
         <Option
           title={
             <>
-              <Typography variant='soft'>cmd shift L</Typography> 로 버튼 보기/숨기기
+              <Typography variant='soft'>cmd shift 8</Typography> 로 버튼 보기/숨기기
             </>
           }
           value={isUseCommandsToggleVisible}
