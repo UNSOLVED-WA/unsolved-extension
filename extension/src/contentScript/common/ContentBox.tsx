@@ -3,26 +3,27 @@ import styled from '@emotion/styled';
 import Flex from './Flex';
 import { COLORS } from '../style/theme';
 import { useTheme } from '@mui/material';
+import { GroupAddIcon, RefreshIcon } from './icons';
 
 type DefinedContent = {
   [K in keyof COLORS]?: {
     title: string;
-    icon: string;
+    icon: React.ReactNode;
   };
 };
 
 const definedContent: DefinedContent = {
   default: {
     title: 'Default',
-    icon: 'refresh',
+    icon: <RefreshIcon />,
   },
   error: {
     title: '네트워크 상태를 확인해주세요',
-    icon: 'refresh',
+    icon: <RefreshIcon />,
   },
   info: {
     title: '서비스에 Team을 등록해주세요',
-    icon: 'group_add',
+    icon: <GroupAddIcon />,
   },
 };
 
