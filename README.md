@@ -29,7 +29,7 @@
 
 ## ✨ 소스코드 분석하기
 
-unsolved.wa extension 프로젝트의 소스코드를 분석하고 싶다면 [본 가이드](./extension/README.md)를 참고해주세요
+unsolved.wa extension 프로젝트의 소스코드를 분석하고 싶다면 [본 가이드](https://github.com/UNSOLVED-WA/unsolved-extension/tree/dev/extension)를 참고해주세요
 
 </br>
 
