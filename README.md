@@ -27,7 +27,13 @@
 
 </br>
 
-## ✨ Introduce
+## ✨ 소스코드 분석하기
+
+unsolved.wa extension 프로젝트의 소스코드를 분석하고 싶다면 [본 가이드](./extension/README.md)를 참고해주세요
+
+</br>
+
+## ✨ Leaflet
 
 <p align="center">
     <img width="80%" src="./asset/introduce1.png" />
